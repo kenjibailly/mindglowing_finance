@@ -1,0 +1,24 @@
+.login-wrapper {
+    height: 100vh;
+}
+
+.login-container {
+    max-width: 300px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: auto;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--purple-gradient2);
+    transition: box-shadow .4s;
+}
+
+.login-container:hover {
+    box-shadow: 0 1px 30px rgba(174,163,255,.5);
+}
+
+.login-container h1 {
+    margin-bottom: 20px;
+}

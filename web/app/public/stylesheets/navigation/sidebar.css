@@ -1,0 +1,30 @@
+.sidebar {
+    max-width: 220px;
+    min-width: 220px;
+    background-color: var(--dark-color-lighter1);
+    padding: 8px;
+    padding-top: 30px;
+    height: 100vh;
+    position: fixed;
+    z-index: 1;
+    top: 65px;
+}
+
+.sidebar li {
+    margin-bottom: 10px;
+    display: flex;
+    flex-wrap: nowrap;
+    max-width: 100%;
+    padding-left: 30px;
+    padding-right: 30px;
+    border-radius: 5px;
+}
+
+.sidebar li:hover {
+    background-color: var(--dark-color-lighter2);
+}
+
+.icon {
+    width: 20px;
+    margin-right: 20px;
+}

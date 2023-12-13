@@ -1,0 +1,118 @@
+{{>header}}
+{{>sidebar}}
+<div class="wrapper">
+    <a href="/customers/">Customers</a>
+
+    <form action="/customers/create-customer" method="post">
+        <!-- Personal Information -->
+        <div class="personal_information">
+            <h2>Personal Information</h2>
+            <label for="first_name">First Name:</label>
+            <input type="text" id="first_name" name="personal_information.first_name" required>
+
+            <label for="last_name">Last Name:</label>
+            <input type="text" id="last_name" name="personal_information.last_name" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="personal_information.email" required>
+
+            <label for="company">Company:</label>
+            <input type="text" id="company" name="personal_information.company">
+
+            <label for="currency">Currency:</label>
+            <input type="text" id="currency" name="personal_information.currency">
+        </div>
+
+        <!-- Shipping Details -->
+        <div class="shipping_details">
+            <h2>Shipping Details</h2>
+
+            <label for="shipping_street">Street:</label>
+            <input type="text" id="shipping_street" name="shipping_details.street">
+
+            <label for="shipping_street2">Street 2:</label>
+            <input type="text" id="shipping_street2" name="shipping_details.street2">
+
+            <label for="shipping_city">City:</label>
+            <input type="text" id="shipping_city" name="shipping_details.city">
+
+            <label for="shipping_state">State:</label>
+            <input type="text" id="shipping_state" name="shipping_details.state">
+
+            <label for="shipping_zip">ZIP:</label>
+            <input type="text" id="shipping_zip" name="shipping_details.zip">
+
+            <label for="shipping_country">Country:</label>
+            <input type="text" id="shipping_country" name="shipping_details.country">
+
+            <!-- Checkbox for "Same as shipping information" -->
+            <input type="checkbox" id="sameAsShipping" onchange="shippingCheckBoxChange(this)" checked>
+            <label for="sameAsShipping">Same as shipping information</label>
+        </div>
+
+        <!-- Billing Details -->
+        <div class="billing_details hidden">
+            <h2>Billing Details</h2>
+
+            <label for="billing_street">Street:</label>
+            <input type="text" id="billing_street" name="billing_details.street">
+
+            <label for="billing_street2">Street 2:</label>
+            <input type="text" id="billing_street2" name="billing_details.street2">
+
+            <label for="billing_city">City:</label>
+            <input type="text" id="billing_city" name="billing_details.city">
+
+            <label for="billing_state">State:</label>
+            <input type="text" id="billing_state" name="billing_details.state">
+
+            <label for="billing_zip">ZIP:</label>
+            <input type="text" id="billing_zip" name="billing_details.zip">
+
+            <label for="billing_country">Country:</label>
+            <input type="text" id="billing_country" name="billing_details.country">
+        </div>
+
+        <!-- Contact Information -->
+        <div class="contact_information">
+            <h2>Contact Information</h2>
+
+            <div class="input input-contact-medium">
+                <div>
+                    <label class="medium" for="preferred_contact_medium">Preferred medium of contact</label>
+                </div>
+                <div>
+                    <input type="radio" id="Email" name="contact_information.preferred_contact_medium" value="Email">
+                    <label for="Email">Email</label>
+                </div>
+
+                <div>
+                    <input type="radio" id="Discord" name="contact_information.preferred_contact_medium" value="Discord">
+                    <label for="Discord">Discord</label>
+                </div>
+                <div>
+                    <input type="radio" id="Telegram" name="contact_information.preferred_contact_medium" value="Telegram">
+                    <label for="Telegram">Telegram</label>
+                </div>
+                <div>
+                    <input type="radio" id="Instagram" name="contact_information.preferred_contact_medium" value="Instagram">
+                    <label for="Instagram">Instagram</label>
+                </div>
+                <div>
+                    <input type="radio" id="Twitter" name="contact_information.preferred_contact_medium" value="Twitter">
+                    <label for="Twitter">Twitter</label>
+                </div>
+                <div>
+                    <input type="radio" id="__other_option__" name="contact_information.preferred_contact_medium" value="Other">
+                    <label class="medium-other" for="__other_option__">Other</label>
+                    <input class="other-option" type="text" name="contact_information.preferred_contact_medium.other_option_response">
+                </div>
+            </div>
+
+            <label for="contact_medium_username">Contact Medium Username:</label>
+            <input type="text" id="contact_medium_username" name="contact_information.contact_medium_username">
+        </div>
+        <!-- Submit Button -->
+        <button type="submit">Submit</button>
+    </form>
+</div>

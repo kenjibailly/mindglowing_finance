@@ -1,0 +1,37 @@
+{{>header}}
+{{>sidebar}}
+<div class="wrapper">
+    <a href="/items/">Items</a>
+
+    <h1>Edit Item</h1>
+
+    <form action="/items/delete/{{item._id}}/" method="post">
+        <button type="submit">Delete</button>
+    </form>
+
+    <form action="/items/edit/{{item._id}}" method="post" enctype="multipart/form-data">
+        <!-- Image Input -->
+        <img class="previewImage" src="/uploads/{{item.picture}}" width="200px" alt="">
+        <input type="file" id="picture" name="picture" onchange="previewImage(event)">
+
+        <!-- Name Input -->
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" value="{{item.name}}">
+
+        <!-- Price Input -->
+        <label for="price">Price:</label>
+        <input type="number" id="price" name="price" step="0.01" value="{{item.price}}">
+
+        <!-- Description Input -->
+        <label for="description">Description:</label>
+        <textarea id="description" name="description" rows="4">{{item.description}}</textarea>
+
+        <!-- Submit Button -->
+        <button type="submit">Submit</button>
+    </form>
+    {{#if success}}
+        <div class="alert alert-success" role="alert">
+            Edit successful!
+        </div>
+    {{/if}}
+</div>

@@ -1,0 +1,98 @@
+header {
+    background: var(--purple-gradient);
+    height: 65px;
+    display: flex;
+    transition: box-shadow .4s;
+    position: fixed;
+    z-index: 2;
+    width: 100vw;
+    top: 0;
+}
+
+header:hover {
+    box-shadow: 0 1px 30px rgba(174,163,255,.5);
+}
+
+header > a {
+    margin: auto 0;
+    margin-left: 20px;
+}
+
+header > button {
+    margin: auto 0;
+}
+
+header button.right {
+    margin-left: auto;
+    margin-right: 10px;
+    width: 150px;
+    background-color: rgba(255, 255, 255, .3);
+    border-radius: 5px;
+    text-align: center;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    color: white;
+    font-family: 'poppinsmedium';
+    font-size: 20px;
+}
+
+header nav {
+    right: 10px;
+    position: absolute;
+    border-radius: 5px;
+    width: fit-content;
+    top: 60px;
+    max-height: 0px;
+    overflow: hidden;
+    transition: max-height .4s, background-color .4s;
+    width: 150px;
+}
+
+header > button:focus + nav {
+    background-color: var(--dark-color-lighter1);
+    max-height: 200px;
+}
+
+header nav ul {
+    position: relative;
+    padding: 5px;
+    padding-top: 10px;
+    padding-bottom: 0;
+}
+
+header nav a {
+    display: flex;
+    width: 100%;
+}
+
+header nav a li {
+    height: 30px;
+    line-height: 30px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    transition: background-color .4s;
+    width: 100%;
+    text-align: center;
+}
+
+header nav a li:hover {
+    background-color: var(--dark-color-lighter2);
+}
+
+header nav li {
+    margin: auto;
+}
+
+header nav li.logout {
+    padding: 0;
+    width: 90%;
+}
+
+header nav .button {
+    font-size: 16px;
+}
+
+header nav .button:hover {
+    color: white;
+}

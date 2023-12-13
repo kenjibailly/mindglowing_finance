@@ -1,0 +1,82 @@
+{{>header}}
+{{>sidebar}}
+
+<div class="wrapper">
+    <a href="/customers/">Customers</a>
+
+    <h1>Edit Customer</h1>
+
+    <form action="/customers/delete/{{customer._id}}/" method="post">
+        <button type="submit">Delete</button>
+    </form>
+
+    <form action="/customers/edit/{{customer._id}}" method="post">
+        <h2>Personal Information</h2>
+        <label for="first_name">First Name:</label>
+        <input type="text" id="first_name" name="personal_information.first_name" value="{{customer.personal_information.first_name}}" required>
+
+        <label for="last_name">Last Name:</label>
+        <input type="text" id="last_name" name="personal_information.last_name" value="{{customer.personal_information.last_name}}" required>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="personal_information.email" value="{{customer.personal_information.email}}" required>
+
+        <label for="company">Company:</label>
+        <input type="text" id="company" name="personal_information.company" value="{{customer.personal_information.company}}">
+
+        <label for="currency">Currency:</label>
+        <input type="text" id="currency" name="personal_information.currency" value="{{customer.personal_information.currency}}">
+
+        <h2>Shipping Details</h2>
+        <label for="shipping_street">Street:</label>
+        <input type="text" id="shipping_street" name="shipping_details.street" value="{{customer.shipping_details.street}}">
+
+        <label for="shipping_street2">Street 2:</label>
+        <input type="text" id="shipping_street2" name="shipping_details.street2" value="{{customer.shipping_details.street2}}">
+
+        <label for="shipping_city">City:</label>
+        <input type="text" id="shipping_city" name="shipping_details.city" value="{{customer.shipping_details.city}}">
+
+        <label for="shipping_state">State:</label>
+        <input type="text" id="shipping_state" name="shipping_details.state" value="{{customer.shipping_details.state}}">
+
+        <label for="shipping_zip">ZIP:</label>
+        <input type="text" id="shipping_zip" name="shipping_details.zip" value="{{customer.shipping_details.zip}}">
+
+        <label for="shipping_country">Country:</label>
+        <input type="text" id="shipping_country" name="shipping_details.country" value="{{customer.shipping_details.country}}">
+
+        <h2>Billing Details</h2>
+        <label for="billing_street">Street:</label>
+        <input type="text" id="billing_street" name="billing_details.street" value="{{customer.billing_details.street}}">
+
+        <label for="billing_street2">Street 2:</label>
+        <input type="text" id="billing_street2" name="billing_details.street2" value="{{customer.billing_details.street2}}">
+
+        <label for="billing_city">City:</label>
+        <input type="text" id="billing_city" name="billing_details.city" value="{{customer.billing_details.city}}">
+
+        <label for="billing_state">State:</label>
+        <input type="text" id="billing_state" name="billing_details.state" value="{{customer.billing_details.state}}">
+
+        <label for="billing_zip">ZIP:</label>
+        <input type="text" id="billing_zip" name="billing_details.zip" value="{{customer.billing_details.zip}}">
+
+        <label for="billing_country">Country:</label>
+        <input type="text" id="billing_country" name="billing_details.country" value="{{customer.billing_details.country}}">
+
+        <h2>Contact Information</h2>
+        <label for="contact_medium_username">Contact Medium Username:</label>
+        <input type="text" id="contact_medium_username" name="contact_information.contact_medium_username" value="{{customer.contact_information.contact_medium_username}}">
+
+        <label for="other_option_response">Other Option Response:</label>
+        <input type="text" id="other_option_response" name="contact_information.other_option_response" value="{{customer.contact_information.other_option_response}}">
+
+        <button type="submit">Update</button>
+    </form>
+    {{#if success}}
+        <div class="alert alert-success" role="alert">
+            Edit successful!
+        </div>
+    {{/if}}
+</div>
