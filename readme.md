@@ -273,5 +273,6 @@ Change the pagination items per page in the customization settings
     - [x] Project
         - [ ] Link to customer
 - [ ] Function to count all the time trackings of a project and add them to an invoice
+    - [ ] Add one labor hour price
 - [ ] Add type to search and style
 - [ ] Add click menu to profile picture for logout
