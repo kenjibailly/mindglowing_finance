@@ -39,20 +39,6 @@ services:
     env_file:
       - .env
 
-  # mindglowing_finance_server:
-  #   image: node:latest
-  #   container_name: mindglowing_finance_server
-  #   restart: unless-stopped
-  #   volumes:
-  #     - ./server/app:/app
-  #   command: >
-  #     bash -c "npm install -g nodemon && npm install && nodemon /app/app.js"
-  #   working_dir: /app
-  #   env_file:
-  #     - .env
-  #   networks:
-  #     - mindglowing_finance
-
   mindglowing_finance_mongo_db:
     image: mongo
     container_name: mindglowing_finance_mongo_db
