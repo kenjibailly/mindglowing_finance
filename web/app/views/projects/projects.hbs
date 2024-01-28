@@ -1,0 +1,52 @@
+{{>sidebar}}
+{{>header}}
+{{>token}}
+<div class="wrapper">
+    <a href="/projects/create" class="link create-project-button">Create Project</a>
+
+    {{#if success}}
+        <div class="alert alert-success" role="alert">
+            Project added!
+        </div>
+    {{/if}}
+
+    <button onclick="deleteSelectedProjects()" type="submit">Delete</button>
+    <div class="projects table">
+        <table>
+            <thead>
+                <tr>
+                    <th>
+                        <label class="checkbox">
+                            <input  type="checkbox" onchange="checkAllBoxes(this)"> 
+                        </label>
+                    </th>
+                    <th>Name</th>
+                    <th>Customer</th>
+                    <th>Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each projects}}
+                    <tr>
+                        <td>
+                            <label class="checkbox">
+                                <input  type="checkbox" class="project-checkbox box-checkbox" data-id="{{_id}}"> 
+                            </label>
+                        </td>
+                        <td><a class="link" href="/projects/project/{{_id}}">{{name}}</a></td>
+                        <td>{{customer.first_name}} {{customer.last_name}}</td>
+                        <td>{{time}}</td>
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
+        <div class="pagination">
+            {{#if (gt currentPage 1)}}
+            <a href="?page={{subtract currentPage 1}}">Previous</a>
+            {{/if}}
+            {{#if (lt currentPage totalPages)}}
+            <a href="?page={{add currentPage 1}}">Next</a>
+            {{/if}}
+        </div>
+    </div>
+</div>

@@ -1,0 +1,33 @@
+{{>sidebar}}
+{{>header}}
+{{>token}}
+
+<div class="wrapper">
+    <a class="link" href="/items/">Items</a>
+
+    <form action="/items/create" method="post" enctype="multipart/form-data">
+
+        <div class="separate">
+            <!-- Picture Input -->
+            <label onclick="triggerInput()" for="picture">Picture:</label>
+            <img onclick="triggerInput()" class="previewImage" src="/images/placeholder.webp" width="200px" alt="">
+            <input class="hidden" type="file" id="picture" name="picture" onchange="previewImage(event)">
+
+            <!-- Name Input -->
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <!-- Price Input -->
+            <label for="price">Price:</label>
+            <div class='full-input'><label for='price'>{{user_settings.currency_symbol}}</label>
+                <input type="number" id="price" name="price" step="0.01">
+            </div>
+
+            <!-- Description Input -->
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" rows="4"></textarea>
+        </div>
+        <!-- Submit Button -->
+        <button type="submit">Create</button>
+    </form>
+</div>

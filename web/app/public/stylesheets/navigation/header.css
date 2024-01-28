@@ -1,0 +1,111 @@
+header {
+    height: 65px;
+    display: flex;
+    transition: box-shadow .4s;
+    margin-left: calc(30px + 220px);
+    margin-bottom: 10px;
+}
+
+header > h1 {
+    margin: auto 0;
+    font-size: 50px;
+}
+
+header > button {
+    margin: auto 0;
+}
+
+header button.right {
+    margin-left: auto;
+    border: none;
+    cursor: pointer;
+    background-color: transparent;
+}
+
+header button.right img {
+    border-radius: 50px;
+}
+
+header nav {
+    right: 10px;
+    position: absolute;
+    border-radius: 5px;
+    width: fit-content;
+    top: 100px;
+    max-height: 0px;
+    overflow: hidden;
+    transition: max-height .4s, background-color .4s;
+    width: 150px;
+}
+
+header > button:focus + nav {
+    background-color: var(--dark-color-lighter2);
+    max-height: 200px;
+}
+
+header nav ul {
+    position: relative;
+    padding: 5px;
+    padding-top: 10px;
+    padding-bottom: 0;
+}
+
+header nav a {
+    display: flex;
+    width: 100%;
+}
+
+header nav a li {
+    height: 30px;
+    line-height: 30px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    transition: background-color .4s;
+    width: 100%;
+    text-align: center;
+}
+
+header nav a li:hover {
+    background-color: var(--dark-color-lighter2);
+}
+
+header nav li {
+    margin: auto;
+}
+
+header nav li.logout {
+    padding: 0;
+    width: 90%;
+}
+
+header nav .button {
+    font-size: 16px;
+}
+
+header nav .button:hover {
+    color: white;
+}
+
+header nav .logout .button {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.searchResultsPopup {
+    position: absolute;
+    top: 100px;
+    background-color: var(--dark-color);
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-radius: 10px;
+}
+
+#search {
+    color: var(--purple-color-light);    
+}
+
+::placeholder {
+    color: var(--purple-color-light);
+}

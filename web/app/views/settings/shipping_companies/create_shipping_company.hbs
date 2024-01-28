@@ -1,0 +1,22 @@
+{{>sidebar}}
+{{>settings_sidebar}}
+{{>header}}
+{{>token}}
+{{>loader}}
+
+<div class="settings-wrapper">
+    <a class="link" href="/settings/shipping-companies/">Shipping Companies</a>
+
+    <form action="/settings/shipping-companies/create" method="post">
+        <div class="separate">
+            <label for="shipping_company_name">Name:</label>
+            <input type="text" id="shipping_company_name" name="shipping_company_name" required>
+
+            <label for="shipping_company_description">Description:</label>
+            <textarea type="text" id="shipping_company_description" name="shipping_company_description"></textarea>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit">Create</button>
+    </form>
+</div>

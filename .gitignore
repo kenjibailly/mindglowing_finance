@@ -1,0 +1,17 @@
+# Ignore .env file in the root folder
+.env
+
+# Ignore node_modules folder in the web/app folder
+web/app/node_modules/
+
+# Ignore node_modules folder in the server/app folder
+server/app/node_modules/
+
+# Ignore package-lock.json files
+**/package-lock.json
+
+# Ignore db folder in mongodb folder
+mongodb/db/
+
+# Ignore the ssl keys
+nginx/ssl/

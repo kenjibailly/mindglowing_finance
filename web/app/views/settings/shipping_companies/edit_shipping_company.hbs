@@ -1,0 +1,29 @@
+{{>sidebar}}
+{{>settings_sidebar}}
+{{>header}}
+{{>token}}
+{{>loader}}
+
+<div class="settings-wrapper">
+    <a class="link" href="/settings/shipping-companies/">Shipping Companies</a>
+    {{#if success}}
+        <div class="alert alert-success" role="alert">
+            Edit successful!
+        </div>
+    {{/if}}
+    <form action="/settings/shipping-companies/delete/{{shipping_company._id}}/" method="post">
+        <button type="submit">Delete</button>
+    </form>
+
+    <form action="/settings/shipping-companies/edit/{{shipping_company._id}}" method="post">
+        <div class="separate">
+            <label for="shipping_company_name">Name:</label>
+            <input type="text" id="shipping_company_name" name="shipping_company_name" value="{{shipping_company.name}}" required>
+
+            <label for="shipping_company_description">Description:</label>
+            <textarea type="text" id="shipping_company_description" name="shipping_company_description">{{shipping_company.description}}</textarea>
+        </div>
+
+        <button type="submit">Update</button>
+    </form>
+</div>

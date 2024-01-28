@@ -1,0 +1,34 @@
+{{>sidebar}}
+{{>settings_sidebar}}
+{{>header}}
+{{>token}}
+{{>loader}}
+
+<div class="settings-wrapper">
+    {{#if success}}
+        <div class="alert alert-success" role="alert">
+            Edit successful!
+        </div>
+    {{/if}}
+    <form action="/settings/customization/" method="post">
+        <div class="separate">
+            <label for="invoice_prefix">Invoice Prefix:</label>
+            <input type="text" id="invoice_prefix" name="invoice_prefix" value="{{customization.invoice_prefix}}" required>
+
+            <label for="invoice_separator">Invoice Separator:</label>
+            <input type="text" id="invoice_separator" name="invoice_separator" value="{{customization.invoice_separator}}" required>
+
+            <label for="estimate_prefix">Estimate Prefix:</label>
+            <input type="text" id="estimate_prefix" name="estimate_prefix" value="{{customization.estimate_prefix}}" required>
+
+            <label for="estimate_separator">Estimate Separator:</label>
+            <input type="text" id="estimate_separator" name="estimate_separator" value="{{customization.estimate_separator}}" required>
+
+            <label for="items_per_page">Items Per Page:</label>
+            <input type="number" id="items_per_page" name="items_per_page" value="{{customization.items_per_page}}" required>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit">Update</button>
+    </form>
+</div>

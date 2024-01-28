@@ -1,0 +1,37 @@
+table {
+    width: 100%;
+    font-family: 'poppinsmedium';
+    border-top-right-radius: 10px;
+    border-collapse: collapse;
+}
+
+thead {
+    background-color: var(--dark-color-lighter3);
+    border-bottom: 3px solid var(--dark-color-lighter4);
+}
+
+thead tr th {
+    padding: 10px;
+}
+
+tbody {
+    background-color: var(--dark-color-lighter2);
+}
+
+tbody tr td {
+    padding: 10px;
+    padding-top: 20px;
+}
+
+tbody tr:nth-child(odd) { 
+    background-color: var(--dark-color-lighter1);
+}
+
+.table {
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+table td img {
+    border-radius: 10px;
+}

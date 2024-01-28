@@ -1,0 +1,37 @@
+<div>
+    {{#if search_results}}
+        <ul>
+        {{#each search_results.customers}}
+            <a href="/customers/edit/{{_id}}">
+                <li>
+                    {{personal_information.first_name}} {{personal_information.last_name}} {{personal_information.email}}
+                </li>
+            </a>
+        {{/each}}
+
+        {{#each search_results.invoices}}
+            <a href="/invoices/edit/{{_id}}">
+                <li>
+                    {{../customization_settings.invoice_prefix}}{{../customization_settings.invoice_separator}}{{number}}
+                </li>
+            </a>
+        {{/each}}
+
+        {{#each search_results.items}}
+            <a href="/items/edit/{{_id}}">
+                <li>
+                    {{name}} {{description}}
+                </li>
+            </a>
+        {{/each}}
+
+        {{#each search_results.projects}}
+            <a href="/projects/project/{{_id}}">
+                <li>
+                    {{name}}
+                </li>
+            </a>
+        {{/each}}
+        </ul>
+    {{/if}}
+</div>

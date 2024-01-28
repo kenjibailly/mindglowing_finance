@@ -1,0 +1,32 @@
+{{>sidebar}}
+{{>header}}
+{{>token}}
+<div class="wrapper edit-project">
+    <a class="link" href="/projects/">Projects</a>
+
+    <form action="/projects/edit/{{project._id}}" method="post" class="edit-projec-form">
+
+        <div class="separate">
+
+            <!-- Name Input -->
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required value="{{project.name}}">
+
+            <label for="customer_id">Customer:</label>
+            <div class="data-list">
+                <input list="" name="customer_id" id="customer_id" class="data-list-input" autocomplete="off" data-datalist-id="customer_id-datalist" value="{{project.customer.first_name}} {{project.customer.last_name}}">
+                <datalist name="customer_id" class="data-list-datalist" id="customer_id-datalist">
+                    {{#each customers}}
+                        <option value="{{personal_information.first_name}} {{personal_information.last_name}}" data-id="{{_id}}">{{personal_information.first_name}} {{personal_information.last_name}}</option>
+                    {{/each}}
+                </datalist>
+            </div>
+
+            <!-- Description Input -->
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" rows="4">{{project.description}}</textarea>
+        </div>
+        <!-- Submit Button -->
+        <button type="submit">Edit</button>
+    </form>
+</div>

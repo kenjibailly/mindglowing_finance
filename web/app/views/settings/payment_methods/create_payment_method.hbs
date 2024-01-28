@@ -1,0 +1,24 @@
+{{>sidebar}}
+{{>settings_sidebar}}
+{{>header}}
+{{>token}}
+{{>loader}}
+
+<div class="settings-wrapper">
+    <a class="link" href="/settings/payment-methods/">Payment Methods</a>
+
+    <form action="/settings/payment-methods/create" method="post">
+        <div class="separate">
+            <h2>Create Payment Method</h2>
+            
+            <label for="payment_method_name">Name:</label>
+            <input type="text" id="payment_method_name" name="payment_method_name" required>
+
+            <label for="payment_method_description">Description:</label>
+            <textarea type="text" id="payment_method_description" name="payment_method_description"></textarea>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit">Create</button>
+    </form>
+</div>

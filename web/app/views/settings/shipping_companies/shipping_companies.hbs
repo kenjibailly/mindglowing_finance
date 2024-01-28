@@ -1,0 +1,39 @@
+{{>sidebar}}
+{{>settings_sidebar}}
+{{>header}}
+{{>token}}
+{{>loader}}
+
+<div class="settings-wrapper">
+    <a class="link" href="/settings/shipping-companies/create/">Create Shipping Company</a>
+ 
+    <button onclick="deleteSelectedShippingCompanies()" type="submit">Delete</button>
+    <div class="shippingCompany table">
+        <table>
+            <thead>
+                <tr>
+                    <th>
+                        <label class="checkbox">
+                            <input  type="checkbox" onchange="checkAllBoxes(this)"> 
+                        </label>
+                    </th>
+                    <th>Name</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each shipping_companies}}
+                    <tr>
+                        <td>
+                            <label class="checkbox">
+                                <input  type="checkbox" class="shipping-company-checkbox box-checkbox" data-id="{{_id}}"> 
+                            </label>
+                        </td>
+                        <td><a class="link" href="/settings/shipping-companies/edit/{{_id}}">{{name}}</a></td>
+                        <td>{{description}}</td>
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+</div>

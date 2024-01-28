@@ -1,0 +1,41 @@
+{{>sidebar}}
+{{>settings_sidebar}}
+{{>header}}
+{{>token}}
+{{>loader}}
+
+<div class="settings-wrapper">
+    <a class="link" href="/settings/taxes/create/">Create Tax</a>
+
+    <button onclick="deleteSelectedTaxes()" type="submit">Delete</button>
+    <div class="taxes table">
+        <table>
+            <thead>
+                <tr>
+                    <th>
+                        <label class="checkbox">
+                            <input  type="checkbox" onchange="checkAllBoxes(this)"> 
+                        </label>
+                    </th>
+                    <th>Name</th>
+                    <th>Percentage</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each taxes}}
+                    <tr>
+                        <td>
+                            <label class="checkbox">
+                                <input  type="checkbox" class="tax-checkbox box-checkbox" data-id="{{_id}}"> 
+                            </label>
+                        </td>
+                        <td><a class="link" href="/settings/taxes/edit/{{_id}}">{{name}}</a></td>
+                        <td>{{percentage}}</td>
+                        <td>{{description}}</td>
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+</div>

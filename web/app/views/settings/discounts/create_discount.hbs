@@ -1,0 +1,33 @@
+{{>sidebar}}
+{{>settings_sidebar}}
+{{>header}}
+{{>token}}
+{{>loader}}
+
+<div class="settings-wrapper">
+    <a class="link" href="/settings/discounts/">Discounts</a>
+
+    <form action="/settings/discounts/create" method="post">
+        <div class="separate">
+            <h2>Create Discount</h2>
+            
+            <label for="discount_name">Name:</label>
+            <input type="text" id="discount_name" name="discount_name" required>
+
+            <label for="discount_code">Discount Code:</label>
+            <input type="text" id="discount_code" name="discount_code">
+
+            <label for="discount_amount_total">Discount Total:</label>
+            <input type="number" id="discount_amount_total" name="discount_amount_total">
+
+            <label for="discount_amount_percentage">Discount Percentage:</label>
+            <input type="number" id="discount_amount_percentage" name="discount_amount_percentage">
+
+            <label for="discount_description">Description:</label>
+            <textarea type="text" id="discount_description" name="discount_description"></textarea>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit">Create</button>
+    </form>
+</div>

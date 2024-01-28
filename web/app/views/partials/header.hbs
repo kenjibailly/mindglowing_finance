@@ -1,0 +1,30 @@
+<header>
+    <h1>{{site_title}}</h1>
+
+    <div class="right">
+        <form id="searchForm" onsubmit="searchAndUpdateResults(); return false;">
+        <input type="text" id="search" name="q" placeholder="Search">
+        <button class="hidden" type="submit">Search</button>
+        </form>
+
+        <div class="hidden searchResultsPopup"></div>
+
+        <button class="right">
+            {{#if user.picture}}
+                <img src="/uploads/resized/{{user.picture}}" width="60px" alt="">
+            {{else}}
+                <img src="/images/placeholder.webp" width="60px" alt="">
+            {{/if}}
+        </button>
+    </div>
+    <nav class="navigation right">
+        <ul>
+            <a href="/settings/account">
+                <li>Settings</li>
+            </a>
+            <li class="logout">
+                <a class="button" href="/logout">Logout</a>
+            </li>
+        </ul>
+    </nav>
+</header>

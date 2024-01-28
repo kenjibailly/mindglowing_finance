@@ -1,0 +1,32 @@
+{{>sidebar}}
+{{>header}}
+{{>token}}
+<div class="wrapper create-project">
+    <a class="link" href="/projects/">Projects</a>
+
+    <form action="/projects/create" method="post">
+
+        <div class="separate">
+
+            <!-- Name Input -->
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="project_name" required>
+
+            <label for="customer_id">Customer:</label>
+            <div class="data-list">
+                <input list="" name="customer_id" id="customer_id" class="data-list-input" autocomplete="off"  data-datalist-id="customer_id-datalist">
+                <datalist name="customer_id" class="data-list-datalist" id="customer_id-datalist">
+                    {{#each customers}}
+                        <option value="{{personal_information.first_name}} {{personal_information.last_name}}" data-id="{{_id}}">{{personal_information.first_name}} {{personal_information.last_name}}</option>
+                    {{/each}}
+                </datalist>
+            </div>
+
+            <!-- Description Input -->
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" rows="4"></textarea>
+        </div>
+        <!-- Submit Button -->
+        <button type="submit">Create</button>
+    </form>
+</div>

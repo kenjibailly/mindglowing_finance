@@ -1,0 +1,81 @@
+{{>sidebar}}
+{{>header}}
+{{>token}}
+<div class="wrapper project-overview">
+    <a class="link" href="/projects/">Projects</a>
+    <a class="link" href="/projects/edit/{{project._id}}">Edit Project</a>
+
+    <div class="alert alert-success hidden" role="alert">
+        Project edited!
+    </div>
+
+    <form action="/projects/delete/{{project._id}}/" method="post">
+        <button type="submit">Delete</button>
+    </form>
+    
+    <div class="inline">
+        <p>Name:</p><p>{{project.name}}</p>
+    </div>
+    <div class="inline">
+        <p>Customer:</p><p>{{project.customer.first_name}} {{project.customer.last_name}}</p>
+    </div>
+    <div class="inline">
+        <p>Description:</p><p>{{project.description}}</p>
+    </div>
+
+    <form action="/projects/time-tracking/start/{{project._id}}/" method="post">
+        <label for="time-tracking-name">Name:</label>
+        <input type="text" class="time-tracking-name" id="time-tracking-name" name="time_tracking_name">
+        <button type="submit" class="time-tracking-start">Start</button>
+    </form>
+
+    <form action="/projects/time-tracking/stop/{{project._id}}/" method="post">
+        <button type="submit" class="time-tracking-stop hidden">Stop</button>
+    </form>
+
+    <button onclick="deleteSelectedTimeTrackings()" type="submit">Delete</button>
+    <div class="time-tracking table">
+        <table>
+            <thead>
+                <tr>
+                    <th>
+                        <label class="checkbox">
+                            <input  type="checkbox" onchange="checkAllBoxes(this)"> 
+                        </label>
+                    </th>                    
+                    <th>Name</th>
+                    <th>Time Passed</th>
+                    <th>Start</th>
+                    <th>Stop</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each (reverse timeTracking) }}
+                    <tr class="time-tracking-tr">
+                        <td>
+                            <label class="checkbox">
+                                <input  type="checkbox" class="time-tracking-checkbox box-checkbox" data-id="{{_id}}"> 
+                            </label>
+                        </td>
+                        <td>{{name}}</td>
+                        <td class="time-passed">{{timePassed}}</td>
+                        <td>{{start}}</td>
+                        <td class="stop-td">{{#if stop}}<p class="stop">{{stop}}</p>{{else}}
+                            <form action="/projects/time-tracking/stop/{{../project._id}}/{{_id}}" method="post">
+                                <button type="submit" class="time-tracking-stop" onclick="stopTimeTracking()">Stop</button>
+                            </form>
+                        {{/if}}</td>
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
+        <div class="pagination">
+            {{#if (gt currentPage 1)}}
+            <a href="?page={{subtract currentPage 1}}">Previous</a>
+            {{/if}}
+            {{#if (lt currentPage totalPages)}}
+            <a href="?page={{add currentPage 1}}">Next</a>
+            {{/if}}
+        </div>
+    </div>
+</div>

@@ -1,0 +1,147 @@
+html,
+body {
+  height: fit-content;
+}
+
+:root {
+  --dark-color: #101217;
+  --dark-color-lighter1: #1f253f;
+  --dark-color-lighter2: #252b45;
+  --dark-color-lighter3: #454074;
+  --dark-color-lighter4: #6d679c;
+  --dark-color-lighter5: #b097e0;
+  --purple-color: rgba(88,81,216,1);
+  --purple-color2: rgb(124, 119, 224);
+  --purple-color-light: #b8a8ff;
+  --purple-color-light2:rgb(143, 123, 233);
+  --purple-gradient: linear-gradient(130deg, rgba(88,81,216,1) 0%, rgba(182,167,249,1) 100%);;
+  --purple-gradient2: linear-gradient(310deg, rgba(88,81,216,1) 0%, rgba(182,167,249,1) 100%);;
+}
+
+body {
+  margin: 0;
+  padding: 30px;
+  background-color: var(--dark-color);
+  color: white;
+}
+
+h1 {
+  font-family: 'gilroy';
+  margin: 0;
+}
+
+a, p, li, input, label {
+  font-family: 'poppinsregular';
+}
+
+p {
+  margin: 10px 0;
+  padding: 0;
+}
+
+a {
+  color: white;
+}
+
+.link {
+  color: var(--purple-color-light);
+}
+
+a:active {
+  color: none;
+}
+
+button {
+  margin-bottom: 16px;
+}
+
+.button, form button {
+  background-image: linear-gradient(92.88deg,#455eb5 9.16%,#5643cc 43.89%,#673fd7 64.72%);
+  border-radius: 8px;
+  border-style: none;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  flex-shrink: 0;
+  font-family: "gilroy";
+  font-size: 20px;
+  margin: unset;
+  padding: 0.6vw 2vw;
+  text-align: center;
+  text-transform: uppercase;
+  touch-action: manipulation;
+  transition: color 1s,box-shadow 1s;
+  -moz-user-select: none;
+  user-select: none;
+  -webkit-user-select: none;
+  display: block;
+}
+
+.button:hover {
+  box-shadow: 0 1px 30px rgba(174,163,255,.5);
+  color: #000;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-bottom: 8px;
+}
+
+a {
+  text-decoration: none;
+}
+
+.error {
+  background-color: red;
+  border-radius: 10px;
+  padding: 5px 10px;
+  text-align: center;
+  margin-bottom: 0;
+}
+
+ul {
+  margin-block-start: 0;
+  padding: 0;
+}
+
+ul li {
+  list-style: none;
+}
+
+.wrapper {
+  margin-left: 250px;
+}
+
+.settings-wrapper {
+  margin-left: calc(30px + 220px + 10px + 220px + 30px);
+}
+
+.wrapper,
+.settings-wrapper {
+  border-radius: 20px;
+  box-sizing: border-box;
+}
+
+
+.right {
+  margin-left: auto;
+  display: flex;
+}
+
+
+.hidden {
+  display: none;
+}
+
+
+.inline {
+  display: flex;
+}
+
+.inline > p:first-child {
+  margin-right: 10px;
+}

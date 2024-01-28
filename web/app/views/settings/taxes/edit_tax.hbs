@@ -1,0 +1,32 @@
+{{>sidebar}}
+{{>settings_sidebar}}
+{{>header}}
+{{>token}}
+{{>loader}}
+
+<div class="settings-wrapper">
+    <a class="link" href="/settings/taxes/">Taxes</a>
+    {{#if success}}
+        <div class="alert alert-success" role="alert">
+            Edit successful!
+        </div>
+    {{/if}}
+    <form action="/settings/taxes/delete/{{tax._id}}/" method="post">
+        <button type="submit">Delete</button>
+    </form>
+
+    <form action="/settings/taxes/edit/{{tax._id}}" method="post">
+        <div class="separate">
+            <label for="tax_name">Name:</label>
+            <input type="text" id="tax_name" name="tax_name" value="{{tax.name}}" required>
+
+            <label for="tax_percentage">Percentage:</label>
+            <input type="number" id="tax_percentage" name="tax_percentage" value="{{tax.percentage}}" required>
+
+            <label for="tax_description">Description:</label>
+            <textarea type="text" id="tax_description" name="tax_description">{{tax.description}}</textarea>
+        </div>
+
+        <button type="submit">Update</button>
+    </form>
+</div>

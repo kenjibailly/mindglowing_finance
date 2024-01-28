@@ -1,0 +1,29 @@
+{{>sidebar}}
+{{>settings_sidebar}}
+{{>header}}
+{{>token}}
+{{>loader}}
+
+<div class="settings-wrapper">
+    <a class="link" href="/settings/payment-methods/">Payment Methods</a>
+    {{#if success}}
+        <div class="alert alert-success" role="alert">
+            Edit successful!
+        </div>
+    {{/if}}
+    <form action="/settings/payment-methods/delete/{{payment_method._id}}/" method="post">
+        <button type="submit">Delete</button>
+    </form>
+
+    <form action="/settings/payment-methods/edit/{{payment_method._id}}" method="post">
+        <div class="separate">
+            <label for="payment_method_name">Name:</label>
+            <input type="text" id="payment_method_name" name="payment_method_name" value="{{payment_method.name}}" required>
+
+            <label for="payment_method_description">Description:</label>
+            <textarea type="text" id="payment_method_description" name="payment_method_description">{{payment_method.description}}</textarea>
+        </div>
+        
+        <button type="submit">Update</button>
+    </form>
+</div>

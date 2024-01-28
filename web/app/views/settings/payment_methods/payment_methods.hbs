@@ -1,0 +1,39 @@
+{{>sidebar}}
+{{>settings_sidebar}}
+{{>header}}
+{{>token}}
+{{>loader}}
+
+<div class="settings-wrapper">
+    <a class="link" href="/settings/payment-methods/create/">Create Payment Method</a>
+
+    <button onclick="deleteSelectedPaymentMethods()" type="submit">Delete</button>
+    <div class="paymentMethods table">
+        <table>
+            <thead>
+                <tr>
+                    <th>
+                        <label class="checkbox">
+                            <input  type="checkbox" onchange="checkAllBoxes(this)"> 
+                        </label>
+                    </th>
+                    <th>Name</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each payment_methods}}
+                    <tr>
+                        <td>
+                            <label class="checkbox">
+                                <input  type="checkbox" class="payment-method-checkbox box-checkbox" data-id="{{_id}}"> 
+                            </label>
+                        </td>
+                        <td><a class="link" href="/settings/payment-methods/edit/{{_id}}">{{name}}</a></td>
+                        <td>{{description}}</td>
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+</div>

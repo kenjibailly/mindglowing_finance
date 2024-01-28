@@ -1,0 +1,38 @@
+{{>sidebar}}
+{{>settings_sidebar}}
+{{>header}}
+{{>token}}
+{{>loader}}
+
+<div class="settings-wrapper">
+    <a class="link" href="/settings/discounts/">Discounts</a>
+    {{#if success}}
+        <div class="alert alert-success" role="alert">
+            Edit successful!
+        </div>
+    {{/if}}
+    <form action="/settings/discounts/delete/{{discount._id}}/" method="post">
+        <button type="submit">Delete</button>
+    </form>
+
+    <form action="/settings/discounts/edit/{{discount._id}}" method="post">
+        <div class="separate">
+            <label for="discount_name">Name:</label>
+            <input type="text" id="discount_name" name="discount_name" value="{{discount.name}}" required>
+
+            <label for="discount_code">Discount Code:</label>
+            <input type="text" id="discount_code" name="discount_code" value="{{discount.code}}">
+
+            <label for="discount_amount_total">Discount Total:</label>
+            <input type="number" id="discount_amount_total" name="discount_amount_total" value="{{discount.amount.total}}">
+
+            <label for="discount_amount_percentage">Discount Percentage:</label>
+            <input type="number" id="discount_amount_percentage" name="discount_amount_percentage" value="{{discount.amount.percentage}}">
+
+            <label for="discount_description">Description:</label>
+            <textarea type="text" id="discount_description" name="discount_description">{{discount.description}}</textarea>
+        </div>
+
+        <button type="submit">Update</button>
+    </form>
+</div>

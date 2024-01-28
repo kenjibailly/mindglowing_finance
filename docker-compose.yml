@@ -1,0 +1,80 @@
+version: '3'
+
+services:
+  mindglowing_finance_nginx:
+    image: nginx:latest
+    container_name: mindglowing_finance_nginx
+    # restart: unless-stopped
+    ports:
+      - 8159:80
+      - 8151:443
+    volumes:
+      # - ./nginx/web/:/usr/share/nginx/html
+      - ./nginx/conf/default.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx/conf/init.sh:/etc/nginx/conf.d/init.sh
+      - ./nginx/ssl:/etc/nginx/certs
+    networks: 
+      - docker_swag
+      - mindglowing_finance
+    env_file:
+      - .env
+    command: bash -c "chmod +rx /etc/nginx/conf.d/init.sh && /etc/nginx/conf.d/init.sh && nginx -g 'daemon off;'"
+
+  mindglowing_finance_web:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    container_name: mindglowing_finance_web
+    restart: unless-stopped
+    working_dir: /app
+    ports:
+      - "8160:3000"
+    volumes:
+      - ./web/app:/app
+    # To get the logs run:
+    # docker exec -it mindglowing_finance_web supervisord -e trace
+    command: supervisord -c /etc/supervisor/conf.d/supervisord.conf
+    networks:
+      - mindglowing_finance
+    env_file:
+      - .env
+
+  # mindglowing_finance_server:
+  #   image: node:latest
+  #   container_name: mindglowing_finance_server
+  #   restart: unless-stopped
+  #   volumes:
+  #     - ./server/app:/app
+  #   command: >
+  #     bash -c "npm install -g nodemon && npm install && nodemon /app/app.js"
+  #   working_dir: /app
+  #   env_file:
+  #     - .env
+  #   networks:
+  #     - mindglowing_finance
+
+  mindglowing_finance_mongo_db:
+    image: mongo
+    container_name: mindglowing_finance_mongo_db
+    restart: unless-stopped
+    ports:
+      - 27017:27017
+      # - 28017:28017
+    volumes:
+      - ./mongodb/config/mongod.conf.orig:/etc/mongod.conf.orig
+      - ./mongodb/db/:/data/db
+      - ./mongodb/config/init-scripts/init-db.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+      - ./mongodb/config/update-password.js:/scripts/update-password.js
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_ROOT_USER}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_ROOT_PASSWORD}
+      - MONGO_INITDB_DATABASE=root-db
+    env_file:
+      - .env
+    networks:
+      - mindglowing_finance
+
+networks:
+  mindglowing_finance:
+  docker_swag:
+    external: true
