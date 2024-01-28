@@ -11,6 +11,10 @@ const projectSchema = new mongoose.Schema({
         stop: Date,
     }],
     description: String,
+    billed: { 
+        type: String,
+        boolean: false,
+    },
     created_on: {
         type: Date,
         default: Date.now,

@@ -256,3 +256,22 @@ Change the pagination items per page in the customization settings
 ## Plans
 
 - [ ] Create API functionality
+
+## Personal Development General ToDo
+
+- [ ] Check success alerts
+- [ ] CSS styling
+- [ ] Change delete buttons placement inside table
+- [ ] Overview pages for:
+    - [ ] Customer
+        - [ ] Table with links to last invoices
+        - [ ] Table with links to last estimates
+        - [ ] Table with links to last projects
+    - [ ] Item
+    - [ ] Invoice
+    - [ ] Estimate
+    - [x] Project
+        - [ ] Link to customer
+- [ ] Function to count all the time trackings of a project and add them to an invoice
+- [ ] Add type to search and style
+- [ ] Add click menu to profile picture for logout

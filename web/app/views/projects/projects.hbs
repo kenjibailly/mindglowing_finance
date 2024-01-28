@@ -2,7 +2,7 @@
 {{>header}}
 {{>token}}
 <div class="wrapper">
-    <a href="/projects/create" class="link create-project-button">Create Project</a>
+    <a href="/projects/create" class="button create-project-button">Create Project</a>
 
     {{#if success}}
         <div class="alert alert-success" role="alert">
@@ -23,6 +23,7 @@
                     <th>Name</th>
                     <th>Customer</th>
                     <th>Time</th>
+                    <th>Billed</th>
                 </tr>
             </thead>
             <tbody>
@@ -36,6 +37,7 @@
                         <td><a class="link" href="/projects/project/{{_id}}">{{name}}</a></td>
                         <td>{{customer.first_name}} {{customer.last_name}}</td>
                         <td>{{time}}</td>
+                        <td> {{#if billed}}Yes{{else}}No{{/if}}</td>
                     </tr>
                 {{/each}}
             </tbody>
