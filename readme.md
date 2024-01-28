@@ -27,6 +27,10 @@ docker-compose up -d
 
 # Features
 
+## Dashboard
+
+Currently in development, only placeholders at the moment
+
 ## Settings
 
 ### Account
