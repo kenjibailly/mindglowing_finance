@@ -110,6 +110,17 @@ Create a customer with the following fields:
 - [x] Country
 - [x] Option to save billing same as shipping
 
+**Contact Information**
+
+- [x] Preferred medium of contact
+    - Email
+    - Discord
+    - Telegram
+    - Instagram
+    - Twitter
+    - Other 
+- [x] Contact Medium Username
+
 **Functions**
 
 - [x] Create
