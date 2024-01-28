@@ -1,6 +1,7 @@
 # Mind Glowing Finance
 
 Mind Glowing Finance is a CRM platform created for small businesses / freelancers. 
+The platform is currently in development and is not finished.
 
 # Installation
 
@@ -15,6 +16,8 @@ git clone https://github.com/kenjibailly/mindglowing_finance/
 ```bash
 cp .env.example .env
 ```
+
+
 
 3. Run the Docker Compose
 
