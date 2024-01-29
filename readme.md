@@ -273,7 +273,7 @@ Change the pagination products per page in the customization settings
     - [ ] Invoice
     - [ ] Estimate
     - [x] Project
-        - [ ] Link to customer
+        - [x] Link to customer
 - [ ] Function to count all the time trackings of a project and add them to an invoice
     - [ ] Add one labor hour price
 - [ ] Add type to search and style
