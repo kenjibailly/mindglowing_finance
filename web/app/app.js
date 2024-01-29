@@ -31,11 +31,12 @@ const editCustomerRouter = require('./routes/customers/edit_customer');
 const deleteCustomerRouter = require('./routes/customers/delete_customer');
 const deleteSelectedCustomersRouter = require('./routes/customers/delete_selected_customers');
 
-const itemsRouter = require('./routes/items/items');
-const createItemRouter = require('./routes/items/create_item');
-const editItemRouter = require('./routes/items/edit_item');
-const deleteItemRouter = require('./routes/items/delete_item');
-const deleteSelectedItemsRouter = require('./routes/items/delete_selected_items');
+const productsRouter = require('./routes/products/products');
+const productRouter = require('./routes/products/product');
+const createProductRouter = require('./routes/products/create_product');
+const editProductRouter = require('./routes/products/edit_product');
+const deleteProductRouter = require('./routes/products/delete_product');
+const deleteSelectedProductsRouter = require('./routes/products/delete_selected_products');
 
 const invoicesRouter = require('./routes/invoices/invoices');
 const createInvoiceRouter = require('./routes/invoices/create_invoice');
@@ -176,11 +177,12 @@ app.use('/customers/edit/', editCustomerRouter);
 app.use('/customers/delete/', deleteCustomerRouter);
 app.use('/customers/delete-selected/', deleteSelectedCustomersRouter);
 
-app.use('/items/', itemsRouter);
-app.use('/items/create/', createItemRouter);
-app.use('/items/edit/', editItemRouter);
-app.use('/items/delete/', deleteItemRouter);
-app.use('/items/delete-selected/', deleteSelectedItemsRouter);
+app.use('/products/', productsRouter);
+app.use('/products/product/', productRouter);
+app.use('/products/create/', createProductRouter);
+app.use('/products/edit/', editProductRouter);
+app.use('/products/delete/', deleteProductRouter);
+app.use('/products/delete-selected/', deleteSelectedProductsRouter);
 
 app.use('/invoices/', invoicesRouter);
 app.use('/invoices/create/', createInvoiceRouter);

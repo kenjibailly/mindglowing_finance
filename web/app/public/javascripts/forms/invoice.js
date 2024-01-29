@@ -60,10 +60,10 @@ function addElement(container) {
     const inputs = clone.querySelectorAll('input');
     inputs.forEach(input => input.value = '');
 
-    // Set the item quantities clone to value 1
-    const item_quantites = clone.querySelector('input[name="item_quantities[]"]');
-    if (item_quantites) {
-        item_quantites.value = '1';
+    // Set the product quantities clone to value 1
+    const product_quantites = clone.querySelector('input[name="product_quantities[]"]');
+    if (product_quantites) {
+        product_quantites.value = '1';
     }
 
     // Set the value of the input element with name "paid_on" to today
@@ -112,15 +112,15 @@ async function createInvoice() {
                 }
                 dataIds[inputType].push(dataId);
     
-                if (inputType.includes('item')) {
+                if (inputType.includes('product')) {
                     if (!prices[inputType]) {
                         prices[inputType] = [];
                     }
                     prices[inputType].push(price);
     
                     // Set each price individually in the form data
-                    prices[inputType].forEach((itemPrice, index) => {
-                        formData.set(`${inputType}_prices[${index}]`, itemPrice);
+                    prices[inputType].forEach((productPrice, index) => {
+                        formData.set(`${inputType}_prices[${index}]`, productPrice);
                     });
                 } else if (inputType.includes('discount')) {
                     if (!discountAmounts[inputType]) {
@@ -191,7 +191,7 @@ if (invoiceForm) {
 function changeInvoice () {
     const selectedOptions = document.querySelectorAll('.selected');
 
-    // Get the item prices
+    // Get the product prices
     const prices = [];
     selectedOptions.forEach((option) => {
         const price = option.dataset.price;
@@ -200,20 +200,20 @@ function changeInvoice () {
         }
     });
 
-    // Get the item quantities
-    const item_quantities_inputs = document.querySelectorAll('.item-quantity');
-    const item_quantities = [];
-    item_quantities_inputs.forEach((quantity) => {
+    // Get the product quantities
+    const product_quantities_inputs = document.querySelectorAll('.product-quantity');
+    const product_quantities = [];
+    product_quantities_inputs.forEach((quantity) => {
         if (quantity.value !== undefined) {
-            item_quantities.push(parseFloat(quantity.value));
+            product_quantities.push(parseFloat(quantity.value));
         }
     })
 
-    // Get the item totals
-    const item_totals = [];
+    // Get the product totals
+    const product_totals = [];
     for (let i = 0; i < prices.length; i++) {
-        const item_total = prices[i] * item_quantities[i];
-        item_totals.push(parseFloat(item_total));
+        const product_total = prices[i] * product_quantities[i];
+        product_totals.push(parseFloat(product_total));
     }
 
     // Get the discount percentage
@@ -256,17 +256,17 @@ function changeInvoice () {
     })
 
     
-    const item_total = item_totals.reduce((sum, price) => sum + parseFloat(price), 0);;
+    const product_total = product_totals.reduce((sum, price) => sum + parseFloat(price), 0);;
     const discount_amounts_total = discount_totals.reduce((sum, total) => sum + parseFloat(total),0);
     const discount_amounts_percentage = discount_percentages.reduce((sum, percentage) => sum + parseFloat(percentage),0);
-    const discounts_total = (item_total / 100 * discount_amounts_percentage) + discount_amounts_total;
-    const tax_amount = (item_total + parseFloat(shipping_amount)) / 100 * parseFloat(tax_percentage);
-    const amount_total = item_total - discounts_total + parseFloat(shipping_amount) + tax_amount;
+    const discounts_total = (product_total / 100 * discount_amounts_percentage) + discount_amounts_total;
+    const tax_amount = (product_total + parseFloat(shipping_amount)) / 100 * parseFloat(tax_percentage);
+    const amount_total = product_total - discounts_total + parseFloat(shipping_amount) + tax_amount;
     const paid_total = paid_amounts.reduce((sum, amount) => sum + (parseFloat(amount) || 0), 0);
     const amount_due = (paid_total > amount_total) ? 0 : (amount_total - paid_total);
     
-    if (item_total) {
-        document.querySelector('.total_items').innerHTML = item_total;
+    if (product_total) {
+        document.querySelector('.total_products').innerHTML = product_total;
     }
     if (shipping_amount) {
         document.querySelector('.total_shipping').innerHTML = shipping_amount;

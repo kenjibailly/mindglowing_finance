@@ -55,7 +55,7 @@ Currently in development, only placeholders at the moment
 - [x] Invoice Separator
 - [x] Estimate Prefix
 - [x] Estimate Separator
-- [x] Items Per Page
+- [x] Products Per Page
 
 ### Payment Methods
 
@@ -128,9 +128,9 @@ Create a customer with the following fields:
 - [x] Delete
 - [x] Delete Selected
 
-## Items
+## Products
 
-Create an item with the following fields:
+Create an product with the following fields:
 
 - [x] Picture
 - [x] Name
@@ -150,9 +150,9 @@ Create an invoice with the following fields:
 
 - [x] Number
 - [x] Customer
-- [x] Item
+- [x] Product
 - [x] Quantity
-- [x] Option to add another item
+- [x] Option to add another product
 - [x] Discount
 - [x] Option to add another discount
 - [x] Tax
@@ -237,7 +237,7 @@ Searches for the following in one search field:
 - [x] Number with prefix
 - [x] Description
 
-**Items**
+**Products**
 
 - [x] Name
 - [x] Description
@@ -250,7 +250,7 @@ Searches for the following in one search field:
 
 ### Pagination
 
-Change the pagination items per page in the customization settings
+Change the pagination products per page in the customization settings
 
 
 ## Plans
@@ -267,7 +267,9 @@ Change the pagination items per page in the customization settings
         - [ ] Table with links to last invoices
         - [ ] Table with links to last estimates
         - [ ] Table with links to last projects
-    - [ ] Item
+    - [x] Product
+        - [ ] Stats of product sales
+        - [ ] Table with latest invoices where product is used
     - [ ] Invoice
     - [ ] Estimate
     - [x] Project

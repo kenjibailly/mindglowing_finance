@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Customer = require('../../models/customer');
 const Invoice = require('../../models/invoice');
-const Item = require('../../models/item');
+const Product = require('../../models/product');
 const Project = require('../../models/project');
 const Customization = require('../../models/customization');
 
@@ -36,8 +36,8 @@ router.get('/', async (req, res) => {
       ],
     });
 
-    // Search in the Item collection
-    const items = await Item.find({
+    // Search in the Product collection
+    const products = await Product.find({
       $or: [
         { name: new RegExp(searchTerm, 'i') },
         { description: new RegExp(searchTerm, 'i') },
@@ -45,7 +45,7 @@ router.get('/', async (req, res) => {
       ],
     });
 
-    // Search in the Item collection
+    // Search in the Product collection
     const projects = await Project.find({
       $or: [
         { name: new RegExp(searchTerm, 'i') },
@@ -56,7 +56,7 @@ router.get('/', async (req, res) => {
 
     // Set the search results in res.locals
     res.render('partials/search-results-popup', { 
-      search_results: { customers, items, invoices, projects },
+      search_results: { customers, products, invoices, projects },
       customization_settings: customization_settings,
     });
 

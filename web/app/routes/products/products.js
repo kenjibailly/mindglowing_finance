@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Item = require('../../models/item');
+const Product = require('../../models/product');
 const User = require('../../models/user');
 const Customization = require('../../models/customization');
 const authenticateToken = require('../security/authenticate');
@@ -17,7 +17,7 @@ router.get('/', authenticateToken, async function(req, res, next) {
     }
     
     // Use the find method to get all customers
-    const items = await Item.find().lean();
+    const products = await Product.find().lean();
     // Use the find method to get the user settings
     const user_settings = await User.findOne({ username: user.username });
 
@@ -25,15 +25,16 @@ router.get('/', authenticateToken, async function(req, res, next) {
     const customization = await Customization.findOne();
 
     // Pagination
-    const { pageItems, currentPage, totalPages } = paginateArray(items, customization.items_per_page, parseInt(req.query.page) || 1);
+    const { pageItems, currentPage, totalPages } = paginateArray(products, customization.items_per_page, parseInt(req.query.page) || 1);
 
-    res.render('items/items', { 
+
+    res.render('products/products', { 
       user: user_settings, 
-      items: pageItems, 
+      products: pageItems, 
       currentPage: currentPage,
       totalPages: totalPages,
       access_token_expiry: process.env.ACCESS_TOKEN_EXPIRY_IN_SECONDS,
-      site_title: 'Items',
+      site_title: 'Products',
     });
 
 });

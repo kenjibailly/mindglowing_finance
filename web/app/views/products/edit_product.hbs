@@ -3,23 +3,23 @@
 {{>token}}
 
 <div class="wrapper">
-    <a href="/items/" class="link">Items</a>
+    <a href="/products/" class="link">Products</a>
 
     {{#if success}}
         <div class="alert alert-success" role="alert">
             Edit successful!
         </div>
     {{/if}}
-    <form action="/items/delete/{{item._id}}/" method="post">
+    <form action="/products/delete/{{product._id}}/" method="post">
         <button type="submit">Delete</button>
     </form>
 
-    <form action="/items/edit/{{item._id}}" method="post" enctype="multipart/form-data">
+    <form action="/products/edit/{{product._id}}" method="post" enctype="multipart/form-data">
         <div class="separate">
             <!-- Picture Input -->
-            <label onclick="triggerInput()" for="picture">Item Picture:</label>
-            {{#if item.picture}}
-                <img onclick="triggerInput()" class="previewImage" src="/uploads/resized/{{item.picture}}" width="200px" alt="">
+            <label onclick="triggerInput()" for="picture">Product Picture:</label>
+            {{#if product.picture}}
+                <img onclick="triggerInput()" class="previewImage" src="/uploads/resized/{{product.picture}}" width="200px" alt="">
             {{else}}
                 <img onclick="triggerInput()" class="previewImage" src="/images/placeholder.webp" width="200px" alt="">
             {{/if}}
@@ -27,17 +27,17 @@
 
             <!-- Name Input -->
             <label for="name">Name:</label>
-            <input type="text" id="name" name="name" value="{{item.name}}">
+            <input type="text" id="name" name="name" value="{{product.name}}">
 
             <!-- Price Input -->
             <label for="price">Price:</label>
             <div class='full-input'><label for='price'>{{user_settings.currency_symbol}}</label>
-                <input type="number" id="price" name="price" step="0.01" value="{{item.price}}">
+                <input type="number" id="price" name="price" step="0.01" value="{{product.price}}">
             </div>
 
             <!-- Description Input -->
             <label for="description">Description:</label>
-            <textarea id="description" name="description" rows="4">{{item.description}}</textarea>
+            <textarea id="description" name="description" rows="4">{{product.description}}</textarea>
         </div>
 
         <!-- Submit Button -->

@@ -1,0 +1,32 @@
+{{>sidebar}}
+{{>header}}
+{{>token}}
+<div class="wrapper product-overview">
+    <a class="link" href="/products/">Products</a>
+    <a class="button" href="/products/edit/{{product._id}}">Edit Product</a>
+
+    <div class="alert alert-success hidden" role="alert">
+        Product edited!
+    </div>
+
+    <form action="/products/delete/{{product._id}}/" method="post">
+        <button type="submit">Delete</button>
+    </form>
+
+    <div class="overview">
+        <div class="separate">
+            <div>
+                <p>Product Picture:</p><img src="/uploads/resized/{{product.picture}}" width="150px" alt="">
+            </div>
+            <div class="inline">
+                <p>Name:</p><p>{{product.name}}</p>
+            </div>
+            <div class="inline">
+                <p>Price:</p><p>{{user.currency_symbol}} {{product.price}}</p>
+            </div>
+            <div class="inline">
+                <p>Description:</p><p>{{product.description}}</p>
+            </div>
+        </div>
+    </div>
+</div>

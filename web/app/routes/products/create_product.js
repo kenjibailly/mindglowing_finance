@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const Item = require('../../models/item');
+const Product = require('../../models/product');
 const User = require('../../models/user');
 const authenticateToken = require('../security/authenticate');
 const uploadConfig = require('../picture_handler/multerConfig');
 
-/* GET /items/create-item page. */
+/* GET /products/create-product page. */
 router.get('/', authenticateToken, async function(req, res, next) {
   // Get the session user that's logged in
   const user = req.session.user;
@@ -18,17 +18,17 @@ router.get('/', authenticateToken, async function(req, res, next) {
     // Use the find method to get the user settings
     const user_settings = await User.findOne({ username: user.username });
     
-    // Render the create items page
-    res.render('items/create_item', { 
+    // Render the create products page
+    res.render('products/create_product', { 
         user: user_settings, 
         access_token_expiry: process.env.ACCESS_TOKEN_EXPIRY_IN_SECONDS, 
         user_settings: user_settings,
-        site_title: 'Create Item',
+        site_title: 'Create Product',
     });
 
 });
 
-// Handle the POST request to add an item
+// Handle the POST request to add an product
 router.post('/', authenticateToken, uploadConfig.upload, uploadConfig.resizeAndCompressImage, async (req, res) => {
     // Extract form data from the request
     const { 
@@ -38,24 +38,24 @@ router.post('/', authenticateToken, uploadConfig.upload, uploadConfig.resizeAndC
     } = req.body;
 
     try {
-        // Create a new item instance with the form details
-        const newItem = new Item({
+        // Create a new product instance with the form details
+        const newProduct = new Product({
             name,
             price,
             description,
             picture: req.file ? req.file.filename : null,
         });
 
-        // Save the item to the database
-        const savedItem = await newItem.save();
-        res.redirect('/items');
+        // Save the product to the database
+        const savedProduct = await newProduct.save();
+        res.redirect('/products');
     } catch (error) {
         console.error(error);
 
         // Check if the error is a duplicate key violation
         if (error.code === 11000 && error.keyPattern && error.keyPattern['name']) {
             // Duplicate name error
-            res.status(400).json({ message: 'Item with the same name already exists' });
+            res.status(400).json({ message: 'Product with the same name already exists' });
         } else {
             // Other internal server error
             res.status(500).json({ message: 'Internal Server Error' });

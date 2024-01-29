@@ -5,7 +5,7 @@ const Customer = require('../../models/customer');
 const PaymentMethod = require('../../models/payment_method');
 const Discount = require('../../models/discount');
 const ShippingCompany = require('../../models/shipping_company');
-const Items = require('../../models/item');
+const Products = require('../../models/product');
 const Tax = require('../../models/tax');
 const Customization = require('../../models/customization');
 const User = require('../../models/user');
@@ -24,8 +24,8 @@ router.get('/', authenticateToken, async function(req, res, next) {
     
     // Get all customers
     const customers = await Customer.find();
-    // Get all items
-    const items = await Items.find();
+    // Get all products
+    const products = await Products.find();
     // Get all payment methods
     const payment_methods = await PaymentMethod.find();
     // Get all discounts
@@ -59,7 +59,7 @@ router.get('/', authenticateToken, async function(req, res, next) {
       user: user_settings,
       access_token_expiry: process.env.ACCESS_TOKEN_EXPIRY_IN_SECONDS, 
       customers: customers, 
-      items: items, 
+      products: products, 
       payment_methods: payment_methods, 
       discounts: discounts, 
       shipping_companies: shipping_companies, 
@@ -82,9 +82,9 @@ router.post('/', authenticateToken, async (req, res) => {
     const {
       invoice_number,
       customer_id,
-      item_ids,
-      item_quantities,
-      item_ids_prices,
+      product_ids,
+      product_quantities,
+      product_ids_prices,
       discount_ids,
       discount_ids_amounts_totals,
       discount_ids_amounts_percentages,
@@ -101,9 +101,9 @@ router.post('/', authenticateToken, async (req, res) => {
   // Log or process the form fields as needed
   console.log('Invoice Number:', invoice_number);
   console.log('Customer ID:', customer_id);
-  console.log('Item IDs:', item_ids);
-  console.log('Item quantities:', item_quantities);
-  console.log('Item prices:', item_ids_prices)
+  console.log('Product IDs:', product_ids);
+  console.log('Product quantities:', product_quantities);
+  console.log('Product prices:', product_ids_prices)
   console.log('Discount IDs:', discount_ids);
   console.log('Discount Amounts Total', discount_ids_amounts_totals);
   console.log('Discount Amounts Total', discount_ids_amounts_percentages);
@@ -117,21 +117,21 @@ router.post('/', authenticateToken, async (req, res) => {
   console.log('Description:', description);
 
 
-    // Get the item totals
-    const item_totals = [];
-    for (let i = 0; i < item_ids_prices.length; i++) {
-        const item_total = item_ids_prices[i] * item_quantities[i];
-        item_totals.push(parseFloat(item_total));
+    // Get the product totals
+    const product_totals = [];
+    for (let i = 0; i < product_ids_prices.length; i++) {
+        const product_total = product_ids_prices[i] * product_quantities[i];
+        product_totals.push(parseFloat(product_total));
     }
 
     const status = "DRAFT";
     
-    // Create items in right format with ids and quantities
-    var items = []
-    for (let i = 0; i < item_ids.length; i++) {
-      items.push({
-        id: item_ids[i],
-        quantity: item_quantities[i]
+    // Create products in right format with ids and quantities
+    var products = []
+    for (let i = 0; i < product_ids.length; i++) {
+      products.push({
+        id: product_ids[i],
+        quantity: product_quantities[i]
       });
     }
 
@@ -161,15 +161,15 @@ router.post('/', authenticateToken, async (req, res) => {
 
 
     // Calculate the necessary totals to get to the amount left to pay
-    const item_total = item_totals.reduce((sum, price) => sum + parseFloat(price), 0);
+    const product_total = product_totals.reduce((sum, price) => sum + parseFloat(price), 0);
     const discount_amounts_total = discount_ids_amounts_totals.reduce((sum, total) => sum + parseFloat(total),0);
     const discount_amounts_percentage = discount_ids_amounts_percentages.reduce((sum, percentage) => sum + parseFloat(percentage),0);
-    const tax_amount = (item_total + parseFloat(shipping_amount)) / 100 * parseFloat(tax_id_tax_percentage);
-    const amount_total = item_total - discount_amounts_total - (item_total / 100 * discount_amounts_percentage) + parseFloat(shipping_amount) + tax_amount;
+    const tax_amount = (product_total + parseFloat(shipping_amount)) / 100 * parseFloat(tax_id_tax_percentage);
+    const amount_total = product_total - discount_amounts_total - (product_total / 100 * discount_amounts_percentage) + parseFloat(shipping_amount) + tax_amount;
     const paid_total = paid_amount.reduce((sum, amount) => sum + parseFloat(amount), 0);
     const amount_due = (paid_total > amount_total) ? 0 : (amount_total - paid_total);
 
-    console.log('Item total:', item_total);
+    console.log('Product total:', product_total);
     console.log('Shipping amount:', shipping_amount);
     console.log('Discount total percentage',discount_amounts_percentage)
     console.log('Discount flat total', discount_amounts_total)
@@ -185,7 +185,7 @@ router.post('/', authenticateToken, async (req, res) => {
         number: invoice_number,
         customer_id: customer_id[0],
         status: status,
-        items: items,
+        products: products,
         discounts: discounts,
         "tax.id": tax_id[0],
         "tax.total": tax_amount[0],

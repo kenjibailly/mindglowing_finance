@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
-// Define the items schema
-const itemSchema = new mongoose.Schema({
+// Define the products schema
+const productSchema = new mongoose.Schema({
     name: { type: String, required: true, unique: true },
     price: Number,
     description: String,
@@ -9,6 +9,6 @@ const itemSchema = new mongoose.Schema({
 });
 
 // Create a model using the schema
-const Item = mongoose.model('Item', itemSchema);
+const Product = mongoose.model('Product', productSchema);
 
-module.exports = Item;
+module.exports = Product;

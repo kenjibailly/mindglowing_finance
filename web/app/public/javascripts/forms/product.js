@@ -1,13 +1,13 @@
-function deleteSelectedItems() {
+function deleteSelectedProducts() {
     // Select all checked checkboxes
-    const checkedCheckboxes = document.querySelectorAll('.item-checkbox:checked');
+    const checkedCheckboxes = document.querySelectorAll('.product-checkbox:checked');
     // Extract data-ids from checked checkboxes
     const selectedIds = Array.from(checkedCheckboxes).map((checkbox) => {
         return checkbox.dataset.id;
     });
 
     // Send a POST request with the selected data-ids
-    fetch('/items/delete-selected', {
+    fetch('/products/delete-selected', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -17,7 +17,7 @@ function deleteSelectedItems() {
     .then(response => response.json())
     .then(data => {
         // Check for success message or error message in the response
-        if (data.message === 'Items deleted successfully') {
+        if (data.message === 'Products deleted successfully') {
             // Perform page refresh or other actions
             location.reload(); // Reload the page
         } else {

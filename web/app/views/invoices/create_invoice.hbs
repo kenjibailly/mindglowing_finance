@@ -24,28 +24,28 @@
             </div>
         </div>
 
-        {{!-- Items --}}
+        {{!-- Products --}}
         <div class="separate">
             <div class="add-container">
                 <div class="add-el-container">
                     <div class="add-el">
-                        <label class="data-list-label" for="item">Item:</label>
+                        <label class="data-list-label" for="product">Product:</label>
                         <div class="data-list">
-                            <input list="" name="item_ids[]" class="data-list-input" id="item" autocomplete="off"  data-datalist-id="item-datalist">
-                            <datalist name="item_id" class="data-list-datalist" id="item-datalist">
-                                {{#each items}}
+                            <input list="" name="product_ids[]" class="data-list-input" id="product" autocomplete="off"  data-datalist-id="product-datalist">
+                            <datalist name="product_id" class="data-list-datalist" id="product-datalist">
+                                {{#each products}}
                                     <option value="{{name}}" data-id="{{_id}}" data-price="{{price}}">{{name}}</option>
                                 {{/each}}
                             </datalist>
                         </div>
-                        <label for="item-quantity">Quantity:</label>
-                        <input class="item-quantity" type="number" name="item_quantities[]" id="item-quantity" value="1" oninput="changeInvoice()">
+                        <label for="product-quantity">Quantity:</label>
+                        <input class="product-quantity" type="number" name="product_quantities[]" id="product-quantity" value="1" oninput="changeInvoice()">
                     </div>
                 </div>
             </div>
 
             <!-- "+" button to add more elements -->
-            <button type="button" class="addButton" onclick="addElement(this.parentElement)">Add Another Item</button>
+            <button type="button" class="addButton" onclick="addElement(this.parentElement)">Add Another Product</button>
         </div>
 
         {{!-- Discount --}}
@@ -130,7 +130,7 @@
 
         <div class="separate">
             <div class="inline">
-                <p>Item total:</p><p class="total_items"></p>
+                <p>Product total:</p><p class="total_products"></p>
             </div>
             <div class="inline">
                 <p>Shipping:</p><p class="total_shipping"></p>
