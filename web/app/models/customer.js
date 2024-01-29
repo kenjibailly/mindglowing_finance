@@ -14,7 +14,7 @@ const customerSchema = new mongoose.Schema({
     currency_name: String,
     currency_symbol: String,
   },
-  shipping_details: {
+  billing_details: {
     street: String,
     street2: String,
     city: String,
@@ -22,7 +22,7 @@ const customerSchema = new mongoose.Schema({
     zip: String,
     country: String,
   },
-  billing_details: {
+  shipping_details: {
     street: String,
     street2: String,
     city: String,

@@ -263,7 +263,7 @@ Change the pagination items per page in the customization settings
 - [ ] CSS styling
 - [ ] Change delete buttons placement inside table
 - [ ] Overview pages for:
-    - [ ] Customer
+    - [x] Customer
         - [ ] Table with links to last invoices
         - [ ] Table with links to last estimates
         - [ ] Table with links to last projects
@@ -276,3 +276,4 @@ Change the pagination items per page in the customization settings
     - [ ] Add one labor hour price
 - [ ] Add type to search and style
 - [ ] Add click menu to profile picture for logout
+- [ ] Leads and their conversion

@@ -19,6 +19,7 @@ router.get('/:id', authenticateToken, async function(req, res, next) {
       try {
         // Use the find method to get all customers
         const customer = await Customer.findById(req.params.id);
+        console.log(customer)
         // Check if success is true in the url
         const success = req.query.success;
         // Render the customers page
@@ -53,6 +54,8 @@ router.get('/:id', authenticateToken, async function(req, res, next) {
         // Add currency information to the updatedCustomer object
         updatedCustomer['personal_information.currency_name'] = currency_name;
         updatedCustomer['personal_information.currency_symbol'] = currency_symbol;
+
+        console.log(updatedCustomer);
   
         // Update the customer in the database
         const result = await Customer.findByIdAndUpdate(customerId, updatedCustomer, { new: true });
@@ -64,7 +67,7 @@ router.get('/:id', authenticateToken, async function(req, res, next) {
       // Get the customer
       const customer = await Customer.findById(req.params.id);
       // Render the customer again with a success message
-      return res.redirect('/customers/edit/'+ customer.id + '?success=true');
+      return res.redirect('/customers/customer/'+ customer.id + '?success=true');
     } catch (error) {
         console.error(error);
         return res.status(500).send('Internal Server Error');

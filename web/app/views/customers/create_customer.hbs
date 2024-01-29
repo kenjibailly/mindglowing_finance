@@ -140,32 +140,32 @@
                     <option value="ZWD (Z$)">ZWD (Z$)</option>
                 </datalist>
             </div>
-
         </div>
 
-        <!-- Shipping Details -->
-        <div class="shipping_details separate">
-            <h2>Shipping Details</h2>
 
-            <label for="shipping_street">Street:</label>
-            <input type="text" id="shipping_street" name="shipping_details.street">
+        <!-- Billing Details -->
+        <div class="billing_details separate">
+            <h2>Billing Details</h2>
 
-            <label for="shipping_street2">Street 2:</label>
-            <input type="text" id="shipping_street2" name="shipping_details.street2">
+            <label for="billing_street">Street:</label>
+            <input type="text" id="billing_street" name="billing_details.street">
 
-            <label for="shipping_city">City:</label>
-            <input type="text" id="shipping_city" name="shipping_details.city">
+            <label for="billing_street2">Street 2:</label>
+            <input type="text" id="billing_street2" name="billing_details.street2">
 
-            <label for="shipping_state">State:</label>
-            <input type="text" id="shipping_state" name="shipping_details.state">
+            <label for="billing_city">City:</label>
+            <input type="text" id="billing_city" name="billing_details.city">
 
-            <label for="shipping_zip">ZIP:</label>
-            <input type="text" id="shipping_zip" name="shipping_details.zip">
+            <label for="billing_state">State:</label>
+            <input type="text" id="billing_state" name="billing_details.state">
 
-            <label class="data-list-label" for="shipping_country">Country:</label>
+            <label for="billing_zip">ZIP:</label>
+            <input type="text" id="billing_zip" name="billing_details.zip">
+
+            <label class="data-list-label" for="billing_country">Country:</label>
             <div class="data-list">
-                <input list="" name="shipping_details.country" class="data-list-input" id="shipping_country" autocomplete="off">
-                <datalist name="shipping_details.country" class="data-list-datalist">
+                <input list="" name="billing_details.country" class="data-list-input" id="billing_country" autocomplete="off">
+                <datalist name="billing_details.country" class="data-list-datalist">
                     <option value="Afghanistan">Afghanistan</option>
                     <option value="Akrotiri">Akrotiri</option>
                     <option value="Albania">Albania</option>
@@ -425,36 +425,35 @@
                     <option value="Zimbabwe">Zimbabwe</option>
                 </datalist>
             </div>
-
-            <!-- Checkbox for "Same as shipping information" -->
+            <!-- Checkbox for "Same as billing information" -->
             <label class="checkbox">
-                <input type="checkbox" onchange="shippingCheckBoxChange(this)" checked> Billing same as shipping
+                <input type="checkbox" onchange="shippingCheckBoxChange(this)" checked> Shipping same as billing
             </label>
         </div>
 
-        <!-- Billing Details -->
-        <div class="billing_details separate hidden">
-            <h2>Billing Details</h2>
+        <!-- Shipping Details -->
+        <div class="shipping_details separate hidden">
+            <h2>Shipping Details</h2>
 
-            <label for="billing_street">Street:</label>
-            <input type="text" id="billing_street" name="billing_details.street">
+            <label for="shipping_street">Street:</label>
+            <input type="text" id="shipping_street" name="shipping_details.street">
 
-            <label for="billing_street2">Street 2:</label>
-            <input type="text" id="billing_street2" name="billing_details.street2">
+            <label for="shipping_street2">Street 2:</label>
+            <input type="text" id="shipping_street2" name="shipping_details.street2">
 
-            <label for="billing_city">City:</label>
-            <input type="text" id="billing_city" name="billing_details.city">
+            <label for="shipping_city">City:</label>
+            <input type="text" id="shipping_city" name="shipping_details.city">
 
-            <label for="billing_state">State:</label>
-            <input type="text" id="billing_state" name="billing_details.state">
+            <label for="shipping_state">State:</label>
+            <input type="text" id="shipping_state" name="shipping_details.state">
 
-            <label for="billing_zip">ZIP:</label>
-            <input type="text" id="billing_zip" name="billing_details.zip">
+            <label for="shipping_zip">ZIP:</label>
+            <input type="text" id="shipping_zip" name="shipping_details.zip">
 
-            <label class="data-list-label" for="billing_country">Country:</label>
+            <label class="data-list-label" for="shipping_country">Country:</label>
             <div class="data-list">
-                <input list="" name="billing_details.country" class="data-list-input" id="billing_country" autocomplete="off">
-                <datalist name="billing_details.country" class="data-list-datalist">
+                <input list="" name="shipping_details.country" class="data-list-input" id="shipping_country" autocomplete="off">
+                <datalist name="shipping_details.country" class="data-list-datalist">
                     <option value="Afghanistan">Afghanistan</option>
                     <option value="Akrotiri">Akrotiri</option>
                     <option value="Albania">Albania</option>

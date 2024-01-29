@@ -25,6 +25,7 @@ const logoutRouter = require('./routes/logout');
 const searchRouter = require('./routes/search/search');
 
 const customersRouter = require('./routes/customers/customers');
+const customerRouter = require('./routes/customers/customer');
 const createCustomerRouter = require('./routes/customers/create_customer');
 const editCustomerRouter = require('./routes/customers/edit_customer');
 const deleteCustomerRouter = require('./routes/customers/delete_customer');
@@ -169,6 +170,7 @@ app.use('/logout/', logoutRouter);
 app.use('/search', searchRouter);
 
 app.use('/customers/', customersRouter);
+app.use('/customers/customer/', customerRouter);
 app.use('/customers/create/', createCustomerRouter);
 app.use('/customers/edit/', editCustomerRouter);
 app.use('/customers/delete/', deleteCustomerRouter);

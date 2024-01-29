@@ -1,12 +1,12 @@
 function shippingCheckBoxChange(checkbox) {
-    const billingDetailsSection = document.querySelector('.billing_details');
+    const shippingDetailsSection = document.querySelector('.shipping_details');
 
     if (checkbox.checked) {
         // If "Same as shipping information" is checked
-        billingDetailsSection.classList.add('hidden');
+        shippingDetailsSection.classList.add('hidden');
     } else {
         // If "Same as shipping information" is unchecked
-        billingDetailsSection.classList.remove('hidden');
+        shippingDetailsSection.classList.remove('hidden');
     }
 }
 

@@ -4,8 +4,13 @@
 const hbs = require('hbs');
 
 // Register an equal to helper
-hbs.registerHelper('eq', function (a, b, options) {
-  return a === b ? options.fn(this) : options.inverse(this);
+hbs.registerHelper('eq', function (a, b) {
+  return a === b;
+});
+
+// Register a not equal to helper
+hbs.registerHelper('neq', function (a, b) {
+  return a !== b;
 });
 
 // Register a reverse helper
@@ -31,6 +36,16 @@ hbs.registerHelper('add', function (a, b) {
 // Register Handlebars helper for subtraction
 hbs.registerHelper('subtract', function (a, b) {
   return a - b;
+});
+
+// Register Handlebars helper for or
+hbs.registerHelper('or', function () {
+  for (let i = 0; i < arguments.length - 1; i++) {
+    if (arguments[i]) {
+      return true;
+    }
+  }
+  return false;
 });
 
 // Export the hbs module for use in other files

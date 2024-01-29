@@ -1,0 +1,95 @@
+{{>sidebar}}
+{{>header}}
+{{>token}}
+<div class="wrapper customer-overview">
+    <a class="link" href="/customers/">Customers</a>
+    <a class="button" href="/customers/edit/{{customer._id}}">Edit Customer</a>
+
+    <div class="alert alert-success hidden" role="alert">
+        Customer edited!
+    </div>
+
+    <form action="/customers/delete/{{customer._id}}/" method="post">
+        <button type="submit">Delete</button>
+    </form>
+
+    <div class="overview">
+        <div class="separate">
+            <h2>Personal Information</h2>
+            <div class="inline">
+                <p>First Name:</p><p>{{customer.personal_information.first_name}}</p>
+            </div>
+            <div class="inline">
+                <p>Last Name:</p><p>{{customer.personal_information.last_name}}</p>
+            </div>
+            <div class="inline">
+                <p>Email:</p><p>{{customer.personal_information.email}}</p>
+            </div>
+            <div class="inline">
+                <p>Company:</p><p>{{customer.personal_information.company}}</p>
+            </div>
+            <div class="inline">
+                <p>Currency:</p><p>{{customer.personal_information.currency_name}} ({{customer.personal_information.currency_symbol}})</p>
+            </div>
+        </div>
+        <div class="separate">
+            <h2>Billing Details:</h2>
+            <div class="inline">
+                <p>Street:</p><p>{{customer.billing_details.street}}</p>
+            </div>
+            <div class="inline">
+                <p>Street 2:</p><p>{{customer.billing_details.street2}}</p>
+            </div>
+            <div class="inline">
+                <p>City:</p><p>{{customer.billing_details.city}}</p>
+            </div>
+            <div class="inline">
+                <p>State:</p><p>{{customer.billing_details.state}}</p>
+            </div>
+            <div class="inline">
+                <p>ZIP:</p><p>{{customer.billing_details.zip}}</p>
+            </div>
+            <div class="inline">
+                <p>Country:</p><p>{{customer.billing_details.country}}</p>
+            </div>
+        </div>
+        <div class="separate">
+            <h2>Shipping Details:</h2>
+            <div class="inline">
+                <p>Street:</p><p>{{customer.shipping_details.street}}</p>
+            </div>
+            <div class="inline">
+                <p>Street 2:</p><p>{{customer.shipping_details.street2}}</p>
+            </div>
+            <div class="inline">
+                <p>City:</p><p>{{customer.shipping_details.city}}</p>
+            </div>
+            <div class="inline">
+                <p>State:</p><p>{{customer.shipping_details.state}}</p>
+            </div>
+            <div class="inline">
+                <p>ZIP:</p><p>{{customer.shipping_details.zip}}</p>
+            </div>
+            <div class="inline">
+                <p>Country:</p><p>{{customer.shipping_details.country}}</p>
+            </div>
+        </div>
+        <div class="separate">
+            <h2>Contact Information</h2>
+            <div class="inline">
+                <p>Preferred Contact Medium:</p>
+                <p>
+                    {{#if (neq customer.contact_information.preferred_contact_medium "Other")}}
+                        {{#if customer.contact_information.preferred_contact_medium}}{{customer.contact_information.preferred_contact_medium}}{{/if}}
+                    {{/if}}
+                    {{#if customer.contact_information.other_option_response}}{{customer.contact_information.other_option_response}}{{/if}}
+                </p>
+            </div>
+            {{#if customer.contact_information.contact_medium_username}}
+                <div class="inline">
+                    <p>Contact Medium Username:</p><p>{{customer.contact_information.contact_medium_username}}</p>
+                </div>
+            {{/if}}
+        </div>
+    </div>
+</div>

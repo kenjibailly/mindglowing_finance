@@ -136,12 +136,3 @@ ul li {
 .hidden {
   display: none;
 }
-
-
-.inline {
-  display: flex;
-}
-
-.inline > p:first-child {
-  margin-right: 10px;
-}

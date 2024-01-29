@@ -12,15 +12,17 @@
     <form action="/projects/delete/{{project._id}}/" method="post">
         <button type="submit">Delete</button>
     </form>
-    
-    <div class="inline">
-        <p>Name:</p><p>{{project.name}}</p>
-    </div>
-    <div class="inline">
-        <p>Customer:</p><p>{{project.customer.first_name}} {{project.customer.last_name}}</p>
-    </div>
-    <div class="inline">
-        <p>Description:</p><p>{{project.description}}</p>
+
+    <div class="overview separate">
+        <div class="inline">
+            <p>Name:</p><p>{{project.name}}</p>
+        </div>
+        <div class="inline">
+            <p>Customer:</p><a class="link" href="/customers/customer/{{project.customer_id}}"><p>{{project.customer.first_name}} {{project.customer.last_name}}</p></a>
+        </div>
+        <div class="inline">
+            <p>Description:</p><p>{{project.description}}</p>
+        </div>
     </div>
 
     <form action="/projects/time-tracking/start/{{project._id}}/" method="post">

@@ -35,38 +35,40 @@ router.post('/', authenticateToken, async (req, res) => {
       'personal_information.email': email,
       'personal_information.company': company,
       'personal_information.currency': currency,
-      'shipping_details.street': shipping_street,
-      'shipping_details.street2': shipping_street2,
-      'shipping_details.city': shipping_city,
-      'shipping_details.state': shipping_state,
-      'shipping_details.zip': shipping_zip,
-      'shipping_details.country': shipping_country,
       'billing_details.street': billing_street,
       'billing_details.street2': billing_street2,
       'billing_details.city': billing_city,
       'billing_details.state': billing_state,
       'billing_details.zip': billing_zip,
       'billing_details.country': billing_country,
+      'shipping_details.street': shipping_street,
+      'shipping_details.street2': shipping_street2,
+      'shipping_details.city': shipping_city,
+      'shipping_details.state': shipping_state,
+      'shipping_details.zip': shipping_zip,
+      'shipping_details.country': shipping_country,
       'contact_information.preferred_contact_medium': preferred_contact_medium,
       'contact_information.preferred_contact_medium.other_option_response': other_option_response,
       'contact_information.contact_medium_username': contact_medium_username,
     } = req.body;
+
+    console.log(billing_street)
   
     // Check if billing details are empty, if so, use shipping details
-    const billingInfo = isEmptyBillingDetails(req.body) ? {
-      street: shipping_street,
-      street2: shipping_street2,
-      city: shipping_city,
-      state: shipping_state,
-      zip: shipping_zip,
-      country: shipping_country,
-    } : {
+    const shippingInfo = isEmptyShippinggDetails(req.body) ? {
       street: billing_street,
       street2: billing_street2,
       city: billing_city,
       state: billing_state,
       zip: billing_zip,
       country: billing_country,
+    } : {
+      street: shipping_street,
+      street2: shipping_street2,
+      city: shipping_city,
+      state: shipping_state,
+      zip: shipping_zip,
+      country: shipping_country,
     };
 
     const currency_name = currency.split(' ')[0];
@@ -82,15 +84,15 @@ router.post('/', authenticateToken, async (req, res) => {
         currency_name,
         currency_symbol,
       },
-      shipping_details: {
-        street: shipping_street,
-        street2: shipping_street2,
-        city: shipping_city,
-        state: shipping_state,
-        zip: shipping_zip,
-        country: shipping_country,
+      billing_details: {
+        street: billing_street,
+        street2: billing_street2,
+        city: billing_city,
+        state: billing_state,
+        zip: billing_zip,
+        country: billing_country,
       },
-      billing_details: billingInfo,
+      shipping_details: shippingInfo,
       contact_information: {
         preferred_contact_medium,
         other_option_response: other_option_response,
@@ -116,18 +118,18 @@ router.post('/', authenticateToken, async (req, res) => {
     }
   });
   
-  // Helper function to check if billing details are empty
-  function isEmptyBillingDetails(body) {
-    const billingDetailsKeys = [
-      'billing_details.street',
-      'billing_details.street2',
-      'billing_details.city',
-      'billing_details.state',
-      'billing_details.zip',
-      'billing_details.country',
+  // Helper function to check if shipping details are empty
+  function isEmptyShippinggDetails(body) {
+    const shippingDetailsKeys = [
+      'shipping_details.street',
+      'shipping_details.street2',
+      'shipping_details.city',
+      'shipping_details.state',
+      'shipping_details.zip',
+      'shipping_details.country',
     ];
   
-    return billingDetailsKeys.every(key => !body[key] || body[key] === 'undefined');
+    return shippingDetailsKeys.every(key => !body[key] || body[key] === 'undefined');
   }
 
 module.exports = router;

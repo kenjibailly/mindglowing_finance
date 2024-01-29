@@ -1,0 +1,11 @@
+.overview p:first-child {
+    color: var(--purple-color-light2);
+    display: block;
+    font-family: poppinsmedium;
+    margin: 10px 0 5px;
+    margin-right: 10px;
+}
+
+.inline {
+    display: flex;
+}  
