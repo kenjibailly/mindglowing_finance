@@ -32,46 +32,48 @@
                 <p>Currency:</p><p>{{customer.personal_information.currency_name}} ({{customer.personal_information.currency_symbol}})</p>
             </div>
         </div>
-        <div class="separate">
-            <h2>Billing Details:</h2>
-            <div class="inline">
-                <p>Street:</p><p>{{customer.billing_details.street}}</p>
+        <div class="inline">
+            <div class="separate half">
+                <h2>Billing Details:</h2>
+                <div class="inline">
+                    <p>Street:</p><p>{{customer.billing_details.street}}</p>
+                </div>
+                <div class="inline">
+                    <p>Street 2:</p><p>{{customer.billing_details.street2}}</p>
+                </div>
+                <div class="inline">
+                    <p>City:</p><p>{{customer.billing_details.city}}</p>
+                </div>
+                <div class="inline">
+                    <p>State:</p><p>{{customer.billing_details.state}}</p>
+                </div>
+                <div class="inline">
+                    <p>ZIP:</p><p>{{customer.billing_details.zip}}</p>
+                </div>
+                <div class="inline">
+                    <p>Country:</p><p>{{customer.billing_details.country}}</p>
+                </div>
             </div>
-            <div class="inline">
-                <p>Street 2:</p><p>{{customer.billing_details.street2}}</p>
-            </div>
-            <div class="inline">
-                <p>City:</p><p>{{customer.billing_details.city}}</p>
-            </div>
-            <div class="inline">
-                <p>State:</p><p>{{customer.billing_details.state}}</p>
-            </div>
-            <div class="inline">
-                <p>ZIP:</p><p>{{customer.billing_details.zip}}</p>
-            </div>
-            <div class="inline">
-                <p>Country:</p><p>{{customer.billing_details.country}}</p>
-            </div>
-        </div>
-        <div class="separate">
-            <h2>Shipping Details:</h2>
-            <div class="inline">
-                <p>Street:</p><p>{{customer.shipping_details.street}}</p>
-            </div>
-            <div class="inline">
-                <p>Street 2:</p><p>{{customer.shipping_details.street2}}</p>
-            </div>
-            <div class="inline">
-                <p>City:</p><p>{{customer.shipping_details.city}}</p>
-            </div>
-            <div class="inline">
-                <p>State:</p><p>{{customer.shipping_details.state}}</p>
-            </div>
-            <div class="inline">
-                <p>ZIP:</p><p>{{customer.shipping_details.zip}}</p>
-            </div>
-            <div class="inline">
-                <p>Country:</p><p>{{customer.shipping_details.country}}</p>
+            <div class="separate half">
+                <h2>Shipping Details:</h2>
+                <div class="inline">
+                    <p>Street:</p><p>{{customer.shipping_details.street}}</p>
+                </div>
+                <div class="inline">
+                    <p>Street 2:</p><p>{{customer.shipping_details.street2}}</p>
+                </div>
+                <div class="inline">
+                    <p>City:</p><p>{{customer.shipping_details.city}}</p>
+                </div>
+                <div class="inline">
+                    <p>State:</p><p>{{customer.shipping_details.state}}</p>
+                </div>
+                <div class="inline">
+                    <p>ZIP:</p><p>{{customer.shipping_details.zip}}</p>
+                </div>
+                <div class="inline">
+                    <p>Country:</p><p>{{customer.shipping_details.country}}</p>
+                </div>
             </div>
         </div>
         <div class="separate">

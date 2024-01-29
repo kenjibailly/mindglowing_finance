@@ -136,3 +136,11 @@ ul li {
 .hidden {
   display: none;
 }
+
+.half {
+  width: 50%;
+}
+
+.inline .half:first-child {
+  margin-right: 20px;
+}

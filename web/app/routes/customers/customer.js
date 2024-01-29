@@ -1,12 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const Project = require('../../models/project');
 const Customer = require('../../models/customer');
 const User = require('../../models/user');
-const Customization = require('../../models/customization');
 const authenticateToken = require('../security/authenticate');
-const formatDateTime = require('../formatters/date_time_formatter');
-const paginateArray = require('../pagination/pagination');
 
 // Get the project page by id
 router.get('/:id', authenticateToken, async function(req, res, next) {
@@ -32,7 +28,7 @@ router.get('/:id', authenticateToken, async function(req, res, next) {
           customer: customer, 
           access_token_expiry: process.env.ACCESS_TOKEN_EXPIRY_IN_SECONDS, 
           user_settings: user_settings, 
-          site_title: 'Project',
+          site_title: 'Customer',
         });
       } catch (error) {
         console.error(error);
