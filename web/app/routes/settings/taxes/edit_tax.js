@@ -42,14 +42,26 @@ router.get('/:id', authenticateToken, async function(req, res, next) {
         const { 
             tax_name, 
             tax_percentage, 
+            tax_default,
             tax_description 
         } = req.body;
+
+        // Convert the string value to a boolean
+        const isTaxDefault = tax_default === 'on';
   
         // Find the old tax
         const old_tax = await Tax.findById(tax_id);
   
         if (!old_tax) {
             return res.status(404).send('Tax not found');
+        }
+
+        // Check if there is another tax with default set to true
+        if (isTaxDefault) {
+            const existingDefaultTax = await Tax.findOne({ default: true });
+            if (existingDefaultTax && existingDefaultTax._id.toString() !== tax_id) {
+                return res.redirect('/settings/taxes/edit/' + tax_id + '?success=Another tax already has a default set');
+            }
         }
   
         // Update the tax in the database
@@ -58,6 +70,7 @@ router.get('/:id', authenticateToken, async function(req, res, next) {
             { $set: { 
                 name: tax_name,
                 percentage: tax_percentage,
+                default: isTaxDefault,
                 description: tax_description 
             }},
             { new: true }

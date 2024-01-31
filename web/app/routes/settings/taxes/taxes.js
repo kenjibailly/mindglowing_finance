@@ -19,12 +19,14 @@ router.get('/', authenticateToken, async function(req, res, next) {
 
     // Find the taxes
     const taxes = await Tax.find();
-    
+    // Check if success is true in the url
+    const success = req.query.success;
     // Render the create payment method page
     res.render('settings/taxes/taxes', { 
       user: user_settings, 
       access_token_expiry: process.env.ACCESS_TOKEN_EXPIRY_IN_SECONDS, 
       taxes: taxes,
+      success: success,
       site_title: 'Taxes',
     });
 

@@ -243,7 +243,10 @@ function changeInvoice () {
     }
 
     // Get the shipping amount
-    const shipping_amount = document.querySelector('#shipping_amount').value;
+    var shipping_amount = 0;
+    if(document.querySelector('#shipping_amount').value) {
+        shipping_amount = parseFloat(document.querySelector('#shipping_amount').value);
+    }
 
     // Get the paid amounts
     const paid_amounts = [];
@@ -260,8 +263,8 @@ function changeInvoice () {
     const discount_amounts_total = discount_totals.reduce((sum, total) => sum + parseFloat(total),0);
     const discount_amounts_percentage = discount_percentages.reduce((sum, percentage) => sum + parseFloat(percentage),0);
     const discounts_total = (product_total / 100 * discount_amounts_percentage) + discount_amounts_total;
-    const tax_amount = (product_total + parseFloat(shipping_amount)) / 100 * parseFloat(tax_percentage);
-    const amount_total = product_total - discounts_total + parseFloat(shipping_amount) + tax_amount;
+    const tax_amount = (product_total + shipping_amount) / 100 * parseFloat(tax_percentage);
+    const amount_total = product_total - discounts_total + shipping_amount + tax_amount;
     const paid_total = paid_amounts.reduce((sum, amount) => sum + (parseFloat(amount) || 0), 0);
     const amount_due = (paid_total > amount_total) ? 0 : (amount_total - paid_total);
     

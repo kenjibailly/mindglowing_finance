@@ -34,8 +34,8 @@
                         </td>
                         <td><a class="link" href="/settings/discounts/edit/{{_id}}">{{name}}</a></td>
                         <td>{{code}}</td>
-                        <td>{{amount.total}}</td>
-                        <td>{{amount.percentage}}</td>
+                        <td>{{../user.currency_symbol}} {{amount.total}}</td>
+                        <td>{{amount.percentage}}%</td>
                         <td>{{description}}</td>
                     </tr>
                 {{/each}}

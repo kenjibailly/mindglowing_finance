@@ -6,7 +6,11 @@
 
 <div class="settings-wrapper">
     <a class="link" href="/settings/taxes/create/">Create Tax</a>
-
+    {{#if (eq success "true")}}
+        <div class="alert alert-success" role="alert">
+            Tax successfully added!
+        </div>
+    {{/if}}
     <button onclick="deleteSelectedTaxes()" type="submit">Delete</button>
     <div class="taxes table">
         <table>

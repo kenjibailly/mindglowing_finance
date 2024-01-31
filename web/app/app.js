@@ -39,8 +39,10 @@ const deleteProductRouter = require('./routes/products/delete_product');
 const deleteSelectedProductsRouter = require('./routes/products/delete_selected_products');
 
 const invoicesRouter = require('./routes/invoices/invoices');
+const invoiceRouter = require('./routes/invoices/invoice');
 const createInvoiceRouter = require('./routes/invoices/create_invoice');
 const editInvoiceRouter = require('./routes/invoices/edit_invoice');
+const deleteInvoiceRouter = require('./routes/invoices/delete_invoice');
 const deleteSelectedInvoicesRouter = require('./routes/invoices/delete_selected_invoices');
 
 const settingsRouter = require('./routes/settings/account/account');
@@ -185,8 +187,10 @@ app.use('/products/delete/', deleteProductRouter);
 app.use('/products/delete-selected/', deleteSelectedProductsRouter);
 
 app.use('/invoices/', invoicesRouter);
+app.use('/invoices/invoice/', invoiceRouter);
 app.use('/invoices/create/', createInvoiceRouter);
 app.use('/invoices/edit/', editInvoiceRouter);
+app.use('/invoices/delete/', deleteInvoiceRouter);
 app.use('/invoices/delete-selected', deleteSelectedInvoicesRouter)
 
 app.use('/settings/account', settingsRouter);

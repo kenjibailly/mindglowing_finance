@@ -73,10 +73,10 @@
         <div class="separate">
             <label class="data-list-label" for="tax">Tax:</label>
             <div class="data-list">
-                <input list="" name="tax_id" class="data-list-input" id="tax" autocomplete="off" data-datalist-id="tax-datalist">
+                <input list="" name="tax_id" class="data-list-input" id="tax" autocomplete="off" data-datalist-id="tax-datalist" value="{{defaultTax.name}}">
                 <datalist name="tax_id" class="data-list-datalist" id="tax-datalist">
                     {{#each taxes}}
-                        <option value="{{name}}" data-id="{{_id}}" data-percentage="{{percentage}}">{{name}}</option>
+                        <option {{#if default}}class="selected"{{/if}} value="{{name}}" data-id="{{_id}}" data-percentage="{{percentage}}">{{name}}</option>
                     {{/each}}
                 </datalist>
             </div>

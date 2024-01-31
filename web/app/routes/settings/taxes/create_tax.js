@@ -17,11 +17,13 @@ router.get('/', authenticateToken, async function(req, res, next) {
 
     // Use the find method to get the user settings
     const user_settings = await User.findOne({ username: user.username });
-    
+    // Check if success is true in the url
+    const success = req.query.success;
     // Render the create tax page
     res.render('settings/taxes/create_tax', { 
         user: user_settings, 
         access_token_expiry: process.env.ACCESS_TOKEN_EXPIRY_IN_SECONDS,
+        success: success,
         site_title: 'Create Tax',
     });
 
@@ -33,20 +35,33 @@ router.post('/', authenticateToken, async (req, res) => {
     const { 
         tax_name, 
         tax_percentage, 
+        tax_default,
         tax_description 
     } = req.body;
+
+    // Convert the string value to a boolean
+    const isTaxDefault = tax_default === 'on';
+
+    // Check if there is another tax with default set to true
+    if (isTaxDefault) {
+        const existingDefaultTax = await Tax.findOne({ default: true });
+        if (existingDefaultTax) {
+            return res.redirect('/settings/taxes/create/?success=Another tax already has a default set');
+        }
+    }
 
     // Create a new tax instance with the form details
     const newTax = new Tax({
         name: tax_name,
         percentage: tax_percentage,
+        default: isTaxDefault,
         description: tax_description,
     });
 
     try {
         // Save the tax to the database
         const savedTax = await newTax.save();
-        res.redirect('/settings/taxes/');
+        res.redirect('/settings/taxes/?success=true');
     } catch (error) {
         console.error(error);
 

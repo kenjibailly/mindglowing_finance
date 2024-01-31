@@ -7,6 +7,12 @@
 <div class="settings-wrapper">
     <a class="link" href="/settings/taxes/">Taxes</a>
 
+    {{#if (neq success "true")}}
+        <div class="alert alert-success" role="alert">
+            {{success}}
+        </div>
+    {{/if}}
+
     <form action="/settings/taxes/create" method="post">
         <div class="separate">
             <label for="tax_name">Name:</label>
@@ -14,6 +20,11 @@
 
             <label for="tax_percentage">Percentage:</label>
             <input type="number" id="tax_percentage" name="tax_percentage" required>
+
+            <label for="tax_default">Default:</label>
+            <label class="checkbox">
+                <input  type="checkbox" id="tax_default" name="tax_default" onchange="checkAllBoxes(this)"> 
+            </label>
 
             <label for="tax_description">Description:</label>
             <textarea type="text" id="tax_description" name="tax_description"></textarea>

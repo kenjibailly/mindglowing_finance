@@ -5,7 +5,7 @@ const invoiceSchema = new mongoose.Schema({
     number: { type: Number, required: true, unique: true },
     customer_id: String,
     status: String,
-    items: [{
+    products: [{
         id: String,
         quantity: Number,
     }],
@@ -33,10 +33,7 @@ const invoiceSchema = new mongoose.Schema({
             default: Date.now,
         },
         paid_amount: Number,
-        payment_method: {
-            id: String,
-            custom_name: String,
-        },
+        payment_method_id: String,
         paid: Boolean,
     }],
     amount_total: Number,
