@@ -12,6 +12,8 @@ const paginateArray = require('../pagination/pagination');
 router.get('/:id', authenticateToken, async function(req, res, next) {
     // Get the session user that's logged in
     const user = req.session.user;
+    // Get the project id
+    const project_id = req.params.id;
     // If the user is logged in
       if(!user) {
           // Render the login page
@@ -19,15 +21,20 @@ router.get('/:id', authenticateToken, async function(req, res, next) {
       }
       try {
         // Use the find method to get project by id
-        const project = await Project.findById(req.params.id);
+        const project = await Project.findById(project_id);
         const customer = await Customer.findOne({ _id: project.customer_id });
         // Add the customer info to the project
         if (customer) {
+          var customer_name;
+          // Add customer information to the invoice
+          if (customer.personal_information.company) {
+            customer_name = customer.personal_information.company;
+          } else {
+            customer_name = customer.personal_information.first_name + " " + customer.personal_information.last_name;
+          }
           // Access customer information and add it to the project object
           project.customer = {
-            first_name: customer.personal_information.first_name,
-            last_name: customer.personal_information.last_name,
-            // Add other customer details as needed
+            name: customer_name,
           };
         }
 
@@ -52,7 +59,16 @@ router.get('/:id', authenticateToken, async function(req, res, next) {
               stop: stop,
               timePassed: formatTime(timePassed),
           };
-        })
+        });
+
+        // Calculate the total time passed of all the time tracking
+        // Calculate total seconds
+        const totalSeconds = timeTrackingArray.reduce((total, entry) => {
+          const [hours, minutes, seconds] = entry.timePassed.split(':').map(Number);
+          return total + hours * 3600 + minutes * 60 + seconds;
+        }, 0);
+        // Use your formatTime function to get the formatted result
+        const totalTimePassed = formatTime(totalSeconds);
 
         // Use the find method to get the customization settings
         const customization = await Customization.findOne();
@@ -64,6 +80,8 @@ router.get('/:id', authenticateToken, async function(req, res, next) {
         res.render('projects/project', { 
           user: user_settings, 
           project: project, 
+          totalTimePassed: totalTimePassed,
+          customization: customization,
           timeTracking: pageItems,
           currentPage: currentPage,
           totalPages: totalPages,

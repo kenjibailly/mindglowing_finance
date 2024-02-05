@@ -9,6 +9,7 @@ const Products = require('../../models/product');
 const Tax = require('../../models/tax');
 const Customization = require('../../models/customization');
 const User = require('../../models/user');
+const Project = require('../../models/project');
 const authenticateToken = require('../security/authenticate');
 const formatDateToServerTimezone = require('../formatters/date_server_time_zone');
 
@@ -55,6 +56,10 @@ router.get('/', authenticateToken, async function(req, res, next) {
 
     // Use the find method to get the user settings
     const user_settings = await User.findOne({ username: user.username });
+
+    // // Use the find method to get the projects of the customer
+    // const projects = await Project.find({customer_id: customer_id});
+    // console.log(projects);
 
     // Render the create invoices page
     res.render('invoices/create_invoice', { 
@@ -231,6 +236,32 @@ router.post('/', authenticateToken, async (req, res) => {
         res.status(500).json({ message: 'Internal Server Error' });
       }
     }
-  });
+});
+
+/* GET /invoices/create/projects. */
+router.get('/projects/:id', authenticateToken, async function(req, res, next) {
+  // Get the session user that's logged in
+  const user = req.session.user;
+  // If the user is logged in
+  if(!user) {
+      // Render the login page
+      return res.redirect('/login');
+  }
+
+  const customer_id = req.params.id;
+  try {
+      const projects = await Project.find({ customer_id: customer_id });
+      projects.forEach(project => {
+        console.log(project.timeTracking);
+      });
+
+      // Send the projects as a JSON response
+      res.json(projects);
+  } catch (error) {
+      console.error('Error:', error);
+      // Handle errors and send an appropriate response
+      res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 
 module.exports = router;

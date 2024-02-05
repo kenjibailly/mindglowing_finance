@@ -38,8 +38,11 @@ router.get('/', authenticateToken, async function(req, res, next) {
     
       if (customer_details) {
         // Add customer information to the invoice
-        invoice.first_name = customer_details.personal_information.first_name;
-        invoice.last_name = customer_details.personal_information.last_name;
+        if (customer_details.personal_information.company) {
+          invoice.name = customer_details.personal_information.company;
+        } else {
+          invoice.name = customer_details.personal_information.first_name + " " + customer_details.personal_information.last_name;
+        }
       }
     
       return invoice;

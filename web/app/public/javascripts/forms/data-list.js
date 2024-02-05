@@ -4,7 +4,6 @@ function getDataLists() {
 
     // Get all elements with class "data-list"
     dataLists = document.querySelectorAll('.data-list');
-
     // Iterate over each data list
     dataLists.forEach(dataList => {
         createDataList(dataList);
@@ -42,22 +41,7 @@ function createDataList(dataList) {
         input.style.borderRadius = "5px 5px 0 0";
     };
 
-    // Click event for datalist options
-    for (let option of datalist.options) {
-        option.onclick = function () {
-            input.value = option.value;
-            datalist.style.display = 'none';
-            input.style.borderRadius = "5px";
-            // Add a selected class to the option selected and remove the previous one if there is any
-            const selectedOption = option.parentNode.querySelector('.selected');
-            if(selectedOption) {
-                selectedOption.classList.remove('selected');
-            }
-            option.classList.add('selected');
-            // Trigger the invoice change
-            triggerInvoiceChange();
-        }
-    };
+    clickOptions(input, datalist);
 
     // Initialize the currentFocus
     var currentFocus = -1;
@@ -111,7 +95,7 @@ function createDataList(dataList) {
                     selectedOption.classList.remove('selected');
                 }
                 activeOption.classList.add('selected');
-                triggerInvoiceChange();
+                triggerInvoiceChange(activeOption);
             }
         } else if (e.keyCode == 8) {
             // Backspace key pressed
@@ -148,9 +132,28 @@ function getCurrentFocus(datalist) {
 }
 
 // Trigger the change on the invoice page, this is to change the shipping, vat, discount and total values
-function triggerInvoiceChange() {
+function triggerInvoiceChange(option) {
     const invoicePage = document.querySelector(".create-invoice");
     if(invoicePage) {
-        changeInvoice();
+        changeInvoice(option);
     }
+}
+
+function clickOptions(input, datalist) {
+    // Click event for datalist options
+    for (let option of datalist.options) {
+        option.onclick = function () {
+            input.value = option.value;
+            datalist.style.display = 'none';
+            input.style.borderRadius = "5px";
+            // Add a selected class to the option selected and remove the previous one if there is any
+            const selectedOption = option.parentNode.querySelector('.selected');
+            if(selectedOption) {
+                selectedOption.classList.remove('selected');
+            }
+            option.classList.add('selected');
+            // Trigger the invoice change
+            triggerInvoiceChange(option);
+        }
+    };
 }

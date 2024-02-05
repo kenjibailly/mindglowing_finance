@@ -188,7 +188,14 @@ if (invoiceForm) {
 
 
 // Update the invoice totals
-function changeInvoice () {
+function changeInvoice (option) {
+
+    // If the customer option has been selected then we need to search for the projects which match the customer
+    if (option.classList.contains('customer-option')) {
+        // Execute your code here
+        getProjects(option);
+    }
+
     const selectedOptions = document.querySelectorAll('.selected');
 
     // Get the product prices
@@ -286,4 +293,66 @@ function changeInvoice () {
     if (!isNaN(amount_due)) {
          document.querySelector('.amount_due').innerHTML = amount_due;
     }
+}
+
+
+
+function getProjects(option) {
+    // Get the selected customer id
+    const selectedCustomerId = option.dataset.id;
+    // Send a GET request with the selected data-ids
+    fetch(`/invoices/create/projects/${selectedCustomerId}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+    .then(response => {
+        // Check if the response status is OK
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        // Parse the JSON response
+        return response.json();
+    })
+    .then(response => {
+        // Get the projects response
+        const projects = response;
+
+        // Get the project billing div
+        const projectBilling = document.querySelector('.project-billing');
+
+        // If the projects array isn't empty then remove the hidden class from the project billing div
+        // When selecting another option where the projects are empty then add the hidden class again
+        if (projects.length > 0) {
+            projectBilling.classList.remove('hidden');
+        } else {
+            projectBilling.classList.add('hidden');
+        }
+
+        const input = document.getElementById('project');
+        const datalist = document.getElementById('project-datalist');
+
+        // Get the project input field
+        const projectInput = document.getElementById('project');
+        const projectDataList = document.getElementById('project-datalist');
+        
+        // Clear existing options
+        projectInput.innerHTML = '';
+        projectDataList.innerHTML = '';
+
+        // Populate the datalist with the fetched projects
+        projects.forEach(project => {
+            const option = document.createElement('option');
+            option.value = project.name;
+            option.innerHTML = project.name;
+            option.setAttribute('data-id', project._id);
+            projectDataList.appendChild(option);
+        });
+        clickOptions(input, datalist);
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
 }

@@ -8,8 +8,6 @@ router.post('/', authenticateToken, async (req, res) => {
     try {
         // Extract selected IDs from the request body
         const selectedIds = req.body.selectedIds;
-
-        console.log(selectedIds);
   
         // Delete the selected projects in the database
         const result = await Project.deleteMany({ _id: { $in: selectedIds } });

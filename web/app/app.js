@@ -81,6 +81,7 @@ const deleteSelectedProjectsRouter = require('./routes/projects/delete_selected_
 const timeTrackingRouter = require('./routes/projects/time_tracking/time_tracking');
 const startTimeTrackingRouter = require('./routes/projects/time_tracking/start_time_tracking');
 const stopTimeTrackingRouter = require('./routes/projects/time_tracking/stop_time_tracking');
+const deleteSelectedTimeTrackingsRouter = require('./routes/projects/time_tracking/delete_selected_time_trackings');
 
 const customizationRouter = require('./routes/settings/customization/customization');
 
@@ -230,6 +231,7 @@ app.use('/projects/delete-selected/', deleteSelectedProjectsRouter);
 app.use('/projects/time-tracking/', timeTrackingRouter);
 app.use('/projects/time-tracking/start', startTimeTrackingRouter);
 app.use('/projects/time-tracking/stop', stopTimeTrackingRouter);
+app.use('/projects/time-tracking/delete-selected', deleteSelectedTimeTrackingsRouter);
 
 
 app.use('/settings/customization/', customizationRouter);

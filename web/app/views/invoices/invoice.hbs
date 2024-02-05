@@ -15,7 +15,8 @@
                 <p>Number:</p><p>{{customization.invoice_prefix}}{{customization.invoice_separator}}{{invoice.number}}</p>
             </div>
             <div class="inline">
-                <p>Customer:</p><a href="/customers/customer/{{customer._id}}"><p>{{customer.personal_information.first_name}} {{customer.personal_information.last_name}}</p></a>
+                <p>Customer:</p><a href="/customers/customer/{{customer._id}}">
+                <p>{{#if customer.personal_information.company}}{{customer.personal_information.company}}{{else}}{{customer.personal_information.first_name}} {{customer.personal_information.last_name}}{{/if}}</p></a>
             </div>
         </div>
         <div class="separate">

@@ -18,7 +18,7 @@
             <p>Name:</p><p>{{project.name}}</p>
         </div>
         <div class="inline">
-            <p>Customer:</p><a class="link" href="/customers/customer/{{project.customer_id}}"><p>{{project.customer.first_name}} {{project.customer.last_name}}</p></a>
+            <p>Customer:</p><a class="link" href="/customers/customer/{{project.customer_id}}"><p>{{project.customer.name}}</p></a>
         </div>
         <div class="inline">
             <p>Description:</p><p>{{project.description}}</p>
@@ -35,8 +35,13 @@
         <button type="submit" class="time-tracking-stop hidden">Stop</button>
     </form>
 
-    <button onclick="deleteSelectedTimeTrackings()" type="submit">Delete</button>
+    <button onclick="deleteSelectedTimeTrackings('{{project._id}}')" type="submit">Delete</button>
     <div class="time-tracking table">
+        <div class="overview separate">
+            <div class="inline">
+                <p>Total Time:</p><p class="total-time-passed">{{totalTimePassed}}</p>
+            </div>
+        </div>
         <table>
             <thead>
                 <tr>
