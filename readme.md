@@ -1,10 +1,10 @@
-# 👔 Mind Glowing Finance
+# 👔 ${\textsf{\color{cornflowerblue}Mind Glowing Finance}}$
 
 Mind Glowing Finance is a CRM platform created for small businesses / freelancers. 
 
 ❗🚧 The platform is currently in development and is not finished.
 
-# 💾 Installation
+# 💾 ${\textsf{\color{lightgreen}Installation}}$
 
 1. Clone the repository
 
@@ -26,13 +26,13 @@ cp .env.example .env
 docker-compose up -d
 ```
 
-# ⭐ Features
+# ⭐ ${\textsf{\color{yellow}Features}}$
 
-## Dashboard
+## ${\textsf{\color{indianred}Dashboard}}$
 
 🚧 Currently in development, only placeholders at the moment
 
-## 🛠️ Settings
+## 🛠️ ${\textsf{\color{indianred}Settings}}$
 <details>
 
 <summary>🛠️ Settings</summary>
@@ -95,7 +95,7 @@ Create a tax with the following fields:
 
 </details>
 
-## 🧑‍🤝‍🧑 Customers
+## 🧑‍🤝‍🧑 ${\textsf{\color{indianred}Customers}}$
 
 <details>
 
@@ -143,7 +143,7 @@ Create a tax with the following fields:
 
 </details>
 
-## 📦 Products
+## 📦 ${\textsf{\color{indianred}Products}}$
 
 <details>
 
@@ -167,7 +167,7 @@ Create a tax with the following fields:
 
 </details>
 
-## 📃 Invoices
+## 📃 ${\textsf{\color{indianred}Invoices}}$
 
 <details>
 
@@ -207,7 +207,7 @@ Create a tax with the following fields:
 </details>
 
 
-## 📋 Estimates
+## 📋 ${\textsf{\color{indianred}Estimates}}$
 
 <details>
 
@@ -242,7 +242,7 @@ Create a tax with the following fields:
 
 </details>
 
-## 🗂️ Projects
+## 🗂️ ${\textsf{\color{indianred}Projects}}$
 
 Create a project and use time tracking to bill this to the client.
 
@@ -267,7 +267,7 @@ Create a project and use time tracking to bill this to the client.
 
 </details>
 
-### ⏱️ Time Tracking
+### ⏱️ ${\textsf{\color{orange}Time Tracking}}$
 
 Tracks your time, create a name and start tracking your time
 
@@ -292,7 +292,7 @@ Tracks your time, create a name and start tracking your time
 
 </details>
 
-## 🔍 Search
+## 🔍 ${\textsf{\color{indianred}Search}}$
 
 <details>
 
@@ -322,11 +322,11 @@ Tracks your time, create a name and start tracking your time
 
 </details>
 
-## 🔮 Plans
+## 🔮 ${\textsf{\color{indianred}Plans}}$
 
 - ❌ Create API functionality
 
-## 👷 Personal Development General ToDo
+## 👷 ${\textsf{\color{indianred}Personal Development General ToDo}}$
 
 - ❌ Check success alerts
 - ❌ CSS styling
