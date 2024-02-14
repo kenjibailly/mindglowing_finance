@@ -32,6 +32,9 @@ docker-compose up -d
 Currently in development, only placeholders at the moment
 
 ## Settings
+<details>
+
+<summary>Settings</summary>
 
 ### Account
 
@@ -55,7 +58,7 @@ Currently in development, only placeholders at the moment
 - [x] Invoice Separator
 - [x] Estimate Prefix
 - [x] Estimate Separator
-- [x] Products Per Page
+- [x] Items Per Page (pagination)
 
 ### Payment Methods
 
@@ -89,9 +92,14 @@ Create a tax with the following fields:
 - [x] Percentage
 - [x] Description
 
+</details>
+
 ## Customers
 
-Create a customer with the following fields:
+<details>
+
+<summary>Create a customer with the following fields:</summary>
+</br>
 
 **Personal Information:**
 - [x] First Name
@@ -121,38 +129,56 @@ Create a customer with the following fields:
     - Other 
 - [x] Contact Medium Username
 
-**Functions**
+</details>
+
+<details>
+
+<summary>Functions</summary>
 
 - [x] Create
 - [x] Edit
 - [x] Delete
 - [x] Delete Selected
 
+</details>
+
 ## Products
 
-Create an product with the following fields:
+<details>
+
+<summary>Create a product with the following fields:</summary>
 
 - [x] Picture
 - [x] Name
 - [x] Price
 - [x] Description
 
-**Functions**
+</details>
+
+<details>
+
+<summary>Functions</summary>
 
 - [x] Create
 - [x] Edit
 - [x] Delete
 - [x] Delete Selected
 
+</details>
+
 ## Invoices
 
-Create an invoice with the following fields:
+<details>
+
+<summary>Create an invoice with the following fields:</summary>
 
 - [x] Number
 - [x] Customer
 - [x] Product
 - [x] Quantity
 - [x] Option to add another product
+- [x] Add project
+- [x] Add project hour rate
 - [x] Discount
 - [x] Option to add another discount
 - [x] Tax
@@ -162,10 +188,13 @@ Create an invoice with the following fields:
 - [x] Paid Amount
 - [x] Payment Method
 - [x] Option to add another payment
-- [x] Add project time
 - [x] Description
 
-**Functions**
+</details>
+
+<details>
+
+<summary>Functions</summary>
 
 - [x] Create
 - [x] Delete
@@ -174,8 +203,34 @@ Create an invoice with the following fields:
 - [ ] Create a PDF
 - [ ] Send the PDF to the client using mailgun
 
+</details>
+
 
 ## Estimates
+
+<details>
+
+<summary>Create an estimate with the following fields:</summary>
+
+- [ ] Number
+- [ ] Customer
+- [ ] Product
+- [ ] Quantity
+- [ ] Option to add another product
+- [ ] Discount
+- [ ] Option to add another discount
+- [ ] Tax
+- [ ] Shipping Amount
+- [ ] Shipping Company
+- [ ] Project time
+- [ ] Project hour rate
+- [ ] Description
+
+</details>
+
+<details>
+
+<summary>Functions</summary>
 
 - [ ] Create
 - [ ] Edit
@@ -184,47 +239,64 @@ Create an invoice with the following fields:
 - [ ] Create a PDF
 - [ ] Send the PDF to the client using mailgun
 
+</details>
+
 ## Projects
 
 Create a project and use time tracking to bill this to the client.
 
-Create a project with the following fields:
+<details>
+
+<summary>Create a project with the following fields:</summary>
 
 - [x] Name
 - [x] Customer
 - [x] Description
 
-**Functions**
+</details>
+
+<details>
+
+<summary>Functions</summary>
 
 - [x] Create
 - [x] Edit
 - [x] Delete
 - [x] Delete Selected
 
+</details>
+
 ### Time Tracking
 
 Tracks your time, create a name and start tracking your time
 
-Create a time tracking with the following fields:
+<details>
+
+<summary>Create a time tracking with the following fields:</summary>
 
 - [x] Name
 - [x] Has start date and time
 - [x] Has stop date and time
 - [ ] Custom start/stop date and time input 
 
+</details>
 
-**Functions**
+<details>
+
+<summary>Functions</summary>
 
 - [x] Start
 - [x] Stop
 - [x] Delete Selected
 
+</details>
 
-## Other
+## Search
 
-### Search
+<details>
 
-Searches for the following in one search field:
+<summary>Searches for the following in one search field:</summary>
+</br>
 
 **Customers**
 
@@ -247,11 +319,7 @@ Searches for the following in one search field:
 - [x] Name
 - [x] Description
 
-
-### Pagination
-
-Change the pagination products per page in the customization settings
-
+</details>
 
 ## Plans
 
