@@ -1,0 +1,7 @@
+2024-02-06 11:32:42,680 CRIT Supervisor is running as root.  Privileges were not dropped because no user is specified in the config file.  If you intend to run as root, you can set user=root in the config file to avoid this message.
+2024-02-06 11:32:42,682 INFO supervisord started with pid 1
+2024-02-06 11:32:43,686 INFO spawned: 'gulp' with pid 8
+2024-02-06 11:32:43,689 INFO spawned: 'nodemon' with pid 9
+2024-02-06 11:32:44,717 INFO success: gulp entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2024-02-06 11:32:44,717 INFO success: nodemon entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2024-02-14 13:03:58,816 INFO reaped unknown pid 11428 (exit status 1)

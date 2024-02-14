@@ -18,7 +18,9 @@
                 <input list="" name="customer_id" id="customer_id" class="data-list-input" autocomplete="off"  data-datalist-id="customer_id-datalist">
                 <datalist name="customer_id" class="data-list-datalist" id="customer_id-datalist">
                     {{#each customers}}
-                        <option class="customer-option" value="{{personal_information.first_name}} {{personal_information.last_name}}" data-id="{{_id}}">{{personal_information.first_name}} {{personal_information.last_name}}</option>
+                        <option class="customer-option" value="{{#if personal_information.company}}{{personal_information.company}}{{else}}{{personal_information.first_name}} {{personal_information.last_name}}{{/if}}" data-id="{{_id}}">
+                            {{#if personal_information.company}}{{personal_information.company}}{{else}}{{personal_information.first_name}} {{personal_information.last_name}}{{/if}}
+                        </option>
                     {{/each}}
                 </datalist>
             </div>
@@ -39,13 +41,27 @@
                             </datalist>
                         </div>
                         <label for="product-quantity">Quantity:</label>
-                        <input class="product-quantity" type="number" name="product_quantities[]" id="product-quantity" value="1" oninput="changeInvoice()">
+                        <input class="product-quantity" type="number" name="product_quantities[]" id="product-quantity" value="1" oninput="changeInvoice(this)">
                     </div>
                 </div>
             </div>
 
             <!-- "+" button to add more elements -->
             <button type="button" class="addButton" onclick="addElement(this.parentElement)">Add Another Product</button>
+        </div>
+
+        {{!-- Projects --}}
+        <div class="project-billing separate hidden">
+            <label class="data-list-label" for="project">Bill Project:</label>
+            <div class="data-list">
+                <input list="" name="project_id" class="data-list-input" id="project" autocomplete="off" data-datalist-id="project-datalist">
+                <datalist name="project_id" class="data-list-datalist" id="project-datalist">
+                </datalist>
+            </div>
+            <label class="data-list-label" for="project_hour_rate">Hour Rate:</label>
+            <div class='full-input'><label for='price'>{{user.currency_symbol}}</label>
+                <input type="number" name="project_hour_rate_id" class="data-list-input" id="project_hour_rate" autocomplete="off" data-datalist-id="project-hour-rate-datalist" step="1" oninput="updatePriceWithProject(this)">
+            </div>
         </div>
 
         {{!-- Discount --}}
@@ -56,7 +72,7 @@
                         <label class="data-list-label" for="discount">Discount:</label>
                         <div class="data-list">
                             <input list="" name="discount_ids[]" class="data-list-input" id="discount" autocomplete="off" data-datalist-id="discount-datalist">
-                            <datalist name="discount_id" class="data-list-datalist" id="discount-datalist">
+                            <datalist name="discount_id" class="data-list-datalist discount-data-list" id="discount-datalist">
                                 {{#each discounts}}
                                     <option value="{{name}}" data-id="{{_id}}" data-amount-total="{{amount.total}}" data-amount-percentage="{{amount.percentage}}">{{name}}</option>
                                 {{/each}}
@@ -80,9 +96,12 @@
                     {{/each}}
                 </datalist>
             </div>
+        </div>
 
+        {{!-- Shipping --}}
+        <div class="separate">
             <label for="shipping_amount">Shipping Amount:</label>
-            <input type="number" name="shipping_amount" id="shipping_amount" oninput="changeInvoice()">
+            <input type="number" name="shipping_amount" id="shipping_amount" oninput="changeInvoice(this)">
 
             <label class="data-list-label" for="shipping_company">Shipping Company:</label>
             <div class="data-list">
@@ -104,7 +123,7 @@
                         <input type="date" id="paid_on" name="paid_on[]" >
 
                         <label for="paid_amount">Paid Amount:</label>
-                        <input class="paid-amount" type="number" step="0.01" id="paid_amount" name="paid_amount[]" oninput="changeInvoice()">
+                        <input class="paid-amount" type="number" step="0.01" id="paid_amount" name="paid_amount[]" oninput="changeInvoice(this)">
 
                         <label class="data-list-label" for="payment_method">Payment Method:</label>
                         <div class="data-list">
@@ -122,20 +141,6 @@
             </div>
         </div>
 
-        {{!-- Projects --}}
-        <div class="project-billing separate hidden">
-            <label class="data-list-label" for="project">Bill Project:</label>
-            <div class="data-list">
-                <input list="" name="project_id" class="data-list-input" id="project" autocomplete="off" data-datalist-id="project-datalist">
-                <datalist name="project_id" class="data-list-datalist" id="project-datalist">
-                </datalist>
-            </div>
-            <label class="data-list-label" for="project_hour_rate">Hour Rate:</label>
-            <div class='full-input'><label for='price'>{{user.currency_symbol}}</label>
-                <input type="number" name="project_hour_rate_id" class="data-list-input" id="project_hour_rate" autocomplete="off" data-datalist-id="project-hour-rate-datalist" step="1">
-            </div>
-        </div>
-
         {{!-- Description --}}
         <div class="separate">
             <label for="description">Description:</label>
@@ -144,22 +149,25 @@
 
         <div class="separate">
             <div class="inline">
-                <p>Product total:</p><p class="total_products"></p>
+                <p>Product total:</p><p class="total_products">0.00</p>
             </div>
             <div class="inline">
-                <p>Shipping:</p><p class="total_shipping"></p>
+                <p>Shipping:</p><p class="total_shipping">0.00</p>
             </div>
             <div class="inline">
-                <p>Discount:</p><p class="total_discount"></p>
+                <p>Project total:</p><p class="total_project">0.00</p>
             </div>
             <div class="inline">
-                <p>VAT:</p><p class="total_vat"></p>
+                <p>Discount:</p><p class="total_discount">0.00</p>
             </div>
             <div class="inline">
-                <p>Total:</p><p class="total_amount"></p>
+                <p>TAX:</p><p class="total_tax">0.00</p>
             </div>
             <div class="inline">
-                <p>Amount due:</p><p class="amount_due"></p>
+                <p>Total:</p><p class="total_amount">0.00</p>
+            </div>
+            <div class="inline">
+                <p>Amount due:</p><p class="amount_due">0.00</p>
             </div>
         </div>
 

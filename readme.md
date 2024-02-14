@@ -162,7 +162,7 @@ Create an invoice with the following fields:
 - [x] Paid Amount
 - [x] Payment Method
 - [x] Option to add another payment
-- [ ] Add project time
+- [x] Add project time
 - [x] Description
 
 **Functions**
@@ -273,12 +273,12 @@ Change the pagination products per page in the customization settings
     - [ ] Estimate
     - [ ] Invoice
         - [ ] Add project section
-        - [ ] Update total section with project time * hour rate
-- [ ] Create Invoice
-    - [ ] Add total time html element to bill project section in create invoice when project is selected
-    - [ ] Push total time and hour rate to invoice creation
-    - [ ] Change name to company when company exists of customer
-    - [ ] Update total section with project time * hour rate
+        - [ ] Update totals section
+- [x] Create Invoice
+    - [x] Add total time html element to bill project section in create invoice when project is selected
+    - [x] Push total time and hour rate to invoice creation
+    - [x] Change name to company when company exists of customer
+    - [x] Update total section with project time * hour rate
 - [ ] Function to count all the time trackings of a project and add them to an invoice
     - [ ] Add one labor hour price
 - [ ] Add type to search and style

@@ -94,61 +94,83 @@ async function createInvoice() {
         inputsWithDatalist.forEach((input) => {
             const datalistId = input.getAttribute('data-datalist-id');
             const datalist = document.querySelector(`#${datalistId}`);
-            const selectedOption = datalist.querySelector(`option[value="${input.value}"]`);
-    
-            // Append data-id, price, amount-total, amount-percentage, and tax-percentage to FormData if an option is selected
-            if (selectedOption) {
-                formData.delete(input.name);
-                const dataId = selectedOption.getAttribute('data-id');
-                const price = selectedOption.getAttribute('data-price');
-                const amountTotal = selectedOption.getAttribute('data-amount-total');
-                const amountPercentage = selectedOption.getAttribute('data-amount-percentage');
-                const taxPercentage = selectedOption.getAttribute('data-percentage'); // Added line
-    
-                // Check the type of input and store data accordingly
-                const inputType = input.name.replace(/\[\]$/, ''); // Remove trailing []
-                if (!dataIds[inputType]) {
-                    dataIds[inputType] = [];
-                }
-                dataIds[inputType].push(dataId);
-    
-                if (inputType.includes('product')) {
-                    if (!prices[inputType]) {
-                        prices[inputType] = [];
+            if (datalist) {
+                const selectedOption = datalist.querySelector(`option[value="${input.value}"]`);
+        
+                // Append data-id, price, amount-total, amount-percentage, and tax-percentage to FormData if an option is selected
+                if (selectedOption) {
+                    formData.delete(input.name);
+                    const dataId = selectedOption.getAttribute('data-id');
+                    const price = selectedOption.getAttribute('data-price');
+                    const amountTotal = selectedOption.getAttribute('data-amount-total');
+                    const amountPercentage = selectedOption.getAttribute('data-amount-percentage');
+                    const taxPercentage = selectedOption.getAttribute('data-percentage'); // Added line
+        
+                    // Check the type of input and store data accordingly
+                    const inputType = input.name.replace(/\[\]$/, ''); // Remove trailing []
+                    if (!dataIds[inputType]) {
+                        dataIds[inputType] = [];
                     }
-                    prices[inputType].push(price);
-    
-                    // Set each price individually in the form data
-                    prices[inputType].forEach((productPrice, index) => {
-                        formData.set(`${inputType}_prices[${index}]`, productPrice);
-                    });
-                } else if (inputType.includes('discount')) {
-                    if (!discountAmounts[inputType]) {
-                        discountAmounts[inputType] = { total: [], percentage: [] };
+                    dataIds[inputType].push(dataId);
+        
+                    if (inputType.includes('product')) {
+                        if (!prices[inputType]) {
+                            prices[inputType] = [];
+                        }
+                        prices[inputType].push(price);
+        
+                        // Set each price individually in the form data
+                        prices[inputType].forEach((productPrice, index) => {
+                            formData.set(`${inputType}_prices[${index}]`, productPrice);
+                        });
+                    } else if (inputType.includes('discount')) {
+                        if (!discountAmounts[inputType]) {
+                            discountAmounts[inputType] = { total: [], percentage: [] };
+                        }
+                        discountAmounts[inputType].total.push(amountTotal);
+                        discountAmounts[inputType].percentage.push(amountPercentage);
+        
+                        // Set each amount individually in the form data
+                        discountAmounts[inputType].total.forEach((total, index) => {
+                            formData.set(`${inputType}_amounts_totals[${index}]`, total);
+                        });
+        
+                        // Set each amount percentage individually in the form data
+                        discountAmounts[inputType].percentage.forEach((percentage, index) => {
+                            formData.set(`${inputType}_amounts_percentages[${index}]`, percentage);
+                        });
                     }
-                    discountAmounts[inputType].total.push(amountTotal);
-                    discountAmounts[inputType].percentage.push(amountPercentage);
-    
-                    // Set each amount individually in the form data
-                    discountAmounts[inputType].total.forEach((total, index) => {
-                        formData.set(`${inputType}_amounts_totals[${index}]`, total);
-                    });
-    
-                    // Set each amount percentage individually in the form data
-                    discountAmounts[inputType].percentage.forEach((percentage, index) => {
-                        formData.set(`${inputType}_amounts_percentages[${index}]`, percentage);
+        
+                    // Set tax percentage in the form data
+                    formData.set(`${inputType}_tax_percentage`, taxPercentage);
+        
+                    // Set each dataId individually in the form data
+                    dataIds[inputType].forEach((id, index) => {
+                        formData.set(`${inputType}[${index}]`, id);
                     });
                 }
-    
-                // Set tax percentage in the form data
-                formData.set(`${inputType}_tax_percentage`, taxPercentage);
-    
-                // Set each dataId individually in the form data
-                dataIds[inputType].forEach((id, index) => {
-                    formData.set(`${inputType}[${index}]`, id);
-                });
             }
         });
+
+        // Get the totals info
+        const amount_total = parseFloat(document.querySelector('.total_amount').innerHTML);
+        const amount_due = parseFloat(document.querySelector('.amount_due').innerHTML);
+
+        // Get the project info
+        const project_total_time = parseFloat(document.querySelector('.total_project').innerHTML);
+        const project_hour_rate = parseFloat(document.getElementById('project_hour_rate').value);
+        const project_timeTracking = JSON.stringify(JSON.parse(document.getElementById('project-datalist').querySelector('.selected').dataset.time_tracking));
+        const tax_amount = parseFloat(document.querySelector('.total_tax').dataset.tax);
+
+        // Create a new URLSearchParams object with the form data
+        const formDataParams = new URLSearchParams(formData);
+        // Append amount info and project info to the form data
+        formDataParams.append('amount_total', amount_total);
+        formDataParams.append('amount_due', amount_due);
+        formDataParams.append('project_total_time', project_total_time);
+        formDataParams.append('project_hour_rate', project_hour_rate);
+        formDataParams.append('project_timeTracking', project_timeTracking);
+        formDataParams.append('tax_amount', tax_amount);
 
         // Fetch API POST request
         try {
@@ -157,7 +179,7 @@ async function createInvoice() {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
                 },
-                body: new URLSearchParams(formData).toString(),
+                body: formDataParams.toString(),
             });
 
             if (response.ok) {
@@ -189,9 +211,8 @@ if (invoiceForm) {
 
 // Update the invoice totals
 function changeInvoice (option) {
-
     // If the customer option has been selected then we need to search for the projects which match the customer
-    if (option.classList.contains('customer-option')) {
+    if (option && option.classList.contains('customer-option')) {
         // Execute your code here
         getProjects(option);
     }
@@ -248,6 +269,7 @@ function changeInvoice (option) {
     if(tax_percentage_input) {
         tax_percentage = tax_percentage_input.dataset.percentage;
     }
+    tax_percentage_input.setAttribute('data-tax-percentage', tax_percentage);
 
     // Get the shipping amount
     var shipping_amount = 0;
@@ -265,34 +287,38 @@ function changeInvoice (option) {
         }
     })
 
-    
-    const product_total = product_totals.reduce((sum, price) => sum + parseFloat(price), 0);;
+
+    // Get project total
+    let project_total = 0;
+    const project_total_data = document.querySelector('.total_project').dataset.total;
+    if (project_total_data) {
+        project_total = parseFloat(project_total_data);
+    }
+
+    // Calculate the totals
+    const product_total = product_totals.reduce((sum, price) => sum + parseFloat(price), 0);
     const discount_amounts_total = discount_totals.reduce((sum, total) => sum + parseFloat(total),0);
     const discount_amounts_percentage = discount_percentages.reduce((sum, percentage) => sum + parseFloat(percentage),0);
-    const discounts_total = (product_total / 100 * discount_amounts_percentage) + discount_amounts_total;
-    const tax_amount = (product_total + shipping_amount) / 100 * parseFloat(tax_percentage);
-    const amount_total = product_total - discounts_total + shipping_amount + tax_amount;
+    const sub_total = product_total + project_total;
+    const discounts_total = (sub_total / 100 * discount_amounts_percentage) + discount_amounts_total;
+    let tax_amount = ((sub_total - discounts_total) + shipping_amount) / 100 * parseFloat(tax_percentage);
+    let amount_total = (product_total + project_total) - discounts_total + shipping_amount + tax_amount;
     const paid_total = paid_amounts.reduce((sum, amount) => sum + (parseFloat(amount) || 0), 0);
     const amount_due = (paid_total > amount_total) ? 0 : (amount_total - paid_total);
-    
-    if (product_total) {
-        document.querySelector('.total_products').innerHTML = product_total;
-    }
-    if (shipping_amount) {
-        document.querySelector('.total_shipping').innerHTML = shipping_amount;
-    }
-    if (discounts_total) {
-        document.querySelector('.total_discount').innerHTML = discounts_total;
-    }
-    if (tax_amount && tax_percentage) {
-        document.querySelector('.total_vat').innerHTML = tax_amount + "(" + tax_percentage + "%)";
-    }
-    if (amount_total) {
-        document.querySelector('.total_amount').innerHTML = amount_total;
-    }
-    if (!isNaN(amount_due)) {
-         document.querySelector('.amount_due').innerHTML = amount_due;
-    }
+
+    // Update the totals
+    document.querySelector('.total_products').innerHTML = (product_total).toFixed(2);
+    document.querySelector('.total_products').setAttribute('data-total', (product_total).toFixed(2));
+    document.querySelector('.total_shipping').innerHTML = (shipping_amount).toFixed(2);
+    document.querySelector('.total_shipping').setAttribute('data-total', (shipping_amount).toFixed(2));
+    document.querySelector('.total_discount').innerHTML = (discounts_total).toFixed(2);
+    document.querySelector('.total_discount').setAttribute('data-total', (discounts_total).toFixed(2));
+    document.querySelector('.total_tax').innerHTML = (tax_amount).toFixed(2) + " (" + tax_percentage + "%)";
+    document.querySelector('.total_tax').setAttribute('data-tax', (tax_amount).toFixed(2));
+    document.querySelector('.total_amount').innerHTML = (amount_total).toFixed(2);
+    document.querySelector('.total_amount').setAttribute('data-total', (amount_total).toFixed(2));
+    document.querySelector('.amount_due').innerHTML = (amount_due).toFixed(2);
+    document.querySelector('.amount_due').setAttribute('data-total', (amount_due).toFixed(2));
 }
 
 
@@ -349,10 +375,59 @@ function getProjects(option) {
             option.innerHTML = project.name;
             option.setAttribute('data-id', project._id);
             projectDataList.appendChild(option);
+            option.setAttribute('data-time_tracking', JSON.stringify(project.timeTracking));
         });
         clickOptions(input, datalist);
     })
     .catch(error => {
         console.error('Error:', error);
+    });
+}
+
+function updatePriceWithProject(el) {
+    // Get the hour rate applied
+    hourRate = el.value;
+    // Get the project ID
+    const project_id = document.getElementById("project-datalist").querySelector('.selected').dataset.id;
+    // If there's no hour rate, update the according totals
+    if (!hourRate) {
+        // Select the <p> element with class "total_project"
+        const totalProjectElement = document.querySelector('.total_project');
+        // Reset the project total
+        totalProjectElement.innerHTML = "";
+        // Update the value of the data-total attribute to 0
+        totalProjectElement.dataset.total = '0';
+        // Recalculate the totals
+        changeInvoice();
+        return;
+    }
+    fetch(`/invoices/create//project/${project_id}/${hourRate}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+    .then(response => {
+        // Check if the response status is OK
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        // Parse the JSON response
+        return response.json();
+    })
+    .then(response => {
+        // Get the projects response
+        const projectPrice = response;
+
+        // Update the project total price
+        const projectTotal = document.querySelector('.total_project');
+        projectTotal.innerHTML = (projectPrice).toFixed(2);
+
+        // Set the project total attribute for calculations
+        projectTotal.setAttribute('data-total', (projectPrice).toFixed(2));
+
+        // Update the totals
+        changeInvoice();
     });
 }

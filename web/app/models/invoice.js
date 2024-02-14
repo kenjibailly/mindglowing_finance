@@ -39,10 +39,17 @@ const invoiceSchema = new mongoose.Schema({
     amount_total: Number,
     amount_due: Number,
     description: String,
-    project_billed: [{
+    project_billed: {
+        id: String,
+        timeTracking: [{
+            name: String,
+            time: Number,
+            start: Date,
+            stop: Date,
+        }],
         total_time: Number,
         hour_rate: Number,
-    }],
+    },
 });
 
 // Create a model using the schema

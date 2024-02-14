@@ -98,12 +98,19 @@ router.post('/', authenticateToken, async (req, res) => {
       discount_ids_amounts_percentages,
       tax_id,
       tax_id_tax_percentage,
+      tax_amount,
       shipping_amount: original_shipping_amount = 0,
       shipping_company_id,
       paid_on,
       paid_amount,
       payment_method_id,
-      description
+      description,
+      amount_total,
+      amount_due,
+      project_id,
+      project_hour_rate,
+      project_timeTracking,
+      project_total_time,
     } = req.body;
 
     // Convert the string value to a number and if empty, it must be 0
@@ -114,18 +121,25 @@ router.post('/', authenticateToken, async (req, res) => {
     console.log('Customer ID:', customer_id);
     console.log('Product IDs:', product_ids);
     console.log('Product quantities:', product_quantities);
-    console.log('Product prices:', product_ids_prices)
+    console.log('Product prices:', product_ids_prices);
+    console.log('Project ID:', project_id);
+    console.log('Project Hour Rate:', project_hour_rate);
+    console.log('Project Time Tracking:', project_timeTracking);
+    console.log('Project Total Time:', project_total_time);
     console.log('Discount IDs:', discount_ids);
     console.log('Discount Amounts Total', discount_ids_amounts_totals);
     console.log('Discount Amounts Total', discount_ids_amounts_percentages);
     console.log('Tax ID:', tax_id);
-    console.log('Tax Percentage:', tax_id_tax_percentage)
+    console.log('Tax Percentage:', tax_id_tax_percentage);
+    console.log('Tax Amount', tax_amount);
     console.log('Shipping Amount:', shipping_amount);
     console.log('Shipping Company ID:', shipping_company_id);
     console.log('Paid On:', paid_on);
     console.log('Paid Amount:', paid_amount);
     console.log('Payment Method IDs:', payment_method_id);
     console.log('Description:', description);
+    console.log('Amount Total:', amount_total);
+    console.log('Amount Due:', amount_due);
 
 
     // Get the product totals
@@ -172,38 +186,9 @@ router.post('/', authenticateToken, async (req, res) => {
       }
     }
 
-    console.log("PAID: ", paid)
+    console.log("PAID: ", paid);
 
-
-    // Calculate the necessary totals to get to the amount left to pay
-    const product_total = product_totals.reduce((sum, price) => sum + parseFloat(price), 0);
-    var discount_amounts_total = 0;
-    if (discount_ids_amounts_totals) {
-      discount_amounts_total = discount_ids_amounts_totals.reduce((sum, total) => sum + parseFloat(total),0);
-    }
-    var discount_amounts_percentage = 0;
-    if (discount_ids_amounts_percentages) {
-      discount_amounts_percentage = discount_ids_amounts_percentages.reduce((sum, percentage) => sum + parseFloat(percentage),0);
-    }
-    const tax_amount = (product_total + shipping_amount) / 100 * parseFloat(tax_id_tax_percentage);
-    var amount_total = product_total - discount_amounts_total - (product_total / 100 * discount_amounts_percentage) + shipping_amount + tax_amount;
-    var paid_total = 0;
-    if (paid_amount[0] !== "") {
-      console.log("PAID_AMOUNT: ", paid_amount)
-      paid_total = paid_amount.reduce((sum, amount) => sum + parseFloat(amount), 0);
-    }
-    const amount_due = (paid_total > amount_total) ? 0 : (amount_total - paid_total);
-
-    console.log('Product total:', product_total);
-    console.log('Shipping amount:', shipping_amount);
-    console.log('Discount total percentage',discount_amounts_percentage)
-    console.log('Discount flat total', discount_amounts_total)
-    console.log('Tax amount:', tax_amount);
-    console.log('Amount total:', amount_total);
-    console.log('Paid total:', paid_total);
-    console.log('Amount due:', amount_due);
-  
-  
+      
     try {
       // Save the invoice to the database
       const newInvoice = new Invoice({
@@ -213,14 +198,18 @@ router.post('/', authenticateToken, async (req, res) => {
         products: products,
         discounts: discounts,
         "tax.id": tax_id[0],
-        "tax.total": tax_amount[0],
-        "tax.percentage": tax_id_tax_percentage[0],
+        "tax.total": tax_amount,
+        "tax.percentage": tax_id_tax_percentage,
         "shipping.id": shipping_company_id[0],
         "shipping.amount": shipping_amount,
         paid: paid,
         amount_total: amount_total,
         amount_due: amount_due,
         description: description,
+        "project_billed.id": project_id[0],
+        "project_billed.total_time": project_total_time,
+        "project_billed.hour_rate": project_hour_rate,
+        "project_billed.timeTracking": JSON.parse(project_timeTracking),
       });
       const savedInvoice = await newInvoice.save();
       res.redirect('/invoices/');
@@ -257,6 +246,46 @@ router.get('/projects/:id', authenticateToken, async function(req, res, next) {
 
       // Send the projects as a JSON response
       res.json(projects);
+  } catch (error) {
+      console.error('Error:', error);
+      // Handle errors and send an appropriate response
+      res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+/* GET /invoices/create/projects. */
+router.get('/project/:id/:hourRate', authenticateToken, async function(req, res, next) {
+  // Get the session user that's logged in
+  const user = req.session.user;
+  // If the user is logged in
+  if(!user) {
+      // Render the login page
+      return res.redirect('/login');
+  }
+
+  const _id = req.params.id;
+  try {
+      const project = await Project.findOne({ _id: _id });
+      
+      // Calculate the total time passed of all the time tracking
+      // Calculate total seconds
+      let totalSeconds = 0;
+      project.timeTracking.forEach(timeEntry => {
+          if (timeEntry.start && timeEntry.stop) {
+              const startTime = new Date(timeEntry.start);
+              const stopTime = new Date(timeEntry.stop);
+              const timeDifferenceInSeconds = (stopTime - startTime) / 1000;
+              totalSeconds += timeDifferenceInSeconds;
+          }
+      });
+      const totalTimeInHours = (totalSeconds / 60 / 60).toFixed(2);
+
+      // Calculate the price of the project with the hour rate applied
+      const hourRate = req.params.hourRate;
+      const priceProject = totalTimeInHours * hourRate;
+
+      // Send the price of the project as a JSON response
+      res.json(priceProject);
   } catch (error) {
       console.error('Error:', error);
       // Handle errors and send an appropriate response
