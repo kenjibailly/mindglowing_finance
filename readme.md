@@ -1,9 +1,10 @@
-# Mind Glowing Finance
+# 👔 Mind Glowing Finance
 
 Mind Glowing Finance is a CRM platform created for small businesses / freelancers. 
-The platform is currently in development and is not finished.
 
-# Installation
+❗🚧 The platform is currently in development and is not finished.
+
+# 💾 Installation
 
 1. Clone the repository
 
@@ -25,76 +26,76 @@ cp .env.example .env
 docker-compose up -d
 ```
 
-# Features
+# ⭐ Features
 
 ## Dashboard
 
-Currently in development, only placeholders at the moment
+🚧 Currently in development, only placeholders at the moment
 
-## Settings
+## 🛠️ Settings
 <details>
 
-<summary>Settings</summary>
+<summary>🛠️ Settings</summary>
 
 ### Account
 
-- [x] Date Format
-- [x] Time Zone
-- [x] Currency
-- [x] First Name
-- [x] Last Name
-- [x] Email
-- [x] Company Name
-- [x] Street
-- [x] Street 2
-- [x] City
-- [x] State
-- [x] Zip
-- [x] Country
+- ✅ Date Format
+- ✅ Time Zone
+- ✅ Currency
+- ✅ First Name
+- ✅ Last Name
+- ✅ Email
+- ✅ Company Name
+- ✅ Street
+- ✅ Street 2
+- ✅ City
+- ✅ State
+- ✅ Zip
+- ✅ Country
 
 ### Customization
 
-- [x] Invoice Prefix
-- [x] Invoice Separator
-- [x] Estimate Prefix
-- [x] Estimate Separator
-- [x] Items Per Page (pagination)
+- ✅ Invoice Prefix
+- ✅ Invoice Separator
+- ✅ Estimate Prefix
+- ✅ Estimate Separator
+- ✅ Items Per Page (pagination)
 
 ### Payment Methods
 
 Create a payment method with the following fields:
 
-- [x] Name
-- [x] Description
+- ✅ Name
+- ✅ Description
 
 ### Discounts
 
 Create a discount with the following fields:
 
-- [x] Name
-- [x] Discount Code
-- [x] Discount total
-- [x] Discount Percentage
-- [x] Description
+- ✅ Name
+- ✅ Discount Code
+- ✅ Discount total
+- ✅ Discount Percentage
+- ✅ Description
 
 ### Shipping Companies
 
 Create a shipping company with the following fields:
 
-- [x] Name
-- [x] Description
+- ✅ Name
+- ✅ Description
 
 ### Taxes
 
 Create a tax with the following fields:
 
-- [x] Name
-- [x] Percentage
-- [x] Description
+- ✅ Name
+- ✅ Percentage
+- ✅ Description
 
 </details>
 
-## Customers
+## 🧑‍🤝‍🧑 Customers
 
 <details>
 
@@ -102,146 +103,146 @@ Create a tax with the following fields:
 </br>
 
 **Personal Information:**
-- [x] First Name
-- [x] Last Name
-- [x] Email
-- [x] Company
-- [x] Currency
+- ✅ First Name
+- ✅ Last Name
+- ✅ Email
+- ✅ Company
+- ✅ Currency
 
 **Shipping and Billing Information**
 
-- [x] Street
-- [x] Street 2
-- [x] City
-- [x] State
-- [x] Zip
-- [x] Country
-- [x] Option to save billing same as shipping
+- ✅ Street
+- ✅ Street 2
+- ✅ City
+- ✅ State
+- ✅ Zip
+- ✅ Country
+- ✅ Option to save billing same as shipping
 
 **Contact Information**
 
-- [x] Preferred medium of contact
+- ✅ Preferred medium of contact
     - Email
     - Discord
     - Telegram
     - Instagram
     - Twitter
     - Other 
-- [x] Contact Medium Username
+- ✅ Contact Medium Username
 
 </details>
 
 <details>
 
-<summary>Functions</summary>
+<summary>⚙️ Functions</summary>
 
-- [x] Create
-- [x] Edit
-- [x] Delete
-- [x] Delete Selected
+- ✅ Create
+- ✅ Edit
+- ✅ Delete
+- ✅ Delete Selected
 
 </details>
 
-## Products
+## 📦 Products
 
 <details>
 
 <summary>Create a product with the following fields:</summary>
 
-- [x] Picture
-- [x] Name
-- [x] Price
-- [x] Description
+- ✅ Picture
+- ✅ Name
+- ✅ Price
+- ✅ Description
 
 </details>
 
 <details>
 
-<summary>Functions</summary>
+<summary>⚙️ Functions</summary>
 
-- [x] Create
-- [x] Edit
-- [x] Delete
-- [x] Delete Selected
+- ✅ Create
+- ✅ Edit
+- ✅ Delete
+- ✅ Delete Selected
 
 </details>
 
-## Invoices
+## 📃 Invoices
 
 <details>
 
 <summary>Create an invoice with the following fields:</summary>
 
-- [x] Number
-- [x] Customer
-- [x] Product
-- [x] Quantity
-- [x] Option to add another product
-- [x] Add project
-- [x] Add project hour rate
-- [x] Discount
-- [x] Option to add another discount
-- [x] Tax
-- [x] Shipping Amount
-- [x] Shipping Company
-- [x] Paid On Date
-- [x] Paid Amount
-- [x] Payment Method
-- [x] Option to add another payment
-- [x] Description
+- ✅ Number
+- ✅ Customer
+- ✅ Product
+- ✅ Quantity
+- ✅ Option to add another product
+- ✅ Add project
+- ✅ Add project hour rate
+- ✅ Discount
+- ✅ Option to add another discount
+- ✅ Tax
+- ✅ Shipping Amount
+- ✅ Shipping Company
+- ✅ Paid On Date
+- ✅ Paid Amount
+- ✅ Payment Method
+- ✅ Option to add another payment
+- ✅ Description
 
 </details>
 
 <details>
 
-<summary>Functions</summary>
+<summary>⚙️ Functions</summary>
 
-- [x] Create
-- [x] Delete
-- [x] Delete Selected
-- [ ] Edit invoice
-- [ ] Create a PDF
-- [ ] Send the PDF to the client using mailgun
+- ✅ Create
+- ✅ Delete
+- ✅ Delete Selected
+- ❌ Edit invoice
+- ❌ Create a PDF
+- ❌ Send the PDF to the client using mailgun
 
 </details>
 
 
-## Estimates
+## 📋 Estimates
 
 <details>
 
 <summary>Create an estimate with the following fields:</summary>
 
-- [ ] Number
-- [ ] Customer
-- [ ] Product
-- [ ] Quantity
-- [ ] Option to add another product
-- [ ] Discount
-- [ ] Option to add another discount
-- [ ] Tax
-- [ ] Shipping Amount
-- [ ] Shipping Company
-- [ ] Project time
-- [ ] Project hour rate
-- [ ] Description
+- ❌ Number
+- ❌ Customer
+- ❌ Product
+- ❌ Quantity
+- ❌ Option to add another product
+- ❌ Discount
+- ❌ Option to add another discount
+- ❌ Tax
+- ❌ Shipping Amount
+- ❌ Shipping Company
+- ❌ Project time
+- ❌ Project hour rate
+- ❌ Description
 
 </details>
 
 <details>
 
-<summary>Functions</summary>
+<summary>⚙️ Functions</summary>
 
-- [ ] Create
-- [ ] Edit
-- [ ] Delete
-- [ ] Delete Selected
-- [ ] Create a PDF
-- [ ] Send the PDF to the client using mailgun
+- ❌ Create
+- ❌ Edit
+- ❌ Delete
+- ❌ Delete Selected
+- ❌ Create a PDF
+- ❌ Send the PDF to the client using mailgun
 
 </details>
 
-## Projects
+## 🗂️ Projects
 
 Create a project and use time tracking to bill this to the client.
 
@@ -249,24 +250,24 @@ Create a project and use time tracking to bill this to the client.
 
 <summary>Create a project with the following fields:</summary>
 
-- [x] Name
-- [x] Customer
-- [x] Description
+- ✅ Name
+- ✅ Customer
+- ✅ Description
 
 </details>
 
 <details>
 
-<summary>Functions</summary>
+<summary>⚙️ Functions</summary>
 
-- [x] Create
-- [x] Edit
-- [x] Delete
-- [x] Delete Selected
+- ✅ Create
+- ✅ Edit
+- ✅ Delete
+- ✅ Delete Selected
 
 </details>
 
-### Time Tracking
+### ⏱️ Time Tracking
 
 Tracks your time, create a name and start tracking your time
 
@@ -274,24 +275,24 @@ Tracks your time, create a name and start tracking your time
 
 <summary>Create a time tracking with the following fields:</summary>
 
-- [x] Name
-- [x] Has start date and time
-- [x] Has stop date and time
-- [ ] Custom start/stop date and time input 
+- ✅ Name
+- ✅ Has start date and time
+- ✅ Has stop date and time
+- ❌ Custom start/stop date and time input 
 
 </details>
 
 <details>
 
-<summary>Functions</summary>
+<summary>⚙️ Functions</summary>
 
-- [x] Start
-- [x] Stop
-- [x] Delete Selected
+- ✅ Start
+- ✅ Stop
+- ✅ Delete Selected
 
 </details>
 
-## Search
+## 🔍 Search
 
 <details>
 
@@ -300,55 +301,55 @@ Tracks your time, create a name and start tracking your time
 
 **Customers**
 
-- [x] First Name
-- [x] Last Name
-- [x] Email
+- ✅ First Name
+- ✅ Last Name
+- ✅ Email
 
 **Invoices**
 
-- [x] Number with prefix
-- [x] Description
+- ✅ Number with prefix
+- ✅ Description
 
 **Products**
 
-- [x] Name
-- [x] Description
+- ✅ Name
+- ✅ Description
 
 **Projects**
 
-- [x] Name
-- [x] Description
+- ✅ Name
+- ✅ Description
 
 </details>
 
-## Plans
+## 🔮 Plans
 
-- [ ] Create API functionality
+- ❌ Create API functionality
 
-## Personal Development General ToDo
+## 👷 Personal Development General ToDo
 
-- [ ] Check success alerts
-- [ ] CSS styling
-- [ ] Change delete buttons placement inside table
-- [ ] Overview pages for:
-    - [x] Customer
-        - [ ] Table with links to last invoices
-        - [ ] Table with links to last estimates
-        - [ ] Table with links to last projects
-    - [x] Product
-        - [ ] Stats of product sales
-        - [ ] Table with latest invoices where product is used
-    - [ ] Estimate
-    - [ ] Invoice
-        - [ ] Add project section
-        - [ ] Update totals section
-- [x] Create Invoice
-    - [x] Add total time html element to bill project section in create invoice when project is selected
-    - [x] Push total time and hour rate to invoice creation
-    - [x] Change name to company when company exists of customer
-    - [x] Update total section with project time * hour rate
-- [ ] Function to count all the time trackings of a project and add them to an invoice
-    - [ ] Add one labor hour price
-- [ ] Add type to search and style
-- [ ] Add click menu to profile picture for logout
-- [ ] Leads and their conversion
+- ❌ Check success alerts
+- ❌ CSS styling
+- ❌ Change delete buttons placement inside table
+- ❌ Overview pages for:
+    - ✅ Customer
+        - ❌ Table with links to last invoices
+        - ❌ Table with links to last estimates
+        - ❌ Table with links to last projects
+    - ✅ Product
+        - ❌ Stats of product sales
+        - ❌ Table with latest invoices where product is used
+    - ❌ Estimate
+    - ❌ Invoice
+        - ❌ Add project section
+        - ❌ Update totals section
+- ✅ Create Invoice
+    - ✅ Add total time html element to bill project section in create invoice when project is selected
+    - ✅ Push total time and hour rate to invoice creation
+    - ✅ Change name to company when company exists of customer
+    - ✅ Update total section with project time * hour rate
+- ❌ Function to count all the time trackings of a project and add them to an invoice
+    - ❌ Add one labor hour price
+- ❌ Add type to search and style
+- ❌ Add click menu to profile picture for logout
+- ❌ Leads and their conversion
