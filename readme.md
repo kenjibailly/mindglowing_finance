@@ -2,7 +2,8 @@
 
 Mind Glowing Finance is a CRM platform created for small businesses / freelancers. 
 
-❗🚧 The platform is currently in development and is not finished.
+> [!NOTE]
+> ❗🚧 The platform is currently in development and is not finished.
 
 # 💾 ${\textsf{\color{lightgreen}Installation}}$
 
