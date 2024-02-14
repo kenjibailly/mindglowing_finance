@@ -1,13 +1,21 @@
+<div align="center">
+
 # 👔 ${\textsf{\color{cornflowerblue}Mind Glowing Finance}}$
 
 Mind Glowing Finance is a CRM platform created for small businesses / freelancers. 
 
+</div>
+
 > [!NOTE]
 > ❗🚧 The platform is currently in development and is not finished.
+
+<div align="center">
 
 ![GitHub Repo stars](https://img.shields.io/github/stars/kenjibailly/mindglowing_finance?style=plastic&logo=github&color=blue)
 ![Github Forks](https://img.shields.io/github/forks/kenjibailly/mindglowing_finance?style=plastic&logo=github&color=blue)
 ![GitHub watchers](https://img.shields.io/github/watchers/kenjibailly/mindglowing_finance?style=plastic&logo=github&color=blue)
+
+</div>
 
 # 💾 ${\textsf{\color{lightgreen}Installation}}$
 
