@@ -337,6 +337,7 @@ Tracks your time, create a name and start tracking your time
 
 ## 👷 ${\textsf{\color{indianred}Personal Development General ToDo}}$
 
+- ❌ Logout window on profile pic in navigation bar
 - ❌ Check success alerts
 - ❌ CSS styling
 - ❌ Change delete buttons placement inside table
