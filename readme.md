@@ -1,6 +1,6 @@
 <div align="center">
 
-# 👔 ${\textsf{\color{cornflowerblue}Mind Glowing Finance}}$
+# 👔 Mind Glowing Finance
 
 Empower your small business or freelance endeavors with Mind Glowing Finance, a comprehensive CRM platform designed to streamline customer management, product cataloging, project time tracking, and invoicing. Your all-in-one solution for seamless financial management and client satisfaction.
 
@@ -13,7 +13,7 @@ Empower your small business or freelance endeavors with Mind Glowing Finance, a 
 > [!NOTE]
 > ❗🚧 The platform is currently in development and is not finished.
 
-# 💾 ${\textsf{\color{lightgreen}Installation}}$
+# 💾 Installation
 
 1. Clone the repository
 
@@ -35,13 +35,13 @@ cp .env.example .env
 docker-compose up -d
 ```
 
-# ⭐ ${\textsf{\color{yellow}Features}}$
+# ⭐ Features
 
-## ${\textsf{\color{indianred}Dashboard}}$
+## Dashboard
 
 🚧 Currently in development, only placeholders at the moment
 
-## 🛠️ ${\textsf{\color{indianred}Settings}}$
+## 🛠️ Settings
 <details>
 
 <summary>🛠️ Settings</summary>
@@ -104,7 +104,7 @@ Create a tax with the following fields:
 
 </details>
 
-## 🧑‍🤝‍🧑 ${\textsf{\color{indianred}Customers}}$
+## 🧑‍🤝‍🧑 Customers
 
 <details>
 
@@ -152,7 +152,7 @@ Create a tax with the following fields:
 
 </details>
 
-## 📦 ${\textsf{\color{indianred}Products}}$
+## 📦 Products
 
 <details>
 
@@ -176,7 +176,7 @@ Create a tax with the following fields:
 
 </details>
 
-## 📃 ${\textsf{\color{indianred}Invoices}}$
+## 📃 Invoices
 
 <details>
 
@@ -216,7 +216,7 @@ Create a tax with the following fields:
 </details>
 
 
-## 📋 ${\textsf{\color{indianred}Estimates}}$
+## 📋 Estimates
 
 <details>
 
@@ -251,7 +251,7 @@ Create a tax with the following fields:
 
 </details>
 
-## 🗂️ ${\textsf{\color{indianred}Projects}}$
+## 🗂️ Projects
 
 Create a project and use time tracking to bill this to the client.
 
@@ -276,7 +276,7 @@ Create a project and use time tracking to bill this to the client.
 
 </details>
 
-### ⏱️ ${\textsf{\color{orange}Time Tracking}}$
+### ⏱️ Time Tracking
 
 Tracks your time, create a name and start tracking your time
 
@@ -301,7 +301,7 @@ Tracks your time, create a name and start tracking your time
 
 </details>
 
-## 🔍 ${\textsf{\color{indianred}Search}}$
+## 🔍 Search
 
 <details>
 
@@ -331,11 +331,11 @@ Tracks your time, create a name and start tracking your time
 
 </details>
 
-## 🔮 ${\textsf{\color{indianred}Plans}}$
+## 🔮 Plans
 
 - ❌ Create API functionality
 
-## 👷 ${\textsf{\color{indianred}Personal Development General ToDo}}$
+## 👷 Personal Development General ToDo
 
 - ❌ Logout window on profile pic in navigation bar
 - ❌ Check success alerts
