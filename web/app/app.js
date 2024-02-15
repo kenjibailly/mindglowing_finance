@@ -44,6 +44,7 @@ const createInvoiceRouter = require('./routes/invoices/create_invoice');
 const editInvoiceRouter = require('./routes/invoices/edit_invoice');
 const deleteInvoiceRouter = require('./routes/invoices/delete_invoice');
 const deleteSelectedInvoicesRouter = require('./routes/invoices/delete_selected_invoices');
+const PDFInvoiceRouter = require('./routes/invoices/pdf_invoice');
 
 const settingsRouter = require('./routes/settings/account/account');
 
@@ -192,7 +193,8 @@ app.use('/invoices/invoice/', invoiceRouter);
 app.use('/invoices/create/', createInvoiceRouter);
 app.use('/invoices/edit/', editInvoiceRouter);
 app.use('/invoices/delete/', deleteInvoiceRouter);
-app.use('/invoices/delete-selected', deleteSelectedInvoicesRouter)
+app.use('/invoices/delete-selected', deleteSelectedInvoicesRouter);
+app.use('/invoices/invoice/pdf', PDFInvoiceRouter);
 
 app.use('/settings/account', settingsRouter);
 
@@ -207,7 +209,6 @@ app.use('/settings/discounts/create/', createDiscountRouter);
 app.use('/settings/discounts/edit/', editDiscountRouter);
 app.use('/settings/discounts/delete/', deleteDiscountRouter);
 app.use('/settings/discounts/delete-selected/', deleteSelectedDiscountsRouter);
-
 
 app.use('/settings/shipping-companies/', shippingCompaniesRouter);
 app.use('/settings/shipping-companies/create/', createShippingCompanyRouter);

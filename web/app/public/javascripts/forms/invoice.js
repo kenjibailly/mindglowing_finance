@@ -157,9 +157,20 @@ async function createInvoice() {
         const amount_due = parseFloat(document.querySelector('.amount_due').innerHTML);
 
         // Get the project info
-        const project_total_time = parseFloat(document.querySelector('.total_project').innerHTML);
-        const project_hour_rate = parseFloat(document.getElementById('project_hour_rate').value);
-        const project_timeTracking = JSON.stringify(JSON.parse(document.getElementById('project-datalist').querySelector('.selected').dataset.time_tracking));
+        const selected_project = document.getElementById('project-datalist').querySelector('.selected');
+        let project_total_time;
+        let project_hour_rate;
+        let project_timeTracking;
+        let project_name;
+        let project_description; 
+        if (selected_project) {
+            project_total_time = selected_project.dataset.project_total_time;
+            project_hour_rate = parseFloat(document.getElementById('project_hour_rate').value);
+            project_timeTracking = JSON.stringify(JSON.parse(selected_project.dataset.time_tracking));
+            project_name = document.getElementById('project').value;
+            project_description = selected_project.dataset.description;
+        }
+
         const tax_amount = parseFloat(document.querySelector('.total_tax').dataset.tax);
 
         // Create a new URLSearchParams object with the form data
@@ -167,10 +178,15 @@ async function createInvoice() {
         // Append amount info and project info to the form data
         formDataParams.append('amount_total', amount_total);
         formDataParams.append('amount_due', amount_due);
-        formDataParams.append('project_total_time', project_total_time);
-        formDataParams.append('project_hour_rate', project_hour_rate);
-        formDataParams.append('project_timeTracking', project_timeTracking);
         formDataParams.append('tax_amount', tax_amount);
+        if (selected_project) {
+            formDataParams.append('project_total_time', project_total_time);
+            formDataParams.append('project_hour_rate', project_hour_rate);
+            formDataParams.append('project_timeTracking', project_timeTracking);
+            formDataParams.append('project_name', project_name);
+            formDataParams.append('project_description', project_description);
+        }
+
 
         // Fetch API POST request
         try {
@@ -376,6 +392,8 @@ function getProjects(option) {
             option.setAttribute('data-id', project._id);
             projectDataList.appendChild(option);
             option.setAttribute('data-time_tracking', JSON.stringify(project.timeTracking));
+            option.setAttribute('data-description', project.description);
+            option.setAttribute('data-project_total_time', project.totalTimeInHours)
         });
         clickOptions(input, datalist);
     })

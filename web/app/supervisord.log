@@ -5,3 +5,15 @@
 2024-02-06 11:32:44,717 INFO success: gulp entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
 2024-02-06 11:32:44,717 INFO success: nodemon entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
 2024-02-14 13:03:58,816 INFO reaped unknown pid 11428 (exit status 1)
+2024-02-15 08:58:23,818 WARN received SIGTERM indicating exit request
+2024-02-15 08:58:23,831 INFO waiting for gulp, nodemon to die
+2024-02-15 08:58:23,864 WARN stopped: nodemon (exit status 143)
+2024-02-15 08:58:23,877 WARN stopped: gulp (terminated by SIGTERM)
+2024-02-15 08:58:25,249 CRIT Supervisor is running as root.  Privileges were not dropped because no user is specified in the config file.  If you intend to run as root, you can set user=root in the config file to avoid this message.
+2024-02-15 08:58:25,254 INFO supervisord started with pid 1
+2024-02-15 08:58:26,257 INFO spawned: 'gulp' with pid 8
+2024-02-15 08:58:26,261 INFO spawned: 'nodemon' with pid 9
+2024-02-15 08:58:27,429 INFO success: gulp entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2024-02-15 08:58:27,429 INFO success: nodemon entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2024-02-15 16:09:26,525 INFO reaped unknown pid 13476 (exit status 1)
+2024-02-15 16:14:09,878 INFO reaped unknown pid 13696 (exit status 0)

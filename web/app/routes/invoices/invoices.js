@@ -49,7 +49,7 @@ router.get('/', authenticateToken, async function(req, res, next) {
     }));
 
     // Pagination
-    const { pageItems, currentPage, totalPages } = paginateArray(updatedInvoicesWithCustomerInfo, customization_settings.items_per_page, parseInt(req.query.page) || 1);
+    const { pageItems, currentPage, totalPages } = paginateArray(updatedInvoicesWithCustomerInfo, customization_settings.items_per_page, parseInt(req.query.page) || 1, true);
 
 
     // Render the invoices page

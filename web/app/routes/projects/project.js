@@ -6,6 +6,7 @@ const User = require('../../models/user');
 const Customization = require('../../models/customization');
 const authenticateToken = require('../security/authenticate');
 const formatDateTime = require('../formatters/date_time_formatter');
+const formatTime = require('../formatters/time_formatter');
 const paginateArray = require('../pagination/pagination');
 
 // Get the project page by id
@@ -45,12 +46,12 @@ router.get('/:id', authenticateToken, async function(req, res, next) {
         const currentTime = new Date();
 
         const timeTrackingArray = project.timeTracking.map(entry => {
-          var timePassed = Math.floor((currentTime - entry.start) / 1000); // in seconds
+          var timePassed = Math.round((currentTime - entry.start) / 1000); // in seconds
           // Check if there's already a stop time, then format that time and change the timePassed
           var stop = "";
           if (entry.stop) {
             stop = formatDateTime(entry.stop, user_settings);
-            timePassed = Math.floor((entry.stop - entry.start) / 1000);
+            timePassed = Math.round((entry.stop - entry.start) / 1000);
           }
           return {
               _id: entry._id,
@@ -94,14 +95,5 @@ router.get('/:id', authenticateToken, async function(req, res, next) {
         res.render('projects/projects', { username: user.username, access_token_expiry: process.env.ACCESS_TOKEN_EXPIRY_IN_SECONDS});
     }
   });
-
-  function formatTime(seconds) {
-    const hours = Math.floor(seconds / 3600);
-    const minutes = Math.floor((seconds % 3600) / 60);
-    const remainingSeconds = seconds % 60;
-
-    const formattedTime = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
-    return formattedTime;
-}
 
   module.exports = router;

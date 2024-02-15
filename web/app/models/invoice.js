@@ -41,13 +41,16 @@ const invoiceSchema = new mongoose.Schema({
     description: String,
     project_billed: {
         id: String,
+        name: String,
+        description: String,
         timeTracking: [{
             name: String,
             time: Number,
             start: Date,
             stop: Date,
+            timePassed: String,
         }],
-        total_time: Number,
+        total_time: String,
         hour_rate: Number,
     },
 });

@@ -144,3 +144,9 @@ ul li {
 .inline .half:first-child {
   margin-right: 20px;
 }
+
+
+
+.invoice-pdf-overview {
+  height: calc(100vh - ((30px * 2) + 65px + 28px));
+}

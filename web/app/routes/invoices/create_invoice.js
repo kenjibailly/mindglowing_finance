@@ -12,6 +12,8 @@ const User = require('../../models/user');
 const Project = require('../../models/project');
 const authenticateToken = require('../security/authenticate');
 const formatDateToServerTimezone = require('../formatters/date_server_time_zone');
+const formatTime = require('../formatters/time_formatter');
+const formatDateTime = require('../formatters/date_time_formatter');
 
 /* GET /invoices/create-customer page. */
 router.get('/', authenticateToken, async function(req, res, next) {
@@ -108,6 +110,8 @@ router.post('/', authenticateToken, async (req, res) => {
       amount_total,
       amount_due,
       project_id,
+      project_name,
+      project_description,
       project_hour_rate,
       project_timeTracking,
       project_total_time,
@@ -123,6 +127,8 @@ router.post('/', authenticateToken, async (req, res) => {
     console.log('Product quantities:', product_quantities);
     console.log('Product prices:', product_ids_prices);
     console.log('Project ID:', project_id);
+    console.log('Project Name:', project_name);
+    console.log('Project Description:', project_description);
     console.log('Project Hour Rate:', project_hour_rate);
     console.log('Project Time Tracking:', project_timeTracking);
     console.log('Project Total Time:', project_total_time);
@@ -144,9 +150,11 @@ router.post('/', authenticateToken, async (req, res) => {
 
     // Get the product totals
     const product_totals = [];
-    for (let i = 0; i < product_ids_prices.length; i++) {
-        const product_total = product_ids_prices[i] * product_quantities[i];
-        product_totals.push(parseFloat(product_total));
+    if (product_ids_prices) {
+      for (let i = 0; i < product_ids_prices.length; i++) {
+          const product_total = product_ids_prices[i] * product_quantities[i];
+          product_totals.push(parseFloat(product_total));
+      }
     }
 
     const status = "DRAFT";
@@ -154,10 +162,13 @@ router.post('/', authenticateToken, async (req, res) => {
     // Create products in right format with ids and quantities
     var products = [];
     for (let i = 0; i < product_ids.length; i++) {
-      products.push({
-        id: product_ids[i],
-        quantity: product_quantities[i]
-      });
+      // Check if there are any products
+      if (product_ids[0].length > 1) {
+        products.push({
+          id: product_ids[i],
+          quantity: product_quantities[i]
+        });
+      }
     }
 
     // Create discounts in the right format
@@ -188,6 +199,12 @@ router.post('/', authenticateToken, async (req, res) => {
 
     console.log("PAID: ", paid);
 
+    let project_timeTracking_json;
+    if (project_timeTracking) {
+      console.log("project_timeTracking", project_timeTracking)
+      project_timeTracking_json = JSON.parse(project_timeTracking)
+    }
+
       
     try {
       // Save the invoice to the database
@@ -207,9 +224,11 @@ router.post('/', authenticateToken, async (req, res) => {
         amount_due: amount_due,
         description: description,
         "project_billed.id": project_id[0],
+        "project_billed.name": project_name,
+        "project_billed.description": project_description,
         "project_billed.total_time": project_total_time,
         "project_billed.hour_rate": project_hour_rate,
-        "project_billed.timeTracking": JSON.parse(project_timeTracking),
+        "project_billed.timeTracking": project_timeTracking_json,
       });
       const savedInvoice = await newInvoice.save();
       res.redirect('/invoices/');
@@ -238,14 +257,48 @@ router.get('/projects/:id', authenticateToken, async function(req, res, next) {
   }
 
   const customer_id = req.params.id;
-  try {
+    try {
+      // Use the find method to get the user settings
+      const user_settings = await User.findOne({ username: user.username });
       const projects = await Project.find({ customer_id: customer_id });
+      const projectsWithTotalTime = [];
+      const currentTime = new Date();
       projects.forEach(project => {
-        console.log(project.timeTracking);
+        const totalTimeInHours = formatTime(Math.round(calculateProjectTimeInSeconds(project)));
+    
+        // Map the timeTracking entries to the desired format
+        const timeTrackingArray = project.timeTracking.map(entry => {
+            let timePassed = Math.round((currentTime - entry.start) / 1000); // in seconds
+            let stop = "";
+            
+            // Check if there's already a stop time, then format that time and change the timePassed
+            if (entry.stop) {
+                stop = entry.stop;
+                timePassed = Math.round((entry.stop - entry.start) / 1000);
+            }
+            
+            return {
+                _id: entry._id,
+                name: entry.name,
+                start: entry.start,
+                stop: stop,
+                timePassed: formatTime(timePassed),
+            };
+        });
+    
+        // Create a new object with the project and its associated timeTrackingArray
+        const projectWithTotalTime = {
+            ...project.toObject({ virtuals: true }),
+            totalTimeInHours,
+            timeTracking: timeTrackingArray // Include the timeTrackingArray here
+        };
+    
+        projectsWithTotalTime.push(projectWithTotalTime);
+
       });
 
       // Send the projects as a JSON response
-      res.json(projects);
+      res.json(projectsWithTotalTime);
   } catch (error) {
       console.error('Error:', error);
       // Handle errors and send an appropriate response
@@ -266,19 +319,7 @@ router.get('/project/:id/:hourRate', authenticateToken, async function(req, res,
   const _id = req.params.id;
   try {
       const project = await Project.findOne({ _id: _id });
-      
-      // Calculate the total time passed of all the time tracking
-      // Calculate total seconds
-      let totalSeconds = 0;
-      project.timeTracking.forEach(timeEntry => {
-          if (timeEntry.start && timeEntry.stop) {
-              const startTime = new Date(timeEntry.start);
-              const stopTime = new Date(timeEntry.stop);
-              const timeDifferenceInSeconds = (stopTime - startTime) / 1000;
-              totalSeconds += timeDifferenceInSeconds;
-          }
-      });
-      const totalTimeInHours = (totalSeconds / 60 / 60).toFixed(2);
+      const totalTimeInHours = (calculateProjectTimeInSeconds(project) / 60 / 60).toFixed(2);
 
       // Calculate the price of the project with the hour rate applied
       const hourRate = req.params.hourRate;
@@ -292,5 +333,21 @@ router.get('/project/:id/:hourRate', authenticateToken, async function(req, res,
       res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
+function calculateProjectTimeInSeconds(project) {
+      // Calculate the total time passed of all the time tracking
+      // Calculate total seconds
+      let totalSeconds = 0;
+      project.timeTracking.forEach(timeEntry => {
+          if (timeEntry.start && timeEntry.stop) {
+              const startTime = new Date(timeEntry.start);
+              const stopTime = new Date(timeEntry.stop);
+              const timeDifferenceInSeconds = (stopTime - startTime) / 1000;
+              totalSeconds += timeDifferenceInSeconds;
+          }
+      });
+      const totalTimeInHours = totalSeconds;
+      return totalTimeInHours;
+}
 
 module.exports = router;

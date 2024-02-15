@@ -364,3 +364,4 @@ Tracks your time, create a name and start tracking your time
 - ❌ Add click menu to profile picture for logout
 - ❌ Leads and their conversion
 - ❌ Complete Setup Config
+- ❌ Validation

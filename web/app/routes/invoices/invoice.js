@@ -11,8 +11,9 @@ const ShippingCompany = require('../../models/shipping_company');
 const PaymentMethod = require('../../models/payment_method');
 const formatDate = require('../formatters/date_formatter');
 const authenticateToken = require('../security/authenticate');
+const formatDateTime = require('../formatters/date_time_formatter');
 
-// Get the project page by id
+// Get the invoice page by id
 router.get('/:id', authenticateToken, async function(req, res, next) {
     // Get the session user that's logged in
     const user = req.session.user;
@@ -24,7 +25,7 @@ router.get('/:id', authenticateToken, async function(req, res, next) {
           return res.redirect('/login');
       }
       try {
-        // Use the find method to get project by id
+        // Use the find method to get invoice by id
         const invoice = await Invoice.findOne({ _id: invoice_id });
 
         // Use the find method to get the user settings
@@ -37,19 +38,22 @@ router.get('/:id', authenticateToken, async function(req, res, next) {
         const customization = await Customization.findOne()
 
         // Map the product Ids
-        const productIdsWithQuantity = invoice.products.map(product => ({
+        let productsWithQuantity;
+        if (invoice.products) {
+          const productIdsWithQuantity = invoice.products.map(product => ({
             _id: product.id.toString(), // Convert ObjectId to string
             quantity: product.quantity
         }));
-          
-        // Find all products whose IDs are in the productIds array
-        const products = await Product.find({ _id: { $in: productIdsWithQuantity.map(p => p._id) } });
-          
-        // Add the quantity information to each product
-        const productsWithQuantity = products.map(product => {
-            const matchingProduct = productIdsWithQuantity.find(p => p._id === product._id.toString());
-            return { ...product.toObject(), quantity: matchingProduct.quantity };
-        });
+            
+          // Find all products whose IDs are in the productIds array
+          const products = await Product.find({ _id: { $in: productIdsWithQuantity.map(p => p._id) } });
+            
+          // Add the quantity information to each product
+          productsWithQuantity = products.map(product => {
+              const matchingProduct = productIdsWithQuantity.find(p => p._id === product._id.toString());
+              return { ...product.toObject(), quantity: matchingProduct.quantity };
+          });
+        }
         
         // Map the discountIds
         const discountIds = invoice.discounts.map(discount => discount.id.toString());
@@ -90,13 +94,16 @@ router.get('/:id', authenticateToken, async function(req, res, next) {
         // Assuming you want to await the results (since getPaymentMethodName is asynchronous)
         const modifiedPaidArray = await Promise.all(modifiedPaid);
 
-      
-        const product_totals = productsWithQuantity.map(product => {
-          return product.price * product.quantity;
-        });
-
-        // Calculate the necessary totals to get to the amount left to pay
-        const product_total = product_totals.reduce((sum, price) => sum + parseFloat(price), 0);
+        let product_totals = 0;
+        let product_total = 0;
+        if (productsWithQuantity) {
+          product_totals = productsWithQuantity.map(product => {
+            return product.price * product.quantity;
+          });
+          
+          // Calculate the necessary totals to get to the amount left to pay
+          product_total = product_totals.reduce((sum, price) => sum + parseFloat(price), 0);
+        }
         // var discount_amounts_total = 0;
         // if (discount_ids_amounts_totals) {
         //   discount_amounts_total = discount_ids_amounts_totals.reduce((sum, total) => sum + parseFloat(total),0);
@@ -114,6 +121,26 @@ router.get('/:id', authenticateToken, async function(req, res, next) {
         // }
         // const amount_due = (paid_total > amount_total) ? 0 : (amount_total - paid_total);
 
+
+        // Create a new array with modified timeTracking objects
+        const modifiedTimeTracking = invoice.project_billed.timeTracking.map(timeTracking => ({
+          ...timeTracking.toObject(), // Convert Mongoose document to plain object
+          start: formatDateTime(timeTracking.start, user_settings),
+          stop: formatDateTime(timeTracking.stop, user_settings)
+        }));
+
+        // Copy all properties from invoice to a new object
+        const modifiedInvoice = {
+          ...invoice.toObject(),
+          project_billed: {
+            ...invoice.project_billed.toObject(),
+            timeTracking: modifiedTimeTracking // Use the modified timeTracking array
+          }
+        };
+
+        // Check the modified invoice
+        console.log(modifiedInvoice);
+
         console.log('Product total:', product_total);
         // console.log('Shipping amount:', shipping_amount);
         // console.log('Discount total percentage',discount_amounts_percentage)
@@ -126,7 +153,7 @@ router.get('/:id', authenticateToken, async function(req, res, next) {
         // Render the items page
         res.render('invoices/invoice', { 
           user: user_settings, 
-          invoice: invoice, 
+          invoice: modifiedInvoice, 
           products: productsWithQuantity,
           discounts: discounts,
           tax: tax,
