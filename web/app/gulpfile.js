@@ -1,5 +1,6 @@
-const {series, parallel, watch, src, dest} = require('gulp');
+const {series, parallel, watch, src, dest, gulp} = require('gulp');
 const pump = require('pump');
+const nodemon = require('gulp-nodemon');
 
 // gulp plugins and utils
 const livereload = require('gulp-livereload');
@@ -30,6 +31,23 @@ function handleError(done) {
         return done(err);
     };
 };
+
+function startNodemon(cb) {
+    let started = false;
+
+    return nodemon({
+        script: 'bin/www.js',
+        watch: ["views", "routes", "models", "./", "bin"],
+        ext: "js,hbs",
+    }).on('start', () => {
+        if (!started) {
+            cb();
+            started = true;
+        }
+    }).on('error', (err) => {
+        console.error('Nodemon error:', err); // Log any errors
+    });
+}
 
 // function hbs(done) {
 //     pump([
@@ -122,7 +140,7 @@ const cssWatcher = () => watch('public/stylesheets/**/*.css', css);
 const jsWatcher = () => watch('public/javascripts/**/*.js', js);
 // const watcher = parallel(hbsWatcher, cssWatcher, jsWatcher);
 const watcher = parallel(cssWatcher, jsWatcher);
-const build = series(css, js);
+const build = series(css, js, startNodemon);
 
 exports.build = build;
 exports.lint = lint;

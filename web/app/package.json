@@ -4,8 +4,7 @@
     "version": "1.0.0",
     "license": "MIT",
     "scripts": {
-        "start": "node ./bin/www",
-        "dev": "gulp"
+        "start": "gulp"
     },
     "author": {
         "name": "Mind Glowing",
@@ -15,7 +14,7 @@
     "dependencies": {
         "autoprefixer": "^10.4.7",
         "beeper": "2.1.0",
-        "config": "^3.3.9",
+        "config": "^3.3.12",
         "connect-mongodb-session": "^3.1.1",
         "cookie-parser": "~1.4.4",
         "cors": "^2.8.5",
@@ -28,6 +27,7 @@
         "gulp-install": "^1.1.0",
         "gulp-javascript-obfuscator": "^1.1.6",
         "gulp-livereload": "4.0.2",
+        "gulp-nodemon": "^2.5.0",
         "gulp-postcss": "^9.0.1",
         "gulp-stylelint": "^13.0.0",
         "gulp-uglify": "3.0.2",

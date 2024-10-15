@@ -21,8 +21,5 @@ RUN npm install -g nodemon
 RUN npm install
 RUN npm install gulp
 
-# Install supervisord
-RUN apt-get update && apt-get install -y supervisor
-
-# Create supervisor configuration file
-COPY ./web/config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+# Set the default command to run your bot
+CMD ["npm", "start"]

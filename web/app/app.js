@@ -2,7 +2,7 @@ const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
-const logger = require('morgan');
+const logger_morgan = require('morgan');
 const hbs = require('hbs');
 const mongoose = require('mongoose');
 const mongodb_URI = require('./routes/mongodb/URI');
@@ -12,7 +12,6 @@ const sessionExpirationMiddleware = require('./routes/security/sessionExpiration
 const config = require('config');
 // Import the handlebars-helpers.js file
 require('./handlebars-helpers');
-
 
 //////// ROUTERS //////// 
 
@@ -100,7 +99,7 @@ hbs.registerPartials(path.join(__dirname, 'views/partials'), (err) => {});
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
-app.use(logger('dev'));
+app.use(logger_morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -258,7 +257,7 @@ app.use(function(err, req, res, next) {
 
 mongoose.connect(mongodb_URI, {useNewUrlParser:true, useUnifiedTopology:true})
 .then(() => {
-  console.log('DB connected!')
+  logger.success('DB connected!')
 })
 .catch((err) => {
   console.log(err);

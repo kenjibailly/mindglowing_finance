@@ -1,5 +1,4 @@
-version: '3'
-
+---
 services:
   mindglowing_finance_nginx:
     image: nginx:latest
@@ -31,9 +30,7 @@ services:
       - "8160:3000"
     volumes:
       - ./web/app:/app
-    # To get the logs run:
-    # docker exec -it mindglowing_finance_web supervisord -e trace
-    command: supervisord -c /etc/supervisor/conf.d/supervisord.conf
+      - /app/node_modules
     networks:
       - mindglowing_finance
     env_file:

@@ -1,4 +1,0 @@
-{
-    "watch": ["views", "routes", "models", "./"],
-    "ext": "js,hbs"
-}

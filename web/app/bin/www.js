@@ -7,6 +7,8 @@
 var app = require('../app');
 var debug = require('debug')('app:server');
 var http = require('http');
+const Logger = require('../logger');
+global.logger = new Logger('Finance');
 
 /**
  * Get port from environment and store in Express.
@@ -25,9 +27,24 @@ var server = http.createServer(app);
  * Listen on provided port, on all network interfaces.
  */
 
-server.listen(port);
+server.listen(port, () => {
+  logger.success('Server is running on port: ' + port);
+});
 server.on('error', onError);
 server.on('listening', onListening);
+
+// Graceful shutdown
+process.on('SIGTERM', () => {
+  server.close(() => {
+      console.log('Process terminated');
+  });
+});
+
+process.on('SIGINT', () => {
+  server.close(() => {
+      console.log('Process terminated');
+  });
+});
 
 /**
  * Normalize a port into a number, string, or false.
