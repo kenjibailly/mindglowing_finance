@@ -1,5 +1,8 @@
 document.addEventListener('DOMContentLoaded', function () {
     const searchInput = document.getElementById('search');
+    if (!searchInput) {
+      return;
+    }
     const searchResults = document.querySelector('.searchResultsPopup');
   
     // Function to show the search results popup

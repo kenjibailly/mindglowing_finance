@@ -12,6 +12,8 @@ const sessionExpirationMiddleware = require('./routes/security/sessionExpiration
 const config = require('config');
 // Import the handlebars-helpers.js file
 require('./handlebars-helpers');
+const Logger = require('./logger');
+global.logger = new Logger('Finance Web');
 
 //////// ROUTERS //////// 
 
@@ -104,6 +106,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+logger.info(process.env.HOST);
 
 const whitelist = [ 
   `https://${process.env.HOST}:${process.env.HOST_PORT}`,

@@ -2,7 +2,9 @@ const express = require('express');
 const router = express.Router();
 const Invoice = require('../../models/invoice');
 const User = require('../../models/user');
+const Customization = require('../../models/customization');
 const authenticateToken = require('../security/authenticate');
+const pdf = require('html-pdf');
 
 const fs = require('fs');
 // const PDFDocument = require('pdfkit');
@@ -15,7 +17,6 @@ router.get('/:id', authenticateToken, async function(req, res, next) {
     const user = req.session.user;
     // Get the invoice ID
     const invoice_id = req.params.id;
-    const pdf_path = `/pdf/${invoice_id}.pdf`;
 
     // If the user is logged in
       if(!user) {
@@ -28,6 +29,12 @@ router.get('/:id', authenticateToken, async function(req, res, next) {
 
         // Use the find method to get the user settings
         const user_settings = await User.findOne({ username: user.username });
+
+        // Use the find method to get the customization settings
+        const customization_settings = await Customization.findOne();
+        const invoicePrefix = customization_settings.invoice_prefix + customization_settings.invoice_separator;
+
+        const pdf_path = `/pdf/${invoicePrefix}${invoice.number}_${invoice_id}.pdf`;
 
         createPDF(invoice, user_settings);
 
@@ -47,7 +54,7 @@ router.get('/:id', authenticateToken, async function(req, res, next) {
 });
 
 
-function createPDF(invoice, user_settings) {
+async function createPDF(invoice, user_settings) {
 
   // Ensure the directory exists
   const directoryPath = 'public/pdf/';
@@ -55,42 +62,54 @@ function createPDF(invoice, user_settings) {
       fs.mkdirSync(directoryPath, { recursive: true });
   }
 
-  // Create a new PDF document
-  let doc = new PDFDocument({ margin: 30, size: 'A4' });
+  // // Use the find method to get the customization settings
+  const customization_settings = await Customization.findOne();
+  const invoicePrefix = customization_settings.invoice_prefix + customization_settings.invoice_separator;
 
-  // Pipe the PDF to a file
-  const filePath = `public/pdf/${invoice.id}.pdf`;
-  doc.pipe(fs.createWriteStream(filePath));
+    // Create HTML content
+    const htmlContent = `
+    <html>
+        <head>
+            <style>
+                body { font-family: Arial, sans-serif; }
+                h1 { color: #4CAF50; }
+                table { width: 100%; border-collapse: collapse; }
+                th, td { border: 1px solid #ddd; padding: 8px; }
+                th { background-color: #8e38ff; color: white; }
+                tr:nth-child(even) { background-color: #f2f2f2; }
+            </style>
+        </head>
+        <body>
+            <h1>Project Time Tracking</h1>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Start</th>
+                        <th>Stop</th>
+                        <th>Time Passed</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${invoice.project_billed.timeTracking.map(timeTracking => `
+                    <tr>
+                        <td>${timeTracking.name}</td>
+                        <td>${formatDateTime(timeTracking.start, user_settings)}</td>
+                        <td>${formatDateTime(timeTracking.stop, user_settings)}</td>
+                        <td>${timeTracking.timePassed}</td>
+                    </tr>`).join('')}
+                </tbody>
+            </table>
+        </body>
+    </html>
+    `;
 
-  // Table data
-  const table = {
-      title: 'Project Time Tracking',
-      headers: [
-        { label: 'Name', property: 'name', headerColor: "#8e38ff" },
-        { label: 'Start', property: 'start', headerColor: "#8e38ff" },
-        { label: 'Stop', property: 'stop', headerColor: "#8e38ff" },
-        { label: 'Time Passed', property: 'timepassed', headerColor: "#8e38ff" },
-      ],
-      datas: [], // Complex data goes here
-      rows: invoice.project_billed.timeTracking.map(timeTracking => [
-          timeTracking.name,
-          formatDateTime(timeTracking.start, user_settings),
-          formatDateTime(timeTracking.stop, user_settings),
-          timeTracking.timePassed,
-      ]),
-  };
+    const options = { format: 'A4' };
 
-  // Create the table
-  doc.table(table, { 
-    width: 600 ,
-    prepareRow: (row, indexColumn, indexRow, rectRow, rectCell) => {
-      doc.font("Helvetica").fontSize(8);
-      indexColumn === 0 && doc.addBackground(rectRow, 'blue', 0.15);
-    },
-  });
-
-  // Finalize the PDF
-  doc.end();
+    pdf.create(htmlContent, options).toFile(`public/pdf/${invoicePrefix}${invoice.number}_${invoice.id}.pdf`, (err, res) => {
+        if (err) return console.log(err);
+        console.log(res); // { filename: '/app/output.pdf' }
+    });
 
 }  
 

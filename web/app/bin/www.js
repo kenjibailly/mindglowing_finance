@@ -8,7 +8,7 @@ var app = require('../app');
 var debug = require('debug')('app:server');
 var http = require('http');
 const Logger = require('../logger');
-global.logger = new Logger('Finance');
+const logger = new Logger('Finance Web');
 
 /**
  * Get port from environment and store in Express.
@@ -32,19 +32,6 @@ server.listen(port, () => {
 });
 server.on('error', onError);
 server.on('listening', onListening);
-
-// Graceful shutdown
-process.on('SIGTERM', () => {
-  server.close(() => {
-      console.log('Process terminated');
-  });
-});
-
-process.on('SIGINT', () => {
-  server.close(() => {
-      console.log('Process terminated');
-  });
-});
 
 /**
  * Normalize a port into a number, string, or false.
