@@ -5,7 +5,7 @@
 web/app/node_modules/
 
 # Ignore pdf folder in the web/app folder
-# web/app/public/pdf/
+web/app/public/pdf/
 
 # Ignore package-lock.json files
 **/package-lock.json
