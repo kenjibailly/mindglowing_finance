@@ -9,7 +9,7 @@ router.post('/:projectId/:timeTrackingId', authenticateToken, async (req, res) =
         const projectId = req.params.projectId; // Use req.params.id to get the project ID from the route parameters
         const timeTrackingId = req.params.timeTrackingId;
 
-        console.log(timeTrackingId);
+        logger.log(timeTrackingId);
 
         // Fetch the existing project by its ID
         const existingProject = await Project.findById(projectId);
@@ -33,7 +33,7 @@ router.post('/:projectId/:timeTrackingId', authenticateToken, async (req, res) =
 
         res.redirect(`/projects/project/${projectId}`);
     } catch (error) {
-        console.error(error);
+        logger.error(error);
         res.status(500).json({ message: 'Internal Server Error' });
     }
 });

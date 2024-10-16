@@ -19,7 +19,7 @@ router.get('/:id', authenticateToken, async function(req, res, next) {
       try {
         // Use the find method to get all customers
         const customer = await Customer.findById(req.params.id);
-        console.log(customer)
+        logger.log(customer)
         // Check if success is true in the url
         const success = req.query.success;
         // Render the customers page
@@ -31,7 +31,7 @@ router.get('/:id', authenticateToken, async function(req, res, next) {
           site_title: 'Edit Customer',
         });
       } catch (error) {
-        console.error(error);
+        logger.error(error);
         return res.render('customers/customers', { 
           user: user_settings, 
           access_token_expiry: process.env.ACCESS_TOKEN_EXPIRY_IN_SECONDS
@@ -55,7 +55,7 @@ router.get('/:id', authenticateToken, async function(req, res, next) {
         updatedCustomer['personal_information.currency_name'] = currency_name;
         updatedCustomer['personal_information.currency_symbol'] = currency_symbol;
 
-        console.log(updatedCustomer);
+        logger.log(updatedCustomer);
   
         // Update the customer in the database
         const result = await Customer.findByIdAndUpdate(customerId, updatedCustomer, { new: true });
@@ -69,7 +69,7 @@ router.get('/:id', authenticateToken, async function(req, res, next) {
       // Render the customer again with a success message
       return res.redirect('/customers/customer/'+ customer.id + '?success=true');
     } catch (error) {
-        console.error(error);
+        logger.error(error);
         return res.status(500).send('Internal Server Error');
     }
   });

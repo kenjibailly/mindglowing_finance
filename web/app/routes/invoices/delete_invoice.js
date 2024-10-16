@@ -20,7 +20,7 @@ router.post('/:id', authenticateToken, async (req, res) => {
         // Redirect to the invoices page
         res.redirect(`/invoices/`);
     } catch (error) {
-        console.error(error);
+        logger.error(error);
         res.status(500).send('Internal Server Error');
     }
 });

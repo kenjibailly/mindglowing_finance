@@ -36,7 +36,7 @@ router.get('/:id', authenticateToken, async function(req, res, next) {
         });
 
         // Now, timeTrackingArray contains the information for active timeTrackings
-        console.log(timeTrackingArray);
+        logger.log(timeTrackingArray);
 
         // Render the items page
         res.render('projects/time_tracking/time_tracking', { 
@@ -48,7 +48,7 @@ router.get('/:id', authenticateToken, async function(req, res, next) {
           site_title: 'Time Tracking',
         });
       } catch (error) {
-        console.error(error);
+        logger.error(error);
         res.render('projects/time_tracking/time_tracking', { 
           username: user.username,
           access_token_expiry: process.env.ACCESS_TOKEN_EXPIRY_IN_SECONDS

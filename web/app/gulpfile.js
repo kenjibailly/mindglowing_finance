@@ -45,7 +45,7 @@ function startNodemon(cb) {
             started = true;
         }
     }).on('error', (err) => {
-        console.error('Nodemon error:', err); // Log any errors
+        logger.error('Nodemon error:', err); // Log any errors
     });
 }
 

@@ -116,7 +116,7 @@ router.get('/:id', authenticateToken, async function(req, res, next) {
         // var amount_total = product_total - discount_amounts_total - (product_total / 100 * discount_amounts_percentage) + shipping_amount + tax_amount;
         // var paid_total = 0;
         // if (paid_amount[0] !== "") {
-        //   console.log("PAID_AMOUNT: ", paid_amount)
+        //   logger.log("PAID_AMOUNT: ", paid_amount)
         //   paid_total = paid_amount.reduce((sum, amount) => sum + parseFloat(amount), 0);
         // }
         // const amount_due = (paid_total > amount_total) ? 0 : (amount_total - paid_total);
@@ -139,16 +139,16 @@ router.get('/:id', authenticateToken, async function(req, res, next) {
         };
 
         // Check the modified invoice
-        console.log(modifiedInvoice);
+        logger.log(modifiedInvoice);
 
-        console.log('Product total:', product_total);
-        // console.log('Shipping amount:', shipping_amount);
-        // console.log('Discount total percentage',discount_amounts_percentage)
-        // console.log('Discount flat total', discount_amounts_total)
-        // console.log('Tax amount:', tax_amount);
-        // console.log('Amount total:', amount_total);
-        // console.log('Paid total:', paid_total);
-        // console.log('Amount due:', amount_due);
+        logger.log('Product total:', product_total);
+        // logger.log('Shipping amount:', shipping_amount);
+        // logger.log('Discount total percentage',discount_amounts_percentage)
+        // logger.log('Discount flat total', discount_amounts_total)
+        // logger.log('Tax amount:', tax_amount);
+        // logger.log('Amount total:', amount_total);
+        // logger.log('Paid total:', paid_total);
+        // logger.log('Amount due:', amount_due);
 
         // Render the items page
         res.render('invoices/invoice', { 
@@ -166,7 +166,7 @@ router.get('/:id', authenticateToken, async function(req, res, next) {
           site_title: 'Invoice',
         });
       } catch (error) {
-        console.error(error);
+        logger.error(error);
         res.render('invoices/invoices', { username: user.username, access_token_expiry: process.env.ACCESS_TOKEN_EXPIRY_IN_SECONDS});
     }
   });

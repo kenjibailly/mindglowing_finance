@@ -33,7 +33,7 @@ router.post('/:id', authenticateToken, async (req, res) => {
 
         res.redirect(`/projects/project/${projectId}`);
     } catch (error) {
-        console.error(error);
+        logger.error(error);
         res.status(500).json({ message: 'Internal Server Error' });
     }
 });

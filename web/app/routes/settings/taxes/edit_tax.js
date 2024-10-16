@@ -29,7 +29,7 @@ router.get('/:id', authenticateToken, async function(req, res, next) {
             site_title: 'Edit Tax',
         });
       } catch (error) {
-        console.error(error);
+        logger.error(error);
         res.render('/settings/taxes/');
     }
   });
@@ -85,7 +85,7 @@ router.get('/:id', authenticateToken, async function(req, res, next) {
       // Render the tax again with a success message
       return res.redirect('/settings/taxes/edit/' + tax.id + '?success=true');
     } catch (error) {
-        console.error(error);
+        logger.error(error);
         res.status(500).send('Internal Server Error');
     }
 });

@@ -91,7 +91,7 @@ router.get('/:id', authenticateToken, async function(req, res, next) {
           site_title: 'Project',
         });
       } catch (error) {
-        console.error(error);
+        logger.error(error);
         res.render('projects/projects', { username: user.username, access_token_expiry: process.env.ACCESS_TOKEN_EXPIRY_IN_SECONDS});
     }
   });

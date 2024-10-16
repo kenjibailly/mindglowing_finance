@@ -63,7 +63,7 @@ router.post('/', authenticateToken, async (req, res) => {
         const savedTax = await newTax.save();
         res.redirect('/settings/taxes/?success=true');
     } catch (error) {
-        console.error(error);
+        logger.error(error);
 
         // Check if the error is a duplicate key violation
         if (error.code === 11000 && error.keyPattern && error.keyPattern['name']) {

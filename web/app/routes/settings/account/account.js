@@ -79,7 +79,7 @@ router.get('/', authenticateToken, async function(req, res, next) {
           picture = user_settings.picture;
         }
 
-        console.log('picture', picture);
+        logger.log('picture', picture);
   
         // If the item had a picture and there's a new one
         if(user_settings.picture && req.file) {
@@ -117,7 +117,7 @@ router.get('/', authenticateToken, async function(req, res, next) {
       
       return res.redirect('/settings/account/?success=true');
     } catch (error) {
-        console.error(error);
+        logger.error(error);
         res.status(500).send('Internal Server Error');
     }
 });

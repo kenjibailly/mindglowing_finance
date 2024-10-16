@@ -28,7 +28,7 @@ router.get('/:id', authenticateToken, async function(req, res, next) {
             site_title: 'Edit Discount',
         });
       } catch (error) {
-        console.error(error);
+        logger.error(error);
         res.render('/settings/discounts/');
     }
   });
@@ -75,7 +75,7 @@ router.get('/:id', authenticateToken, async function(req, res, next) {
       // Render the discount again with a success message
       return res.redirect('/settings/discounts/edit/' + discount.id + '?success=true');
     } catch (error) {
-        console.error(error);
+        logger.error(error);
         res.status(500).send('Internal Server Error');
     }
 });

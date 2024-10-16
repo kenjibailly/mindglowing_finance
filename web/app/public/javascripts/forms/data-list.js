@@ -19,7 +19,7 @@ function createDataList(dataList) {
     const datalist = dataList.querySelector('.data-list-datalist');
 
     if (!input || !datalist) {
-        console.error('Input or datalist element not found for data list.');
+        logger.error('Input or datalist element not found for data list.');
         return;
     }
 

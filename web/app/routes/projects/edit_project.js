@@ -46,7 +46,7 @@ router.get('/:id', authenticateToken, async function(req, res, next) {
           site_title: 'Edit Project',
         });
       } catch (error) {
-        console.error(error);
+        logger.error(error);
         res.render('projects/projects', { username: user.username, access_token_expiry: process.env.ACCESS_TOKEN_EXPIRY_IN_SECONDS});
     }
   });
@@ -56,7 +56,7 @@ router.get('/:id', authenticateToken, async function(req, res, next) {
   router.post('/:id', authenticateToken, async (req, res) => {
     try {
         const projectId = req.params.id;
-        console.log(projectId);
+        logger.log(projectId);
         const { 
           name, 
           customer_id, 
@@ -77,7 +77,7 @@ router.get('/:id', authenticateToken, async function(req, res, next) {
         const project = await Project.findById(req.params.id);
         return res.redirect('/projects/edit/' + project.id + '?success=true');
         } catch (error) {
-            console.error(error);
+            logger.error(error);
             res.status(500).send('Internal Server Error');
         }
 });

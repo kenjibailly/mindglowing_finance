@@ -20,12 +20,12 @@ router.get('/', authenticateToken, function(req, res, next) {
           // Render the dashboard page
           res.redirect('/dashboard');
         } else {
-          console.log('User not found or setup is false.');
+          logger.log('User not found or setup is false.');
           // Handle the case where the user is not found or setup is false
         }
       })
       .catch((error) => {
-        console.error('Error:', error);
+        logger.error('Error:', error);
         // Handle any errors that occurred during the query
       });
   } else {

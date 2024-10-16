@@ -35,7 +35,7 @@ router.post('/:id', authenticateToken, async (req, res) => {
         // Send a JSON response with a success message
         res.status(200).json({ message: 'Time trackings deleted successfully' });
     } catch (error) {
-        console.error(error);
+        logger.error(error);
         res.status(500).send('Internal Server Error');
     }
 });

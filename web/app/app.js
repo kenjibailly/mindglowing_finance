@@ -107,8 +107,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-logger.info(process.env.HOST);
-
 const whitelist = [ 
   `https://${process.env.HOST}:${process.env.HOST_PORT}`,
   `https://${process.env.HOST}`,
@@ -144,7 +142,7 @@ const store = new MongoDBStore({
 
 // Catch errors
 store.on('error', function (error) {
-  console.error(error);
+  logger.error(error);
 });
 
 app.set('trust proxy', 1);
@@ -264,7 +262,7 @@ mongoose.connect(mongodb_URI, {useNewUrlParser:true, useUnifiedTopology:true})
   logger.success('DB connected!')
 })
 .catch((err) => {
-  console.log(err);
+  logger.log(err);
 })
 
 module.exports = app;

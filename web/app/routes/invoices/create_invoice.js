@@ -61,7 +61,7 @@ router.get('/', authenticateToken, async function(req, res, next) {
 
     // // Use the find method to get the projects of the customer
     // const projects = await Project.find({customer_id: customer_id});
-    // console.log(projects);
+    // logger.log(projects);
 
     // Render the create invoices page
     res.render('invoices/create_invoice', { 
@@ -121,31 +121,31 @@ router.post('/', authenticateToken, async (req, res) => {
     const shipping_amount = parseFloat(original_shipping_amount || 0);
 
     // Log or process the form fields as needed
-    console.log('Invoice Number:', invoice_number);
-    console.log('Customer ID:', customer_id);
-    console.log('Product IDs:', product_ids);
-    console.log('Product quantities:', product_quantities);
-    console.log('Product prices:', product_ids_prices);
-    console.log('Project ID:', project_id);
-    console.log('Project Name:', project_name);
-    console.log('Project Description:', project_description);
-    console.log('Project Hour Rate:', project_hour_rate);
-    console.log('Project Time Tracking:', project_timeTracking);
-    console.log('Project Total Time:', project_total_time);
-    console.log('Discount IDs:', discount_ids);
-    console.log('Discount Amounts Total', discount_ids_amounts_totals);
-    console.log('Discount Amounts Total', discount_ids_amounts_percentages);
-    console.log('Tax ID:', tax_id);
-    console.log('Tax Percentage:', tax_id_tax_percentage);
-    console.log('Tax Amount', tax_amount);
-    console.log('Shipping Amount:', shipping_amount);
-    console.log('Shipping Company ID:', shipping_company_id);
-    console.log('Paid On:', paid_on);
-    console.log('Paid Amount:', paid_amount);
-    console.log('Payment Method IDs:', payment_method_id);
-    console.log('Description:', description);
-    console.log('Amount Total:', amount_total);
-    console.log('Amount Due:', amount_due);
+    logger.log('Invoice Number:', invoice_number);
+    logger.log('Customer ID:', customer_id);
+    logger.log('Product IDs:', product_ids);
+    logger.log('Product quantities:', product_quantities);
+    logger.log('Product prices:', product_ids_prices);
+    logger.log('Project ID:', project_id);
+    logger.log('Project Name:', project_name);
+    logger.log('Project Description:', project_description);
+    logger.log('Project Hour Rate:', project_hour_rate);
+    logger.log('Project Time Tracking:', project_timeTracking);
+    logger.log('Project Total Time:', project_total_time);
+    logger.log('Discount IDs:', discount_ids);
+    logger.log('Discount Amounts Total', discount_ids_amounts_totals);
+    logger.log('Discount Amounts Total', discount_ids_amounts_percentages);
+    logger.log('Tax ID:', tax_id);
+    logger.log('Tax Percentage:', tax_id_tax_percentage);
+    logger.log('Tax Amount', tax_amount);
+    logger.log('Shipping Amount:', shipping_amount);
+    logger.log('Shipping Company ID:', shipping_company_id);
+    logger.log('Paid On:', paid_on);
+    logger.log('Paid Amount:', paid_amount);
+    logger.log('Payment Method IDs:', payment_method_id);
+    logger.log('Description:', description);
+    logger.log('Amount Total:', amount_total);
+    logger.log('Amount Due:', amount_due);
 
 
     // Get the product totals
@@ -183,7 +183,7 @@ router.post('/', authenticateToken, async (req, res) => {
       }
    }
 
-    console.log("DISCOUNTS: ", discounts)
+    logger.log("DISCOUNTS: ", discounts)
 
     // Create paid on in the right format
     var paid = [];
@@ -197,11 +197,11 @@ router.post('/', authenticateToken, async (req, res) => {
       }
     }
 
-    console.log("PAID: ", paid);
+    logger.log("PAID: ", paid);
 
     let project_timeTracking_json;
     if (project_timeTracking) {
-      console.log("project_timeTracking", project_timeTracking)
+      logger.log("project_timeTracking", project_timeTracking)
       project_timeTracking_json = JSON.parse(project_timeTracking)
     }
 
@@ -233,7 +233,7 @@ router.post('/', authenticateToken, async (req, res) => {
       const savedInvoice = await newInvoice.save();
       res.redirect('/invoices/');
     } catch (error) {
-      console.error(error);
+      logger.error(error);
     
       // Check if the error is a duplicate key violation
       if (error.code === 11000 && error.keyPattern && error.keyPattern['number']) {
@@ -300,7 +300,7 @@ router.get('/projects/:id', authenticateToken, async function(req, res, next) {
       // Send the projects as a JSON response
       res.json(projectsWithTotalTime);
   } catch (error) {
-      console.error('Error:', error);
+      logger.error('Error:', error);
       // Handle errors and send an appropriate response
       res.status(500).json({ error: 'Internal Server Error' });
   }
@@ -328,7 +328,7 @@ router.get('/project/:id/:hourRate', authenticateToken, async function(req, res,
       // Send the price of the project as a JSON response
       res.json(priceProject);
   } catch (error) {
-      console.error('Error:', error);
+      logger.error('Error:', error);
       // Handle errors and send an appropriate response
       res.status(500).json({ error: 'Internal Server Error' });
   }

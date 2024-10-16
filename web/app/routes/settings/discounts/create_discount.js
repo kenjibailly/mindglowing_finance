@@ -49,7 +49,7 @@ router.post('/', authenticateToken, async (req, res) => {
         discount_amount_total = 0;
     }
 
-    console.log(discount_amount_percentage);
+    logger.log(discount_amount_percentage);
 
     // Create a new discount instance with the form details
     const newDiscount = new Discount({
@@ -65,7 +65,7 @@ router.post('/', authenticateToken, async (req, res) => {
         const savedDiscount = await newDiscount.save();
         res.redirect('/settings/discounts/');
     } catch (error) {
-        console.error(error);
+        logger.error(error);
 
         // Check if the error is a duplicate key violation
         if (error.code === 11000 && error.keyPattern && error.keyPattern['name']) {

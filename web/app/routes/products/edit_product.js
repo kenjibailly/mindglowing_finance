@@ -32,7 +32,7 @@ router.get('/:id', authenticateToken, async function(req, res, next) {
           site_title: 'Edit Product',
         });
       } catch (error) {
-        console.error(error);
+        logger.error(error);
         res.render('products/products', { username: user.username, access_token_expiry: process.env.ACCESS_TOKEN_EXPIRY_IN_SECONDS});
     }
   });
@@ -91,7 +91,7 @@ router.get('/:id', authenticateToken, async function(req, res, next) {
       // return res.render('products/product', { success: 'true', username: user.username, product: product, user_settings: user_settings });
       return res.redirect('/products/edit/' + product.id + '?success=true');
     } catch (error) {
-        console.error(error);
+        logger.error(error);
         res.status(500).send('Internal Server Error');
     }
 });

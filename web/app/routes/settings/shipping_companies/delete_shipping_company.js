@@ -25,7 +25,7 @@ router.post('/:id', authenticateToken, async (req, res) => {
         // Redirect to the shipping companies page
         res.redirect(`/settings/shipping-companies/`);
     } catch (error) {
-        console.error(error);
+        logger.error(error);
         res.status(500).send('Internal Server Error');
     }
   });

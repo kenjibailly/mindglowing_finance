@@ -34,7 +34,7 @@ router.post('/renew-token', (req, res) => {
 
     return res.json({ success: true, token: accessToken });
   } catch (error) {
-    console.error('Error verifying refresh token:', error);
+    logger.error('Error verifying refresh token:', error);
     return res.status(401).json({ success: false, message: 'Invalid refresh token' });
   }
 });

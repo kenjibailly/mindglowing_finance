@@ -23,11 +23,11 @@ function deleteSelectedInvoices() {
             location.reload(); // Reload the page
         } else {
             // Handle errors
-            console.error('Error:', data.message);
+            logger.error('Error:', data.message);
         }
     })
     .catch(error => {
-        console.error('Error:', error);
+        logger.error('Error:', error);
     });
 }
 
@@ -203,10 +203,10 @@ async function createInvoice() {
                 window.location.href = '/invoices?success';
             } else {
                 // Handle errors
-                console.error('Error:', response.statusText);
+                logger.error('Error:', response.statusText);
             }
         } catch (error) {
-            console.error('Error:', error.message);
+            logger.error('Error:', error.message);
         }
     }
 }
@@ -398,7 +398,7 @@ function getProjects(option) {
         clickOptions(input, datalist);
     })
     .catch(error => {
-        console.error('Error:', error);
+        logger.error('Error:', error);
     });
 }
 

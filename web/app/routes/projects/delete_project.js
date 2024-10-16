@@ -26,7 +26,7 @@ router.post('/:id', authenticateToken, async (req, res) => {
         // Redirect to the projects page
         res.redirect(`/projects/`);
     } catch (error) {
-        console.error(error);
+        logger.error(error);
         res.status(500).send('Internal Server Error');
     }
   });

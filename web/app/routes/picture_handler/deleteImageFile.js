@@ -8,7 +8,7 @@ async function deleteImageFile(filename) {
             const filePath = path.join('/app', 'public', 'uploads', 'resized', filename);
             await fs.unlink(filePath);
         } catch (error) {
-            console.error('Error deleting image file:', error);
+            logger.error('Error deleting image file:', error);
         }
     }
 }

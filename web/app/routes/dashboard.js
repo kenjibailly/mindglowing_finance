@@ -24,12 +24,12 @@ router.get('/', authenticateToken, async function(req, res, next) {
             user: user,
           });
         } else {
-          console.log('User not found or setup is false.');
+          logger.log('User not found or setup is false.');
           // Handle the case where the user is not found or setup is false
         }
       })
       .catch((error) => {
-        console.error('Error:', error);
+        logger.error('Error:', error);
         // Handle any errors that occurred during the query
       });
   } else {

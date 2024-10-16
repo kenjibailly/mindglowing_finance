@@ -78,7 +78,7 @@ router.post('/', authenticateToken, uploadConfig.upload, uploadConfig.resizeAndC
         // Redirect or respond as needed
         res.redirect('/');
     } catch (error) {
-        console.error(error);
+        logger.error(error);
         res.status(500).send('Internal Server Error');
     }
 });

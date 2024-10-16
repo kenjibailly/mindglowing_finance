@@ -25,7 +25,7 @@ router.post('/:id', authenticateToken, async (req, res) => {
         // Redirect to the taxes page
         res.redirect(`/settings/taxes/`);
     } catch (error) {
-        console.error(error);
+        logger.error(error);
         res.status(500).send('Internal Server Error');
     }
   });

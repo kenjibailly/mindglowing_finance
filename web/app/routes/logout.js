@@ -5,7 +5,7 @@ router.get('/', (req, res) => {
     // Destroy the user session
     req.session.destroy(err => {
         if (err) {
-            console.error('Error destroying session:', err);
+            logger.error('Error destroying session:', err);
         } else {
             // Redirect to home after logging out
             res.redirect('/login');

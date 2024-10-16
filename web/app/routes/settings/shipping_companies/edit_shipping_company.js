@@ -29,7 +29,7 @@ router.get('/:id', authenticateToken, async function(req, res, next) {
             site_title: 'Edit Shipping Company',
         });
       } catch (error) {
-        console.error(error);
+        logger.error(error);
         res.render('/settings/shipping-companies/');
     }
   });
@@ -70,7 +70,7 @@ router.get('/:id', authenticateToken, async function(req, res, next) {
       // Render the shipping company again with a success message
       return res.redirect('/settings/shipping-companies/edit/' + shipping_company.id + '?success=true');
     } catch (error) {
-        console.error(error);
+        logger.error(error);
         res.status(500).send('Internal Server Error');
     }
 });

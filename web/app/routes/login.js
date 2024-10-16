@@ -81,7 +81,7 @@ router.post('/', async function(req, res, next) {
             // Redirects the page to the dashboard
             return res.redirect('/');
         }).catch((error) => {
-            console.log(error)
+            logger.log(error)
         });
 });
 

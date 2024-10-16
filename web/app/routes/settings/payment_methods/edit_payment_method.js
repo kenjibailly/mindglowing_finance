@@ -29,7 +29,7 @@ router.get('/:id', authenticateToken, async function(req, res, next) {
           site_title: 'Edit Payment Method',
         });
       } catch (error) {
-        console.error(error);
+        logger.error(error);
         res.redirect('/settings/payment-methods/');
     }
   });
@@ -70,7 +70,7 @@ router.get('/:id', authenticateToken, async function(req, res, next) {
       // Render the payment method again with a success message
       return res.redirect('/settings/payment-methods/edit/' + payment_method.id + '?success=true');
     } catch (error) {
-        console.error(error);
+        logger.error(error);
         res.status(500).send('Internal Server Error');
     }
 });

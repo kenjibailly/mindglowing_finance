@@ -19,7 +19,7 @@ router.post('/', authenticateToken, async (req, res) => {
         // Send a JSON response with a success message
         res.status(200).json({ message: 'Customers deleted successfully' });
     } catch (error) {
-        console.error(error);
+        logger.error(error);
         res.status(500).send('Internal Server Error');
     }
 });

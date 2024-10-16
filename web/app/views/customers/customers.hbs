@@ -7,18 +7,18 @@
 
     <button onclick="deleteSelectedCustomers()" type="submit">Delete</button>
     <div class="customers table">
-        <table>
+        <table class="table-sort">
             <thead>
                 <tr>
-                    <th>
+                    <th data-field="checkbox">
                         <label class="checkbox">
                             <input  type="checkbox" onchange="checkAllBoxes(this)"> 
                         </label>
                     </th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Amount Due</th>
-                    <th>Created On</th>
+                    <th data-sort="customer"data-field="name" data-link="/customer/">Name</th>
+                    <th data-sort="personal_information.email"data-field="personal_information.email">Email</th>
+                    <th data-sort="amount_due" data-field="amount_due" data-extra="user.currency_symbol" data-extra-placement="before" data-extra-space="true">Amount Due</th>
+                    <th data-sort="created_on" data-field="created_on">Created on</th>
                 </tr>
             </thead>
             <tbody>
@@ -39,10 +39,10 @@
         </table>
         <div class="pagination">
             {{#if (gt currentPage 1)}}
-            <a href="?page={{subtract currentPage 1}}">Previous</a>
+            <a class="previous" data-current-page="{{currentPage}}" data-page="{{subtract currentPage 1}}" href="?page={{subtract currentPage 1}}{{#if link_options}}{{link_options}}{{/if}}">Previous</a>
             {{/if}}
             {{#if (lt currentPage totalPages)}}
-            <a href="?page={{add currentPage 1}}">Next</a>
+            <a class="next" data-current-page="{{currentPage}}" data-page="{{add currentPage 1}}" href="?page={{add currentPage 1}}{{#if link_options}}{{link_options}}{{/if}}">Next</a>
             {{/if}}
         </div>
     </div>

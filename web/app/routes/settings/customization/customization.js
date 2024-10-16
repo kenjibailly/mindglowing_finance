@@ -60,14 +60,14 @@ router.get('/', authenticateToken, async function(req, res, next) {
 
         // Check if the customization object was found and updated
         if (result) {
-            console.log('Customization updated:', result);
+            logger.log('Customization updated:', result);
         } else {
-            console.log('Customization not found.');
+            logger.log('Customization not found.');
         }
 
       return res.redirect('/settings/customization?success=true');
     } catch (error) {
-        console.error(error);
+        logger.error(error);
         res.status(500).send('Internal Server Error');
     }
 });

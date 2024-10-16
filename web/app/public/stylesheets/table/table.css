@@ -35,3 +35,36 @@ tbody tr:nth-child(odd) {
 table td img {
     border-radius: 10px;
 }
+
+.table-sort th {
+    cursor: pointer;
+    position: relative;
+}
+
+.table-sort th:not(:first-child)::after {
+    content: '';
+    position: absolute;
+    margin-left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    
+    /* Create the triangle */
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 7px solid var(--dark-color);
+    
+    width: 0;
+    height: 0;
+}
+
+/* Ascending triangle (up) */
+.table-sort th.sort-desc:not(:first-child)::after {
+    border-top: 7px solid black;
+    border-bottom: none;
+}
+
+/* Descending triangle (down) */
+.table-sort th.sort-asc:not(:first-child)::after {
+    border-bottom: 7px solid black;
+    border-top: none;
+}

@@ -50,7 +50,7 @@ router.post('/', authenticateToken, uploadConfig.upload, uploadConfig.resizeAndC
         const savedProduct = await newProduct.save();
         res.redirect('/products');
     } catch (error) {
-        console.error(error);
+        logger.error(error);
 
         // Check if the error is a duplicate key violation
         if (error.code === 11000 && error.keyPattern && error.keyPattern['name']) {

@@ -52,7 +52,7 @@ router.post('/', authenticateToken, async (req, res) => {
       'contact_information.contact_medium_username': contact_medium_username,
     } = req.body;
 
-    console.log(billing_street)
+    logger.log(billing_street)
   
     // Check if billing details are empty, if so, use shipping details
     const shippingInfo = isEmptyShippinggDetails(req.body) ? {
@@ -105,7 +105,7 @@ router.post('/', authenticateToken, async (req, res) => {
       const savedCustomer = await newCustomer.save();
       res.redirect('/customers'); // You might want to send a response back
     } catch (error) {
-      console.error(error);
+      logger.error(error);
     
       // Check if the error is a duplicate key violation
       if (error.code === 11000 && error.keyPattern && error.keyPattern['personal_information.email']) {
