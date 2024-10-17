@@ -2,6 +2,6 @@
 {{>header}}
 {{>token}}
 <div class="wrapper invoice-pdf-overview">
-    <a class="link" href="/invoices/">Invoices</a>
+    <a class="link" href="/invoices/invoice/{{invoice.id}}">Back to invoice</a>
     <embed src="{{pdf_path}}" type="application/pdf" width="100%" height="100%" />
 </div>

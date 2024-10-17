@@ -41,13 +41,13 @@
                 {{/each}}
             </tbody>
         </table>
-        <div class="pagination">
-            {{#if (gt currentPage 1)}}
-            <a class="previous" data-current-page="{{currentPage}}" data-page="{{subtract currentPage 1}}" href="?page={{subtract currentPage 1}}{{#if link_options}}{{link_options}}{{/if}}">Previous</a>
-            {{/if}}
-            {{#if (lt currentPage totalPages)}}
-            <a class="next" data-current-page="{{currentPage}}" data-page="{{add currentPage 1}}" href="?page={{add currentPage 1}}{{#if link_options}}{{link_options}}{{/if}}">Next</a>
-            {{/if}}
-        </div>
+    </div>
+    <div class="pagination">
+        {{#if (gt currentPage 1)}}
+        <a class="previous" data-current-page="{{currentPage}}" data-page="{{subtract currentPage 1}}" href="?page={{subtract currentPage 1}}{{#if link_options}}{{link_options}}{{/if}}">Previous</a>
+        {{/if}}
+        {{#if (lt currentPage totalPages)}}
+        <a class="next" data-current-page="{{currentPage}}" data-page="{{add currentPage 1}}" href="?page={{add currentPage 1}}{{#if link_options}}{{link_options}}{{/if}}">Next</a>
+        {{/if}}
     </div>
 </div>
