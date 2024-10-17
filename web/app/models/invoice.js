@@ -53,6 +53,7 @@ const invoiceSchema = new mongoose.Schema({
         total_time: String,
         hour_rate: Number,
     },
+    due_date: Date,
 });
 
 // Create a model using the schema

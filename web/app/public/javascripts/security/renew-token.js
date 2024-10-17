@@ -11,11 +11,11 @@ function renewToken() {
       if (data.success) {
         // Update the token cookie with the new token value
       } else {
-        logger.error('Token renewal failed:', data.message);
+        console.error('Token renewal failed:', data.message);
       }
     })
     .catch(error => {
-      logger.error('Token renewal error:', error);
+      console.error('Token renewal error:', error);
     });
 }
 

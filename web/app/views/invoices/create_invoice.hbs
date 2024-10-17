@@ -116,11 +116,14 @@
 
         {{!-- Paid --}}
         <div class="separate">
+            <label for="due_date">Due Date:</label>
+            <input type="date" id="due_date" data-date-format="{{user.date_format}}" name="due_date" value="2024-10-10">
             <div class="add-container">
                 <div class="add-el-container">
                     <div class="add-el">
+
                         <label for="paid_on">Paid On:</label>
-                        <input type="date" id="paid_on" name="paid_on[]" >
+                        <input type="date" id="paid_on" data-date-format="{{user.date_format}}" name="paid_on[]" >
 
                         <label for="paid_amount">Paid Amount:</label>
                         <input class="paid-amount" type="number" step="0.01" id="paid_amount" name="paid_amount[]" oninput="changeInvoice(this)">

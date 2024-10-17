@@ -22,11 +22,11 @@ function deleteSelectedProjects() {
             location.reload(); // Reload the page
         } else {
             // Handle errors
-            logger.error('Error:', data.message);
+            console.error('Error:', data.message);
         }
     })
     .catch(error => {
-        logger.error('Error:', error);
+        console.error('Error:', error);
     });
 }
 
@@ -66,10 +66,10 @@ async function createProject() {
                 window.location.href = '/projects?success';
             } else {
                 // Handle errors
-                logger.error('Error:', response.statusText);
+                console.error('Error:', response.statusText);
             }
         } catch (error) {
-            logger.error('Error:', error.message);
+            console.error('Error:', error.message);
         }
     }
 }
@@ -131,10 +131,10 @@ async function editProject() {
                 window.location.href = `/projects/project/${id}?success`;
             } else {
                 // Handle errors
-                logger.error('Error:', response.statusText);
+                console.error('Error:', response.statusText);
             }
         } catch (error) {
-            logger.error('Error:', error.message);
+            console.error('Error:', error.message);
         }
     }
 }

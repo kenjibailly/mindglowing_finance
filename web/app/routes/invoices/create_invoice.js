@@ -14,6 +14,7 @@ const authenticateToken = require('../security/authenticate');
 const formatDateToServerTimezone = require('../formatters/date_server_time_zone');
 const formatTime = require('../formatters/time_formatter');
 const formatDateTime = require('../formatters/date_time_formatter');
+const dateToISO = require('../formatters/date_to_iso');
 
 /* GET /invoices/create-customer page. */
 router.get('/', authenticateToken, async function(req, res, next) {
@@ -104,6 +105,7 @@ router.post('/', authenticateToken, async (req, res) => {
       shipping_amount: original_shipping_amount = 0,
       shipping_company_id,
       paid_on,
+      due_date,
       paid_amount,
       payment_method_id,
       description,
@@ -141,6 +143,7 @@ router.post('/', authenticateToken, async (req, res) => {
     logger.log('Shipping Amount:', shipping_amount);
     logger.log('Shipping Company ID:', shipping_company_id);
     logger.log('Paid On:', paid_on);
+    logger.log('Due Date:', due_date);
     logger.log('Paid Amount:', paid_amount);
     logger.log('Payment Method IDs:', payment_method_id);
     logger.log('Description:', description);
@@ -190,7 +193,7 @@ router.post('/', authenticateToken, async (req, res) => {
     if (paid_amount[0] !== "") {
       for (let i = 0; i < paid_on.length; i++) {
         paid.push({
-          paid_on: formatDateToServerTimezone(paid_on[i], user_settings),
+          paid_on: formatDateToServerTimezone(dateToISO(paid_on[i], user_settings.date_format), user_settings),
           paid_amount: paid_amount[i],
           payment_method_id: payment_method_id[i],
         });
@@ -219,6 +222,7 @@ router.post('/', authenticateToken, async (req, res) => {
         "tax.percentage": tax_id_tax_percentage,
         "shipping.id": shipping_company_id[0],
         "shipping.amount": shipping_amount,
+        "due_date": formatDateToServerTimezone(dateToISO(due_date, user_settings.date_format), user_settings),
         paid: paid,
         amount_total: amount_total,
         amount_due: amount_due,

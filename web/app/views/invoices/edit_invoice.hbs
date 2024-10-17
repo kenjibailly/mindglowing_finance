@@ -1,7 +1,7 @@
 {{>sidebar}}
 {{>header}}
 {{>token}}
-<div class="wrapper create-invoice">
+<div class="wrapper create-invoice edit-invoice">
     <a class="link" href="/invoices/">Invoices</a>
 
     {{#if success}}
@@ -107,6 +107,12 @@
 
         {{!-- Paid --}}
         <div class="separate">
+            <label for="due_date">Due Date:</label>
+            <input type="date" id="due_date" 
+                data-date-format="{{user.date_format}}" 
+                name="due_date" 
+                data-date="{{invoice.due_date}}">
+
             <div class="add-container">
                 <div class="add-el-container">
                     <div class="add-el">

@@ -23,11 +23,11 @@ function deleteSelectedInvoices() {
             location.reload(); // Reload the page
         } else {
             // Handle errors
-            logger.error('Error:', data.message);
+            console.error('Error:', data.message);
         }
     })
     .catch(error => {
-        logger.error('Error:', error);
+        console.error('Error:', error);
     });
 }
 
@@ -68,10 +68,10 @@ function addElement(container) {
 
     // Set the value of the input element with name "paid_on" to today
     const paid_on = clone.querySelector('input[name="paid_on[]"]');
-    if(paid_on) {
-        const today = new Date().toISOString().split('T')[0];
-        paid_on.value = today;
-    } 
+    if (paid_on) {
+        const today = new Date(); // Keep this as a Date object
+        paid_on.value = formatDateToISO(today); // Pass the Date object to formatDate
+    }
     
     // Append the clone to the container
     container.querySelector('.add-el-container').appendChild(clone);
@@ -203,10 +203,10 @@ async function createInvoice() {
                 window.location.href = '/invoices?success';
             } else {
                 // Handle errors
-                logger.error('Error:', response.statusText);
+                console.error('Error:', response.statusText);
             }
         } catch (error) {
-            logger.error('Error:', error.message);
+            console.error('Error:', error.message);
         }
     }
 }
@@ -219,9 +219,27 @@ if (invoiceForm) {
         createInvoice(); // Call the custom function to handle form submission
     });
 
-    // Set the value of the input element with name "paid_on" to today
-    const today = new Date().toISOString().split('T')[0];
-    document.querySelector('input[name="paid_on[]"]').value = today;
+    // Set the value of the input element with name "paid_on" to today based on data-date-format
+    const paidOnInput = document.querySelector('input[name="paid_on[]"]');
+    if (paidOnInput) {
+        const today = new Date();
+        
+        // paidOnInput.type = 'date'; // Change to text to support custom format
+        paidOnInput.value = formatDateToISO(today);
+    }
+
+    // Set the value of the input element with name "due_date" to today + 2 weeks based on data-date-format
+    const dueDateInput = document.querySelector('input[name="due_date"]');
+    if (dueDateInput) {
+        const today = new Date();
+        const twoWeeksFromToday = new Date(today);
+        twoWeeksFromToday.setDate(today.getDate() + 14); // Add 14 days
+
+        console.log(formatDateToISO(twoWeeksFromToday));
+        
+        dueDateInput.value = formatDateToISO(twoWeeksFromToday);
+    }
+
 }
 
 
@@ -398,7 +416,7 @@ function getProjects(option) {
         clickOptions(input, datalist);
     })
     .catch(error => {
-        logger.error('Error:', error);
+        console.error('Error:', error);
     });
 }
 
@@ -444,8 +462,79 @@ function updatePriceWithProject(el) {
 
         // Set the project total attribute for calculations
         projectTotal.setAttribute('data-total', (projectPrice).toFixed(2));
-
+ 
         // Update the totals
         changeInvoice();
     });
 }
+
+
+const createInvoiceWrapper = document.querySelector('.edit-invoice');
+if (createInvoiceWrapper) {
+    const paid_on = document.getElementById('paid_on');
+    if(paid_on) {
+        // Get the current date in the format YYYY-MM-DD
+        const currentDate = new Date().toISOString().split('T')[0];
+
+        // Set the value of the input element to the current date
+        paid_on.value = currentDate;
+    }
+
+    // Get the due date from the data attribute
+    const dueDateInput = document.getElementById('due_date');
+    if (dueDateInput) {
+        const dueDateAttr = dueDateInput.getAttribute('data-date');
+
+        // Convert the date string to a Date object
+        const dueDate = new Date(dueDateAttr);
+        
+        // Format the date for the input type date (YYYY-MM-DD)
+        const isoFormattedDate = formatDateToISO(dueDate); // Use a helper function
+
+        // Set the value of the input field to the formatted date
+        dueDateInput.value = isoFormattedDate;
+    }
+}
+
+// Helper function to format the date as YYYY-MM-DD
+function formatDateToISO(date) {
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+    const year = date.getFullYear();
+
+    // Return the date in ISO format
+    return `${year}-${month}-${day}`;
+}
+
+
+// Function to style overdue invoices
+function styleOverdueInvoices() {
+    const tableRows = document.querySelectorAll('.invoices .table-sort tbody tr');
+    if(tableRows) {
+        const today = new Date(); // Get today's date
+
+        tableRows.forEach(row => {
+            const amountDueCell = row.querySelector('td[data-field="amount_due"]');
+            const dueDateCell = row.querySelector('td[data-field="due_date"]');
+            console.log(row)
+    
+            if (amountDueCell && dueDateCell) {
+                const amountDueText = amountDueCell.textContent.trim();
+                const dueDateText = dueDateCell.textContent.trim();
+    
+                // Parse the amount due
+                const amountDue = parseFloat(amountDueText.replace(/[^\d.-]/g, '')); // Remove currency symbols
+                // Parse the due date
+                const dueDateParts = dueDateText.split('/');
+                const dueDate = new Date(`${dueDateParts[2]}-${dueDateParts[1]}-${dueDateParts[0]}`); // Format as YYYY-MM-DD
+                // Check conditions
+                if (amountDue > 0 && dueDate < today) {
+                    row.classList.add('overdue'); // Add class for styling
+                }
+            }
+        });
+    }
+}
+
+// Call the function to style overdue invoices
+styleOverdueInvoices();

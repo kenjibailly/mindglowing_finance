@@ -68,3 +68,8 @@ table td img {
     border-bottom: 7px solid black;
     border-top: none;
 }
+
+tbody tr.overdue {
+    background-color: #54171c;
+    color: #ff0019;
+}

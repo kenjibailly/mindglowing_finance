@@ -135,7 +135,8 @@ router.get('/:id', authenticateToken, async function(req, res, next) {
           project_billed: {
             ...invoice.project_billed.toObject(),
             timeTracking: modifiedTimeTracking // Use the modified timeTracking array
-          }
+          },
+          due_date: formatDate(invoice.due_date, user_settings),
         };
 
         // Check the modified invoice

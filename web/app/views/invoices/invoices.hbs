@@ -21,6 +21,7 @@
                     <th data-sort="amount_due" data-field="amount_due" data-extra="user.currency_symbol" data-extra-placement="before" data-extra-space="true">Amount Due</th>
                     <th data-sort="amount_total" data-field="amount_total" data-extra="user.currency_symbol" data-extra-placement="before" data-extra-space="true">Total Amount</th>
                     <th data-sort="status" data-field="status">Status</th>
+                    <th data-sort="due_date" data-field="due_date">Due Date</th>
                 </tr>
             </thead>
             <tbody>
@@ -34,9 +35,10 @@
                         <td>{{name}}</td>
                         <td><a class="link" href="/invoices/invoice/{{_id}}">{{../customization_settings.invoice_prefix}}{{../customization_settings.invoice_separator}}{{number}}</a></td>
                         <td>{{created_on}}</td>
-                        <td>{{../user.currency_symbol}} {{amount_due}}</td>
+                        <td data-field="amount_due">{{../user.currency_symbol}} {{amount_due}}</td>
                         <td>{{../user.currency_symbol}} {{amount_total}}</td>
                         <td>{{status}}</td>
+                        <td data-field="due_date">{{due_date}}</td>
                     </tr>
                 {{/each}}
             </tbody>

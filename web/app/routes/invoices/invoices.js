@@ -37,6 +37,7 @@ router.get('/', authenticateToken, async function(req, res, next) {
       return {
         ...invoice,
         created_on: formatDate(invoice.created_on, user_settings), // Change the locale based on your requirements
+        due_date: formatDate(invoice.due_date, user_settings),
       };
     });
 
@@ -104,6 +105,7 @@ router.get('/sort', authenticateToken, async function(req, res, next) {
       return {
         ...invoice,
         created_on: formatDate(invoice.created_on, user_settings), // Change the locale based on your requirements
+        due_date: formatDate(invoice.due_date, user_settings),
       };
     });
 
@@ -158,6 +160,7 @@ router.get('/sort', authenticateToken, async function(req, res, next) {
     const updatedInvoices = invoices.map(invoice => ({
       ...invoice,
       created_on: formatDate(invoice.created_on, user_settings),
+      due_date: formatDate(invoice.due_date, user_settings),
       user: user_settings, 
       customization_settings: customization_settings,
     }));

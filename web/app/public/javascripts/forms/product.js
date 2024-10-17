@@ -22,10 +22,10 @@ function deleteSelectedProducts() {
             location.reload(); // Reload the page
         } else {
             // Handle errors
-            logger.error('Error:', data.message);
+            console.error('Error:', data.message);
         }
     })
     .catch(error => {
-        logger.error('Error:', error);
+        console.error('Error:', error);
     });
 }
