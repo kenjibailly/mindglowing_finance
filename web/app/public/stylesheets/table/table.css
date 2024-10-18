@@ -41,6 +41,10 @@ table td img {
     position: relative;
 }
 
+.table-sort th[data-sort="false"] {
+    cursor: default;
+}
+
 .table-sort th:not(:first-child)::after {
     content: '';
     position: absolute;
@@ -68,6 +72,12 @@ table td img {
     border-bottom: 7px solid black;
     border-top: none;
 }
+
+/* Hide the triangle if data-sort="false" */
+.table-sort th[data-sort="false"]::after {
+    content: none; /* Remove the triangle */
+}
+
 
 tbody tr.overdue {
     background-color: #54171c;

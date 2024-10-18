@@ -18,18 +18,29 @@
             <p>Name:</p><p>{{project.name}}</p>
         </div>
         <div class="inline">
-            <p>Customer:</p><a class="link" href="/customers/customer/{{project.customer_id}}"><p>{{project.customer.name}}</p></a>
+            <p>Customer:</p><a class="link" href="/customers/customer/{{project.customer_id}}"><p>{{project.customer_name}}</p></a>
         </div>
         <div class="inline">
             <p>Description:</p><p>{{project.description}}</p>
         </div>
+        {{#if project.billed}}
+            <div class="inline">
+                <p>Billed to:</p><p><a class="link" href="/invoices/invoice/{{invoice._id}}">{{customization.invoice_prefix}}{{customization.invoice_separator}}{{invoice.number}}</a></p>
+            </div>
+        {{/if}}
     </div>
 
-    <form action="/projects/time-tracking/start/{{project._id}}/" method="post">
-        <label for="time-tracking-name">Name:</label>
-        <input type="text" class="time-tracking-name" id="time-tracking-name" name="time_tracking_name">
-        <button type="submit" class="time-tracking-start">Start</button>
-    </form>
+    {{#if project.billed}}
+        <div class="separate">
+            <p>❗This project has been added to an invoice, start a new project to track time or delete your invoice.</p>
+        </div>
+    {{else}}
+        <form action="/projects/time-tracking/start/{{project._id}}/" method="post">
+            <label for="time-tracking-name">Name:</label>
+            <input type="text" class="time-tracking-name" id="time-tracking-name" name="time_tracking_name">
+            <button type="submit" class="time-tracking-start">Start</button>
+        </form>
+    {{/if}}
 
     <form action="/projects/time-tracking/stop/{{project._id}}/" method="post">
         <button type="submit" class="time-tracking-stop hidden">Stop</button>
@@ -39,7 +50,7 @@
     <div class="time-tracking table">
         <div class="overview separate">
             <div class="inline">
-                <p>Total Time:</p><p class="total-time-passed">{{totalTimePassed}}</p>
+                <p>Total Time:</p><p class="total-time-passed">{{project.total_time}}</p>
             </div>
         </div>
         <table>

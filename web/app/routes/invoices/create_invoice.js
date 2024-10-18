@@ -13,7 +13,6 @@ const Project = require('../../models/project');
 const authenticateToken = require('../security/authenticate');
 const formatDateToServerTimezone = require('../formatters/date_server_time_zone');
 const formatTime = require('../formatters/time_formatter');
-const formatDateTime = require('../formatters/date_time_formatter');
 const dateToISO = require('../formatters/date_to_iso');
 
 /* GET /invoices/create-customer page. */
@@ -235,6 +234,16 @@ router.post('/', authenticateToken, async (req, res) => {
         "project_billed.timeTracking": project_timeTracking_json,
       });
       const savedInvoice = await newInvoice.save();
+      if (newInvoice.project_billed.id) {
+        // Assuming Project is your Mongoose model for projects
+        const projectId = newInvoice.project_billed.id;
+    
+        // Update the project to set billed to true
+        await Project.updateOne(
+            { _id: projectId }, // Find project by ID
+            { $set: { billed: true } } // Set billed to true
+        );
+    }
       res.redirect('/invoices/');
     } catch (error) {
       logger.error(error);

@@ -1,6 +1,8 @@
 {{>sidebar}}
 {{>header}}
 {{>token}}
+{{>error}}
+
 <div class="wrapper">
     <a href="/projects/create" class="button create-project-button">Create Project</a>
 
@@ -12,7 +14,7 @@
 
     <button onclick="deleteSelectedProjects()" type="submit">Delete</button>
     <div class="projects table">
-        <table>
+        <table class="table-sort">
             <thead>
                 <tr>
                     <th>
@@ -20,10 +22,10 @@
                             <input  type="checkbox" onchange="checkAllBoxes(this)"> 
                         </label>
                     </th>
-                    <th>Name</th>
-                    <th>Customer</th>
-                    <th>Time</th>
-                    <th>Billed</th>
+                    <th data-sort="name" data-field="name" data-link="/project/">Name</th>
+                    <th data-sort="customer_name" data-field="customer_name">Customer</th>
+                    <th data-sort="total_time" data-field="total_time">Time</th>
+                    <th data-sort="billed" data-field="billed">Billed</th>
                 </tr>
             </thead>
             <tbody>
@@ -35,8 +37,8 @@
                             </label>
                         </td>
                         <td><a class="link" href="/projects/project/{{_id}}">{{name}}</a></td>
-                        <td>{{customer.first_name}} {{customer.last_name}}</td>
-                        <td>{{time}}</td>
+                        <td>{{customer_name}}</td>
+                        <td>{{total_time}}</td>
                         <td> {{#if billed}}Yes{{else}}No{{/if}}</td>
                     </tr>
                 {{/each}}
@@ -45,10 +47,10 @@
     </div>
     <div class="pagination">
         {{#if (gt currentPage 1)}}
-        <a href="?page={{subtract currentPage 1}}">Previous</a>
+        <a class="previous" data-current-page="{{currentPage}}" data-page="{{subtract currentPage 1}}" href="?page={{subtract currentPage 1}}{{#if link_options}}{{link_options}}{{/if}}">Previous</a>
         {{/if}}
         {{#if (lt currentPage totalPages)}}
-        <a href="?page={{add currentPage 1}}">Next</a>
+        <a class="next" data-current-page="{{currentPage}}" data-page="{{add currentPage 1}}" href="?page={{add currentPage 1}}{{#if link_options}}{{link_options}}{{/if}}">Next</a>
         {{/if}}
     </div>
 </div>

@@ -12,8 +12,8 @@ const projectSchema = new mongoose.Schema({
     }],
     description: String,
     billed: { 
-        type: String,
-        boolean: false,
+        type: Boolean,
+        default: false,
     },
     created_on: {
         type: Date,

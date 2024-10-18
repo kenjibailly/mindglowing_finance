@@ -516,7 +516,6 @@ function styleOverdueInvoices() {
         tableRows.forEach(row => {
             const amountDueCell = row.querySelector('td[data-field="amount_due"]');
             const dueDateCell = row.querySelector('td[data-field="due_date"]');
-            console.log(row)
     
             if (amountDueCell && dueDateCell) {
                 const amountDueText = amountDueCell.textContent.trim();

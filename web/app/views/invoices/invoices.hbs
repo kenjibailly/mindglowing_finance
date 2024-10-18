@@ -1,6 +1,7 @@
 {{>sidebar}}
 {{>header}}
 {{>token}}
+{{>error}}
 
 <div class="wrapper">
     <a href="/invoices/create" class="button create-invoice-button">Create Invoice</a>
@@ -15,7 +16,7 @@
                             <input type="checkbox" onchange="checkAllBoxes(this)"> 
                         </label>
                     </th>                    
-                    <th data-sort="customer" data-field="name">Customer</th>
+                    <th data-sort="customer_name" data-field="customer_name">Customer</th>
                     <th data-sort="number" data-field="number" data-link="/invoice/" data-prefix="customization_settings.invoice_prefix" data-separator="customization_settings.invoice_separator">Number</th>
                     <th data-sort="created_on" data-field="created_on">Created on</th>
                     <th data-sort="amount_due" data-field="amount_due" data-extra="user.currency_symbol" data-extra-placement="before" data-extra-space="true">Amount Due</th>
@@ -32,7 +33,7 @@
                                 <input  type="checkbox" class="invoice-checkbox box-checkbox" data-id="{{_id}}"> 
                             </label>
                         </td>
-                        <td>{{name}}</td>
+                        <td>{{customer_name}}</td>
                         <td><a class="link" href="/invoices/invoice/{{_id}}">{{../customization_settings.invoice_prefix}}{{../customization_settings.invoice_separator}}{{number}}</a></td>
                         <td>{{created_on}}</td>
                         <td data-field="amount_due">{{../user.currency_symbol}} {{amount_due}}</td>

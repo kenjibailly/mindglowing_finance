@@ -12,15 +12,27 @@ document.addEventListener("DOMContentLoaded", function () {
             headers.forEach(header => {
                 header.addEventListener("click", async function () {
                     const column = header.getAttribute("data-sort");
+                    if (column === "false") {
+                        return;
+                    }
                     const sortOrder = ascending ? 'asc' : 'desc';
 
                     const link = parseUrlPath(window.location.href);
 
                     const currentPageLink = document.querySelector('.pagination a[data-current-page]');
-                    const currentPage = currentPageLink ? Number(currentPageLink.getAttribute('data-current-page')) : 1;
+                    let currentPage = currentPageLink ? Number(currentPageLink.getAttribute('data-current-page')) : 1;
+
+                    // Sort again from page 1 if clicked again on different page
+                    if (currentPage !== 1) {
+                        currentPage = 1;
+                    }
 
                     const response = await fetch(`${link[0]}/sort?page=${currentPage}&sort_by=${column}&sort_order=${sortOrder}&reload=false`);
                     const sortedData = await response.json();
+
+                    if (sortedData.error) {
+                        return;
+                    }
 
                     const tbody = table.querySelector("tbody");
                     tbody.innerHTML = ''; // Clear existing rows
@@ -54,6 +66,8 @@ document.addEventListener("DOMContentLoaded", function () {
                                 cell.innerHTML = `<a class="link" href="${link[0]}${header.getAttribute('data-link')}${dataRow._id}">${prefix}${separator}${getNestedValue(dataRow, field)}</a>`;
                             } else if (header.getAttribute('data-link')) {
                                 cell.innerHTML = `<a class="link" href="${link[0]}${header.getAttribute('data-link')}${dataRow._id}">${getNestedValue(dataRow, field)}</a>`;
+                            } else if (header.getAttribute('data-image')) {
+                                cell.innerHTML = `<img width="${header.getAttribute('data-image')}" src="/uploads/resized/${getNestedValue(dataRow, field)}"></img>`;
                             } else {
                                 const fieldValue = getNestedValue(dataRow, field, header.getAttribute('data-extra'), header.getAttribute('data-extra-placement'), header.getAttribute('data-extra-space')); // Dynamically get value from the data
                                 cell.innerHTML = fieldValue !== undefined ? fieldValue : '';
@@ -79,12 +93,35 @@ document.addEventListener("DOMContentLoaded", function () {
     function updatePaginationLinks(currentPage, column, sortOrder, link) {
         const previousLink = document.querySelector('.pagination .previous');
         const nextLink = document.querySelector('.pagination .next');
-    
         if (previousLink) {
             previousLink.href = `${link[0]}/sort?page=${Number(currentPage) - 1}&sort_by=${column}&sort_order=${sortOrder}&reload=true`;
         }
         if (nextLink) {
             nextLink.href = `${link[0]}/sort?page=${Number(currentPage) + 1}&sort_by=${column}&sort_order=${sortOrder}&reload=true`;
+        }
+
+        if (currentPage  == 1) {
+            if (previousLink) {
+                previousLink.remove(); // Remove the previous link
+
+                if (!nextLink) {
+                    // Create the next link
+                    const newNextLink = document.createElement('a');
+                    newNextLink.classList.add('next');
+                    newNextLink.textContent = 'Next'; // Set the text for the link
+                    const link_options = `&sort_by=${column}&sort_order=${sortOrder}&reload=true`; // or whatever your logic is for link_options
+                    // Set attributes for the next link
+                    newNextLink.setAttribute('data-current-page', currentPage);
+                    newNextLink.setAttribute('data-page', Number(currentPage) + 1);
+                    newNextLink.href = `${link[0]}/sort?page=${Number(currentPage) + 1}${link_options ? link_options : ''}`; // Use link_options if available
+
+                    // Find the pagination container
+                    const paginationContainer = document.querySelector('.pagination');
+
+                    // Append the next link inside the pagination div
+                    paginationContainer.appendChild(newNextLink);
+                }
+            }
         }
     }
 
@@ -112,4 +149,29 @@ document.addEventListener("DOMContentLoaded", function () {
     
         return mainValue;
     }
+
+    function isSortUrl(url) {
+        const urlObj = new URL(url);
+        return urlObj.pathname.includes('/sort') && urlObj.searchParams.has('sort_by') && urlObj.searchParams.has('sort_order');
+    }
+    
+    // Get the current URL
+    const currentUrl = window.location.href;
+
+    // Check if the URL meets the criteria
+    if (isSortUrl(currentUrl)) {
+        const link = parseUrlPath(currentUrl);
+        const currentPageLink = document.querySelector('.pagination a[data-current-page]');
+        const currentPage = currentPageLink ? Number(currentPageLink.getAttribute('data-current-page')) : 1;
+        
+        // Get sort_by and sort_order from the URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const column = urlParams.get('sort_by');
+        const sortOrder = urlParams.get('sort_order');
+
+        // Call the updatePaginationLinks function
+        updatePaginationLinks(currentPage, column, sortOrder, link);
+    }
+
+
 });

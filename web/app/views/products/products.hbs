@@ -1,13 +1,14 @@
 {{>sidebar}}
 {{>header}}
 {{>token}}
+{{>error}}
 
 <div class="wrapper">
     <a href="/products/create" class="button create-product-button">Create Product</a>
 
     <button onclick="deleteSelectedProducts()" type="submit">Delete</button>
     <div class="products table">
-        <table>
+        <table class="table-sort">
             <thead>
                 <tr>
                     <th>
@@ -15,10 +16,10 @@
                             <input  type="checkbox" onchange="checkAllBoxes(this)"> 
                         </label>
                     </th>
-                    <th>Picture</th>
-                    <th>Name</th>
-                    <th>Price</th>
-                    <th>Description</th>
+                    <th data-sort="false" data-field="picture" data-image="60px">Picture</th>
+                    <th data-sort="name" data-field="name" data-link="/product/">Name</th>
+                    <th data-sort="price" data-field="price">Price</th>
+                    <th data-sort="description" data-field="description">Description</th>
                 </tr>
             </thead>
             <tbody>
@@ -40,10 +41,10 @@
     </div>
     <div class="pagination">
         {{#if (gt currentPage 1)}}
-        <a href="?page={{subtract currentPage 1}}">Previous</a>
+        <a class="previous" data-current-page="{{currentPage}}" data-page="{{subtract currentPage 1}}" href="?page={{subtract currentPage 1}}{{#if link_options}}{{link_options}}{{/if}}">Previous</a>
         {{/if}}
         {{#if (lt currentPage totalPages)}}
-        <a href="?page={{add currentPage 1}}">Next</a>
+        <a class="next" data-current-page="{{currentPage}}" data-page="{{add currentPage 1}}" href="?page={{add currentPage 1}}{{#if link_options}}{{link_options}}{{/if}}">Next</a>
         {{/if}}
     </div>
 </div>

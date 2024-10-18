@@ -1,0 +1,13 @@
+{{#if error}}
+    <div class="error-overlay">
+        <div class="blur"></div>
+        <div class="error-message">
+            <p class="close" onclick="closeError()">X</p>
+            <h1>Error</h1>
+            <div>
+                <p>Something went wrong, please contact your administrator or try again later.</p>
+                <p>{{error}}</p>
+            </div>
+        </div>
+    </div>
+{{/if}}

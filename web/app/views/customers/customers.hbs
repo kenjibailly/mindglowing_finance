@@ -15,7 +15,7 @@
                             <input  type="checkbox" onchange="checkAllBoxes(this)"> 
                         </label>
                     </th>
-                    <th data-sort="customer"data-field="name" data-link="/customer/">Name</th>
+                    <th data-sort="customer_name"data-field="customer_name" data-link="/customer/">Name</th>
                     <th data-sort="personal_information.email"data-field="personal_information.email">Email</th>
                     <th data-sort="amount_due" data-field="amount_due" data-extra="user.currency_symbol" data-extra-placement="before" data-extra-space="true">Amount Due</th>
                     <th data-sort="created_on" data-field="created_on">Created on</th>
@@ -31,7 +31,7 @@
                         </td>
                         <td><a class="link" href="/customers/customer/{{_id}}">{{#if personal_information.company}}{{personal_information.company}}{{else}}{{personal_information.first_name}} {{personal_information.last_name}}{{/if}}</a></td>
                         <td>{{personal_information.email}}</td>
-                        <td>placeholder</td>
+                        <td>{{../user.currency_symbol}} {{amount_due}}</td>
                         <td>{{created_on}}</td>
                     </tr>
                 {{/each}}
