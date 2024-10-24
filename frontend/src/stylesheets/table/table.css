@@ -1,0 +1,85 @@
+table {
+    width: 100%;
+    font-family: 'poppinsmedium';
+    border-top-right-radius: 10px;
+    border-collapse: collapse;
+}
+
+thead {
+    background-color: var(--dark-color-lighter3);
+    border-bottom: 3px solid var(--dark-color-lighter4);
+}
+
+thead tr th {
+    padding: 10px;
+}
+
+tbody {
+    background-color: var(--dark-color-lighter2);
+}
+
+tbody tr td {
+    padding: 10px;
+    padding-top: 20px;
+}
+
+tbody tr:nth-child(odd) { 
+    background-color: var(--dark-color-lighter1);
+}
+
+.table {
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+table td img {
+    border-radius: 10px;
+}
+
+.table-sort th {
+    cursor: pointer;
+    position: relative;
+}
+
+.table-sort th[data-sort="false"] {
+    cursor: default;
+}
+
+.table-sort th:not(:first-child)::after {
+    content: '';
+    position: absolute;
+    margin-left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    
+    /* Create the triangle */
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 7px solid var(--dark-color);
+    
+    width: 0;
+    height: 0;
+}
+
+/* Ascending triangle (up) */
+.table-sort th.sort-desc:not(:first-child)::after {
+    border-top: 7px solid black;
+    border-bottom: none;
+}
+
+/* Descending triangle (down) */
+.table-sort th.sort-asc:not(:first-child)::after {
+    border-bottom: 7px solid black;
+    border-top: none;
+}
+
+/* Hide the triangle if data-sort="false" */
+.table-sort th[data-sort="false"]::after {
+    content: none; /* Remove the triangle */
+}
+
+
+tbody tr.overdue {
+    background-color: #54171c;
+    color: #ff0019;
+}

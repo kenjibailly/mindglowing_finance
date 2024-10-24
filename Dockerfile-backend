@@ -1,0 +1,17 @@
+# Use the official Node.js image as the base image
+FROM node:latest
+
+# Set the working directory
+WORKDIR /app
+
+# Copy the files into the container
+COPY ./backend/ /app
+
+# Install nodemon
+RUN npm install -g nodemon
+
+# Install dependencies
+RUN npm install
+
+# Set the default command to run your bot
+CMD ["npm", "start"]

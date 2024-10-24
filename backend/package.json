@@ -1,0 +1,31 @@
+{
+    "name": "mind-glowing-finance",
+    "description": "Mind Glowing Finance",
+    "version": "1.0.0",
+    "license": "MIT",
+    "scripts": {
+        "start": "node ./bin/www.js"
+    },
+    "author": {
+        "name": "Mind Glowing",
+        "email": "hello@mindglowing.art",
+        "url": "https://mindglowing.art"
+    },
+    "dependencies": {
+        "config": "^3.3.12",
+        "connect-mongodb-session": "^3.1.1",
+        "cookie-parser": "~1.4.4",
+        "cors": "^2.8.5",
+        "debug": "~2.6.9",
+        "express": "~4.16.1",
+        "express-session": "^1.17.3",
+        "html-pdf": "^3.0.1",
+        "http-errors": "~1.6.3",
+        "jsonwebtoken": "^9.0.2",
+        "mongoose": "^8.0.3",
+        "morgan": "~1.9.1",
+        "multer": "^1.4.5-lts.1",
+        "request": "^2.88.2",
+        "sharp": "^0.33.1"
+    }
+}
