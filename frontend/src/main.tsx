@@ -8,23 +8,28 @@ import Dashboard from "./components/Dashboard";
 import Nav from "./components/Nav";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./stylesheets/style.css";
+import NotFound from "./components/NotFound";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
+    errorElement: <NotFound />,
   },
   {
     path: "/login",
     element: <Login />,
+    errorElement: <NotFound />,
   },
   {
     path: "/logout",
     element: <Logout />,
+    errorElement: <NotFound />,
   },
   {
     path: "/setup",
     element: <Setup />,
+    errorElement: <NotFound />,
   },
   {
     path: "/dashboard",
@@ -34,6 +39,7 @@ const router = createBrowserRouter([
         <Dashboard />
       </>
     ),
+    errorElement: <NotFound />,
   },
 ]);
 

@@ -1,6 +1,11 @@
 import "../stylesheets/dashboard/dashboard.css";
 
 const Dashboard = () => {
+  const svgAttributes = {
+    width: "50",
+    height: "50",
+    viewBox: "0 0 50 50",
+  };
   return (
     <>
       <div className="dashboard wrapper">
@@ -13,9 +18,7 @@ const Dashboard = () => {
               </div>
               <div className="right">
                 <svg
-                  width="50"
-                  height="50"
-                  viewBox="0 0 50 50"
+                  {...svgAttributes}
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
                   className="icon"
@@ -37,9 +40,7 @@ const Dashboard = () => {
               </div>
               <div className="right">
                 <svg
-                  width="50"
-                  height="50"
-                  viewBox="0 0 50 50"
+                  {...svgAttributes}
                   className="icon purple"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
@@ -61,9 +62,7 @@ const Dashboard = () => {
               </div>
               <div className="right">
                 <svg
-                  width="50"
-                  height="50"
-                  viewBox="0 0 50 50"
+                  {...svgAttributes}
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
                   className="icon purple"
@@ -85,9 +84,7 @@ const Dashboard = () => {
               </div>
               <div className="right">
                 <svg
-                  width="50"
-                  height="50"
-                  viewBox="0 0 50 50"
+                  {...svgAttributes}
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
                   className="icon purple"
@@ -120,9 +117,7 @@ const Dashboard = () => {
               </div>
               <div className="right">
                 <svg
-                  width="50"
-                  height="50"
-                  viewBox="0 0 50 50"
+                  {...svgAttributes}
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
                   className="icon"
