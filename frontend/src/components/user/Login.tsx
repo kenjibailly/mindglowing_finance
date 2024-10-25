@@ -1,11 +1,15 @@
 import React, { useState } from "react";
 import "../../stylesheets/form/form.css";
 import "../../stylesheets/login/login.css";
+import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const Login: React.FC = () => {
+  const { setIsAuthenticated } = useAuth();
   const [error, setError] = useState<string>("");
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const navigate = useNavigate(); // Get the navigate function
 
   const submitLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -22,12 +26,16 @@ const Login: React.FC = () => {
       const data = await response.json();
       if (response.ok) {
         console.log("Login successful:", data);
+        setIsAuthenticated(true);
+        navigate("/dashboard");
         // Handle successful login, e.g., redirect to dashboard
       } else {
         setError("Login failed");
+        setIsAuthenticated(false);
       }
     } catch (error) {
       setError("An error occurred. Please try again.");
+      setIsAuthenticated(false);
     }
   };
 
