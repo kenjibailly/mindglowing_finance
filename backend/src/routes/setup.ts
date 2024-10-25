@@ -1,17 +1,20 @@
-const express = require("express");
-const router = express.Router();
-const User = require("../models/user.js");
-const authenticateToken = require("./security/authenticate");
-const uploadConfig = require("./picture_handler/multerConfig");
+import express, { Request, Response, NextFunction } from "express";
+import { Router } from "express";
+import User from "../models/user"; // Adjust the path if necessary
+import { authenticateToken } from "./security/authenticate";
+import { upload, resizeAndCompressImage } from "./picture_handler/multerConfig";
+
+const router: Router = express.Router();
 
 router.post(
   "/",
   authenticateToken,
-  uploadConfig.upload,
-  uploadConfig.resizeAndCompressImage,
-  async function (req, res, next) {
+  upload,
+  resizeAndCompressImage,
+  async (req: Request, res: Response, next: NextFunction): Promise<any> => {
     try {
       const user = req.session.user;
+
       if (!user) {
         return res.status(401).send("User not authenticated");
       }
@@ -40,9 +43,9 @@ router.post(
         {
           $set: {
             setup: false,
-            date_format: date_format,
-            currency_name: currency_name,
-            currency_symbol: currency_symbol,
+            date_format,
+            currency_name,
+            currency_symbol,
             "personal_information.first_name": first_name,
             "personal_information.last_name": last_name,
             "personal_information.email": email,
@@ -66,10 +69,10 @@ router.post(
       // Redirect or respond as needed
       res.redirect("/");
     } catch (error) {
-      logger.error(error);
+      console.error(error); // Change this to your logger if needed
       res.status(500).send("Internal Server Error");
     }
   }
 );
 
-module.exports = router;
+export default router;

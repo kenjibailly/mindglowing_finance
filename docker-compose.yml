@@ -43,7 +43,7 @@ services:
     container_name: mindglowing_finance_backend
     restart: unless-stopped
     working_dir: /app
-    command: "nodemon ./bin/www.js"
+    command: "nodemon --watch '*' --exec npx ts-node ./src/bin/www.ts"
     ports:
       - "8162:3000"
     volumes:

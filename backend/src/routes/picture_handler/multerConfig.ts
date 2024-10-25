@@ -1,32 +1,45 @@
-const multer = require("multer");
-const path = require("path");
-const sharp = require("sharp");
-const fs = require("fs");
+import multer, { MulterError } from "multer";
+import path from "path";
+import sharp from "sharp";
+import fs from "fs";
+import { Request, Response, NextFunction } from "express";
 
 // Define storage for multer
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    const uploadPath = path.join(__dirname, "../../uploads");
-    logger.warn(`Uploading to: ${uploadPath}`); // Log the upload path
+  destination: function (
+    req: Request,
+    file: Express.Multer.File,
+    cb: (error: any, destination: string) => void
+  ) {
+    const uploadPath = path.join(__dirname, "../../../uploads");
+    logger.success(`Uploading to: ${uploadPath}`); // Log the upload path
     cb(null, uploadPath);
   },
-  filename: function (req, file, cb) {
+  filename: function (
+    req: Request,
+    file: Express.Multer.File,
+    cb: (error: any, filename: string) => void
+  ) {
     const filename =
       file.fieldname + "-" + Date.now() + path.extname(file.originalname);
-    logger.warn(`File will be saved as: ${filename}`); // Log the filename
+    logger.success(`File will be saved as: ${filename}`); // Log the filename
     cb(null, filename);
   },
 });
 
 // Middleware to resize and compress images
-const resizeAndCompressImage = async (req, res, next) => {
+const resizeAndCompressImage = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   if (!req.file) {
     logger.warn("No file found, skipping resize");
     return next();
   }
 
   try {
-    logger.warn(`Resizing image at: ${req.file.path}`); // Log the image path
+    logger.success(`Resizing image at: ${req.file.path}`); // Log the image path
 
     // Resize and compress the image using sharp
     const resizedImageBuffer = await sharp(req.file.path)
@@ -40,7 +53,7 @@ const resizeAndCompressImage = async (req, res, next) => {
       "resized",
       req.file.filename
     );
-    logger.warn(`Saving resized image to: ${resizedPath}`); // Log the resized image path
+    logger.success(`Saving resized image to: ${resizedPath}`); // Log the resized image path
 
     // Ensure the 'resized' directory exists
     fs.mkdirSync(path.dirname(resizedPath), { recursive: true });
@@ -50,7 +63,7 @@ const resizeAndCompressImage = async (req, res, next) => {
     // Remove the original image
     fs.unlinkSync(req.file.path);
 
-    logger.warn("Image processed successfully.");
+    logger.success("Image processed successfully.");
     next();
   } catch (error) {
     logger.error("Error in resizing:", error);
@@ -67,19 +80,23 @@ const upload = multer({
 }).single("picture"); // Adjust the fieldname as needed
 
 // Middleware to log multer upload results
-const multerUploadWithLogging = (req, res, next) => {
-  logger.warn("Request body before upload:", req.body); // Log body before processing
-  upload(req, res, function (err) {
-    if (err instanceof multer.MulterError) {
+const multerUploadWithLogging = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  logger.success("Request body before upload:", req.body); // Log body before processing
+  upload(req, res, function (err: any) {
+    if (err instanceof MulterError) {
       logger.error("Multer error occurred:", err);
       return res.status(400).send({ error: "Multer error: " + err.message });
     } else if (err) {
       logger.error("Unknown error occurred:", err);
       return res.status(500).send({ error: "Unknown error: " + err.message });
     }
-    logger.warn("Upload complete. Received file:", req.file); // Log after upload completes
+    logger.success("Upload complete. Received file:", req.file); // Log after upload completes
     next();
   });
 };
 
-module.exports = { upload, resizeAndCompressImage, multerUploadWithLogging };
+export { upload, resizeAndCompressImage, multerUploadWithLogging };

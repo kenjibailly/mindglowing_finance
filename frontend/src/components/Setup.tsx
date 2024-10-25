@@ -1,8 +1,10 @@
 import React, { useRef, useState } from "react";
 import "../stylesheets/form/form.css";
 import useDatalist from "./hooks/useDatalist"; // Adjust the path as necessary
+import { useNavigate } from "react-router-dom";
 
 const Setup = () => {
+  const navigate = useNavigate();
   const [error, setError] = useState<string>("");
   const [imageSrc, setImageSrc] = useState<string | null>(null);
   const currencyInputRef = useRef<HTMLInputElement>(null);
@@ -39,6 +41,7 @@ const Setup = () => {
 
     if (response.ok) {
       console.log("Form submitted successfully!");
+      navigate("/dashboard");
     } else {
       console.error("Form submission failed:", response.statusText);
       setError("Something went wrong, please try again later.");

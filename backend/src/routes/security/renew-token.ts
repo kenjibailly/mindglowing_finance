@@ -1,10 +1,11 @@
-const express = require("express");
-const router = express.Router();
-const jwt = require("jsonwebtoken");
-const config = require("config");
+import express, { Request, Response, Router } from "express";
+import jwt from "jsonwebtoken";
+import config from "config";
+
+const router: Router = express.Router();
 
 // Endpoint for token renewal
-router.post("/renew-token", (req, res) => {
+router.post("/", async (req: Request, res: Response): Promise<any> => {
   // Extract the token from the request
   const refreshToken = req.cookies.refreshToken;
 
@@ -16,19 +17,22 @@ router.post("/renew-token", (req, res) => {
 
   try {
     // Verify the refresh token
-    const decoded = jwt.verify(refreshToken, process.env.SECRET_KEY_REFRESH);
+    const decoded = jwt.verify(
+      refreshToken,
+      process.env.SECRET_KEY_REFRESH as string
+    ) as { username: string };
 
     // Generate a new JWT access token
     const accessToken = jwt.sign(
       { username: decoded.username },
-      process.env.SECRET_KEY,
-      { expiresIn: process.env.VITE_ACCESS_TOKEN_EXPIRY_IN_SECONDS + "s" }
+      process.env.SECRET_KEY as string,
+      { expiresIn: `${process.env.VITE_ACCESS_TOKEN_EXPIRY_IN_SECONDS}s` }
     );
 
-    const cookieOptions = {
+    const cookieOptions: express.CookieOptions = {
       httpOnly: true,
-      sameSite: "Strict",
-      secure: config.get("secure_session_cookie"), // Can be found in /app/config/development.json and production.json
+      sameSite: "strict",
+      secure: config.get("secure_session_cookie"),
     };
 
     // Creates the token cookie
@@ -36,11 +40,11 @@ router.post("/renew-token", (req, res) => {
 
     return res.json({ success: true, token: accessToken });
   } catch (error) {
-    logger.error("Error verifying refresh token:", error);
+    console.error("Error verifying refresh token:", error);
     return res
       .status(401)
       .json({ success: false, message: "Invalid refresh token" });
   }
 });
 
-module.exports = router;
+export default router; // Export the router

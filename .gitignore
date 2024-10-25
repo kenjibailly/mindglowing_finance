@@ -27,3 +27,6 @@ dist-ssr
 
 mongodb/db/
 mongodb/db/*
+
+backend/node_modules/*
+backend/uploads/*
