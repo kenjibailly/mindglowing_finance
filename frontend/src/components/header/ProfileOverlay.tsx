@@ -15,6 +15,9 @@ const ProfileOverlay: React.FC<Props> = ({ setIsVisible }) => {
     <div ref={profileOverlay} className="profile-overlay-wrapper">
       <div className="blur" onClick={closeOverlay}></div>
       <div className="profile-overlay-content">
+        <p className="close" onClick={closeOverlay}>
+          X
+        </p>
         <h1>Profile</h1>
         <div>
           <Link to="/logout" key="logout">
