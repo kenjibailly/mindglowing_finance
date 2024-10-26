@@ -13,7 +13,7 @@ const Setup = () => {
 
   const { user, setUser } = useAuth();
 
-  if (!user.user.setup) {
+  if (user && !user.user.setup) {
     navigate("/dashboard");
     return;
   }
@@ -48,10 +48,15 @@ const Setup = () => {
     });
 
     if (response.ok) {
-      setUser({
-        ...user,
-        setup: false,
-      });
+      if (user) {
+        setUser({
+          ...user,
+          user: {
+            ...user.user,
+            setup: false, // Update the setup property
+          },
+        });
+      }
       navigate("/dashboard");
     } else {
       console.error("Form submission failed:", response.statusText);

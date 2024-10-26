@@ -7,12 +7,21 @@ import {
   ReactNode,
 } from "react";
 
+interface User {
+  isAuthenticated: boolean;
+  user: {
+    id: string;
+    username: string;
+    setup: boolean;
+  };
+}
+
 interface AuthContextType {
   isAuthenticated: boolean;
   loading: boolean;
   setIsAuthenticated: (auth: boolean) => void;
-  user: any;
-  setUser: (user: any) => void;
+  user: User | null;
+  setUser: (user: User | null) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -20,7 +29,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<User | null>(null);
 
   // Check authentication status on load
   useEffect(() => {
