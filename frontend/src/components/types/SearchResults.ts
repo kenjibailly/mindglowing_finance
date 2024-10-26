@@ -1,5 +1,5 @@
 export interface Customer {
-  id: string; // Adjust the type as per your model
+  _id: string; // Adjust the type as per your model
   personal_information: {
     first_name: string;
     last_name: string;
@@ -8,19 +8,19 @@ export interface Customer {
 }
 
 export interface Product {
-  id: string; // Adjust the type as per your model
+  _id: string; // Adjust the type as per your model
   name: string;
   description: string;
 }
 
 export interface Invoice {
-  id: string; // Adjust the type as per your model
+  _id: string; // Adjust the type as per your model
   number: number | null;
   description: string;
 }
 
 export interface Project {
-  id: string; // Adjust the type as per your model
+  _id: string; // Adjust the type as per your model
   name: string;
   description: string;
 }
