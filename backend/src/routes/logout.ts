@@ -12,6 +12,7 @@ router.post("/", (req: Request, res: Response) => {
         .json({ error: "Unable to log out, please try again." });
     } else {
       // Redirect to home after logging out
+      logger.info("Logout successful");
       return res.status(200).json({ message: "Logout successful" });
     }
   });

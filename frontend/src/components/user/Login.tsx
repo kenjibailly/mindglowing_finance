@@ -9,7 +9,7 @@ const Login: React.FC = () => {
   const [error, setError] = useState<string>("");
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const navigate = useNavigate(); // Get the navigate function
+  const navigate = useNavigate();
 
   const submitLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -22,18 +22,21 @@ const Login: React.FC = () => {
         },
         body: JSON.stringify({ username, password }),
       });
-
-      // const data = await response.json();
+      const data = await response.json();
       if (response.ok) {
         setIsAuthenticated(true);
-        navigate("/dashboard");
-        // Handle successful login, e.g., redirect to dashboard
+        if (data.user.setup) {
+          navigate("/setup");
+        } else {
+          navigate("/dashboard");
+        }
       } else {
         setError("Login failed");
         setIsAuthenticated(false);
       }
     } catch (error) {
       setError("An error occurred. Please try again.");
+      console.log(error);
       setIsAuthenticated(false);
     }
   };

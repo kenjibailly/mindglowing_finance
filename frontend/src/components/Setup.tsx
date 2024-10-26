@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import "../stylesheets/form/form.css";
 import useDatalist from "./hooks/useDatalist"; // Adjust the path as necessary
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "./context/AuthContext";
 
 const Setup = () => {
   const navigate = useNavigate();
@@ -9,6 +10,13 @@ const Setup = () => {
   const [imageSrc, setImageSrc] = useState<string | null>(null);
   const currencyInputRef = useRef<HTMLInputElement>(null);
   const currencyDatalistRef = useRef<HTMLDataListElement>(null);
+
+  const { user, setUser } = useAuth();
+
+  if (!user.user.setup) {
+    navigate("/dashboard");
+    return;
+  }
 
   const countryInputRef = useRef<HTMLInputElement>(null);
   const countryDatalistRef = useRef<HTMLDataListElement>(null);
@@ -40,7 +48,10 @@ const Setup = () => {
     });
 
     if (response.ok) {
-      console.log("Form submitted successfully!");
+      setUser({
+        ...user,
+        setup: false,
+      });
       navigate("/dashboard");
     } else {
       console.error("Form submission failed:", response.statusText);

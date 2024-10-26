@@ -1,8 +1,10 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const Logout: React.FC = () => {
   const navigate = useNavigate();
+  const { setUser } = useAuth();
 
   useEffect(() => {
     const handleLogout = async () => {
@@ -12,13 +14,11 @@ const Logout: React.FC = () => {
           credentials: "include", // Include cookies for session management
         });
 
-        const data = await response.json();
         if (response.ok) {
-          console.log("Logout successful:", data);
+          setUser(null);
           // Redirect to login or home page after successful logout
           navigate("/login"); // Use navigate to navigate
         } else {
-          console.error("Logout failed:", data);
           // Handle logout failure
           navigate("/login");
         }

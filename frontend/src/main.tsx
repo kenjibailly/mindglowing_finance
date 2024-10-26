@@ -1,7 +1,6 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import App from "./App";
 import Login from "./components/user/Login";
 import Logout from "./components/user/Logout";
 import Setup from "./components/Setup";
@@ -17,12 +16,37 @@ import "./stylesheets/style.css";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: (
+      <ProtectedRoute>
+        <div className="dashboard-outer-wrapper">
+          <Nav />
+          <Header title="Dashboard" />
+          <Dashboard />
+        </div>
+      </ProtectedRoute>
+    ),
+    errorElement: <NotFound />,
+  },
+  {
+    path: "/dashboard",
+    element: (
+      <ProtectedRoute>
+        <div className="dashboard-outer-wrapper">
+          <Nav />
+          <Header title="Dashboard" />
+          <Dashboard />
+        </div>
+      </ProtectedRoute>
+    ),
     errorElement: <NotFound />,
   },
   {
     path: "/login",
-    element: <Login />,
+    element: (
+      <ProtectedRoute>
+        <Login />
+      </ProtectedRoute>
+    ),
     errorElement: <NotFound />,
   },
   {
@@ -40,19 +64,6 @@ const router = createBrowserRouter([
       <ProtectedRoute>
         <div className="dashboard-outer-wrapper">
           <Setup />
-        </div>
-      </ProtectedRoute>
-    ),
-    errorElement: <NotFound />,
-  },
-  {
-    path: "/dashboard",
-    element: (
-      <ProtectedRoute>
-        <div className="dashboard-outer-wrapper">
-          <Nav />
-          <Header title="Dashboard" />
-          <Dashboard />
         </div>
       </ProtectedRoute>
     ),

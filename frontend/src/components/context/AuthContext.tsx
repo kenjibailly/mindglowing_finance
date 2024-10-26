@@ -11,6 +11,8 @@ interface AuthContextType {
   isAuthenticated: boolean;
   loading: boolean;
   setIsAuthenticated: (auth: boolean) => void;
+  user: any;
+  setUser: (user: any) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -18,6 +20,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState(null);
 
   // Check authentication status on load
   useEffect(() => {
@@ -28,6 +31,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         });
         const data = await response.json();
         setIsAuthenticated(data.isAuthenticated);
+        setUser(data);
       } catch (error) {
         console.error("Failed to check authentication status:", error);
         setIsAuthenticated(false);
@@ -41,7 +45,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <AuthContext.Provider
-      value={{ isAuthenticated, loading, setIsAuthenticated }}
+      value={{ isAuthenticated, loading, setIsAuthenticated, user, setUser }}
     >
       {children}
     </AuthContext.Provider>

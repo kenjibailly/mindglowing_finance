@@ -15,6 +15,7 @@ router.get(
         const user = await User.findById(req.session.user.id);
         return res.json(user);
       } catch (error) {
+        logger.error(error);
         return res.json({ error: "Could not get user info" });
       }
     }

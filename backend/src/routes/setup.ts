@@ -67,7 +67,7 @@ router.post(
       }
 
       // Redirect or respond as needed
-      res.redirect("/");
+      return res.json("Successfully added setup");
     } catch (error) {
       console.error(error); // Change this to your logger if needed
       res.status(500).send("Internal Server Error");
