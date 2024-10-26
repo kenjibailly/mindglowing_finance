@@ -3,9 +3,8 @@
 /**
  * Module dependencies.
  */
-import logger from "../logger"; // Adjust the path as needed
+import logger from "../logger";
 global.logger = logger;
-
 import app from "../app"; // Assuming app.js is exported as a default module
 import http from "http";
 

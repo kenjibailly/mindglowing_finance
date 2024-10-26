@@ -7,9 +7,10 @@
     "forceConsistentCasingInFileNames": true,
     "strict": true,
   },
-  "files": ["./src/types/express.session.d.ts", "./src/types/global.d.ts"],
+  "files": ["./src/types/index.d.ts"],
   "include": [
     "./src/**/*",
+    "./src/types/**/*.d.ts"
   ],
   "exclude": ["./node_modules/**/*", "./config/**/*", "./uploads/**/*"]
 }
