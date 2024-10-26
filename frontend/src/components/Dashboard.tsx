@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import "../stylesheets/dashboard/dashboard.css";
 
 const Dashboard = () => {
@@ -10,7 +11,7 @@ const Dashboard = () => {
     <>
       <div className="dashboard wrapper">
         <div className="dash_boxes">
-          <a href="">
+          <Link to="" key="amount_due">
             <div className="dash_box">
               <div className="left">
                 <p className="text_focus">€ 50,00</p>
@@ -31,8 +32,8 @@ const Dashboard = () => {
                 </svg>
               </div>
             </div>
-          </a>
-          <a href="">
+          </Link>
+          <Link to="" key="customers">
             <div className="dash_box">
               <div className="left">
                 <p className="text_focus">1</p>
@@ -53,8 +54,8 @@ const Dashboard = () => {
                 </svg>
               </div>
             </div>
-          </a>
-          <a href="">
+          </Link>
+          <Link to="" key="invoices">
             <div className="dash_box">
               <div className="left">
                 <p className="text_focus">1</p>
@@ -75,8 +76,8 @@ const Dashboard = () => {
                 </svg>
               </div>
             </div>
-          </a>
-          <a href="">
+          </Link>
+          <Link to="" key="estimates">
             <div className="dash_box">
               <div className="left">
                 <p className="text_focus">0</p>
@@ -97,7 +98,7 @@ const Dashboard = () => {
                 </svg>{" "}
               </div>
             </div>
-          </a>
+          </Link>
         </div>
         <div className="dash_stats">
           <div className="dash_boxes">

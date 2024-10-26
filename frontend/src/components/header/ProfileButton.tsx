@@ -40,9 +40,9 @@ const ProfileButton: React.FC = () => {
     <>
       <button className="right" onClick={openProfileOverlay}>
         {userPicture ? (
-          <img src={userPicture} height="60px" alt="User Profile" />
+          <img src={userPicture} height="40px" alt="User Profile" />
         ) : (
-          <img src={placeholder} height="60px" alt="User Profile" />
+          <img src={placeholder} height="40px" alt="User Profile" />
         )}
       </button>
       {isProfileOverlayVisible && (

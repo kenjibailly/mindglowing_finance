@@ -21,6 +21,7 @@ header > button {
 
 header button.right {
     margin-left: auto;
+    margin-bottom: 0;
     border: none;
     cursor: pointer;
     background-color: transparent;
@@ -28,6 +29,7 @@ header button.right {
 
 header button.right img {
     border-radius: 50px;
+    margin: auto;
 }
 
 header nav {

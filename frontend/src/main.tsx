@@ -1,5 +1,6 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "./App";
 import Login from "./components/user/Login";
 import Logout from "./components/user/Logout";
@@ -8,101 +9,67 @@ import Dashboard from "./components/Dashboard";
 import Customers from "./components/customers/Customers";
 import Nav from "./components/Nav";
 import Header from "./components/header/Header";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import "./stylesheets/style.css";
 import NotFound from "./components/NotFound";
-import Security from "./components/Security";
+import ProtectedRoute from "./components/ProtectedRoute";
 import { AuthProvider } from "./components/context/AuthContext";
+import "./stylesheets/style.css";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: (
-      <>
-        <Security />
-        <App />
-      </>
-    ),
-    errorElement: (
-      <>
-        <NotFound />,
-        <Security />
-      </>
-    ),
+    element: <App />,
+    errorElement: <NotFound />,
   },
   {
     path: "/login",
     element: <Login />,
-    errorElement: (
-      <>
-        <NotFound />,
-        <Security />
-      </>
-    ),
+    errorElement: <NotFound />,
   },
   {
     path: "/logout",
     element: (
-      <>
-        <Security />
+      <ProtectedRoute>
         <Logout />
-      </>
+      </ProtectedRoute>
     ),
-    errorElement: (
-      <>
-        <NotFound />,
-        <Security />
-      </>
-    ),
+    errorElement: <NotFound />,
   },
   {
     path: "/setup",
     element: (
-      <div className="dashboard-outer-wrapper">
-        <Security />
-        <Setup />
-      </div>
+      <ProtectedRoute>
+        <div className="dashboard-outer-wrapper">
+          <Setup />
+        </div>
+      </ProtectedRoute>
     ),
-    errorElement: (
-      <>
-        <NotFound />,
-        <Security />
-      </>
-    ),
+    errorElement: <NotFound />,
   },
   {
     path: "/dashboard",
     element: (
-      <div className="dashboard-outer-wrapper">
-        <Security />
-        <Nav />
-        <Header title="Dashboard" />
-        <Dashboard />
-      </div>
+      <ProtectedRoute>
+        <div className="dashboard-outer-wrapper">
+          <Nav />
+          <Header title="Dashboard" />
+          <Dashboard />
+        </div>
+      </ProtectedRoute>
     ),
-    errorElement: (
-      <>
-        <NotFound />,
-        <Security />
-      </>
-    ),
+    errorElement: <NotFound />,
   },
   {
     path: "/customers",
     element: (
-      <div className="dashboard-outer-wrapper">
-        <Security />
-        <Nav />
-        <Header title="Customers" />
-        <Customers />
-      </div>
+      <ProtectedRoute>
+        <div className="dashboard-outer-wrapper">
+          <Nav />
+          <Header title="Customers" />
+          <Customers />
+        </div>
+      </ProtectedRoute>
     ),
-    errorElement: (
-      <>
-        <NotFound />,
-        <Security />
-      </>
-    ),
+    errorElement: <NotFound />,
   },
 ]);
 
@@ -110,7 +77,6 @@ createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <AuthProvider>
       <RouterProvider router={router} />
-      {/* <AuthTestComponent /> */}
     </AuthProvider>
   </StrictMode>
 );
