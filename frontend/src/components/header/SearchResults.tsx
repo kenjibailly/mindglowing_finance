@@ -1,0 +1,62 @@
+// src/components/Header/SearchResults.tsx
+import React from "react";
+import { Link } from "react-router-dom";
+
+interface SearchResultsProps {
+  results: any;
+  isVisible: boolean;
+  error: string;
+}
+
+const SearchResults: React.FC<SearchResultsProps> = ({
+  results,
+  isVisible,
+  error,
+}) => {
+  if (isVisible && error !== "")
+    return (
+      <div className="searchResultsPopup">
+        <p className="error">{error}</p>
+      </div>
+    );
+  if (!isVisible || !results) return;
+
+  return (
+    <div className="searchResultsPopup">
+      <ul>
+        {results.search_results.customers.map((customer: any) => (
+          <Link to={`/customers/customer/${customer._id}`} key={customer._id}>
+            <li>
+              {customer.personal_information.first_name}{" "}
+              {customer.personal_information.last_name}{" "}
+              {customer.personal_information.email}
+            </li>
+          </Link>
+        ))}
+        {results.search_results.invoices.map((invoice: any) => (
+          <Link to={`/invoices/invoice/${invoice._id}`} key={invoice._id}>
+            <li>
+              {results.customization_settings.invoice_prefix}
+              {results.customization_settings.invoice_separator}
+              {invoice.number}
+            </li>
+          </Link>
+        ))}
+        {results.search_results.products.map((product: any) => (
+          <Link to={`/products/product/${product._id}`} key={product._id}>
+            <li>
+              {product.name} {product.description}
+            </li>
+          </Link>
+        ))}
+        {results.search_results.projects.map((project: any) => (
+          <Link to={`/projects/project/${project._id}`} key={project._id}>
+            <li>{project.name}</li>
+          </Link>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+export default SearchResults;

@@ -23,9 +23,8 @@ const Login: React.FC = () => {
         body: JSON.stringify({ username, password }),
       });
 
-      const data = await response.json();
+      // const data = await response.json();
       if (response.ok) {
-        console.log("Login successful:", data);
         setIsAuthenticated(true);
         navigate("/dashboard");
         // Handle successful login, e.g., redirect to dashboard

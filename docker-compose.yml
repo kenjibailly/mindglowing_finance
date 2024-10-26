@@ -30,6 +30,7 @@ services:
       - "8161:8000"
     volumes:
       - ./frontend/:/app
+      - ./backend/uploads/:/app/uploads
       - /app/node_modules
     networks:
       - mindglowing_finance

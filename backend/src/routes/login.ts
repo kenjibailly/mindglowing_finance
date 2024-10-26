@@ -1,9 +1,9 @@
 import express, { Request, Response, NextFunction } from "express";
 import { Router } from "express";
-import User from "../models/user"; // Adjust the path if necessary
+import User from "../models/user";
 import jwt from "jsonwebtoken";
 import config from "config";
-import crypto from "crypto"; // Import the crypto module
+import crypto from "crypto";
 
 const router: Router = express.Router();
 
@@ -59,7 +59,7 @@ router.post(
       res.cookie("refreshToken", refreshToken, cookieOptions);
 
       // Set the user in the session
-      req.session.user = { username };
+      req.session.user = { id: user._id, username: user.username };
 
       // Send success response
       return res.status(200).json({ message: "Login successful" });

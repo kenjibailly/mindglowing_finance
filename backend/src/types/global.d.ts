@@ -1,4 +1,4 @@
-declare namespace NodeJS {
+declare namespace logger {
   export interface Global {
     logger: any;
   }

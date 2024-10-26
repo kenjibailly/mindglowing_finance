@@ -5,7 +5,9 @@ import Login from "./components/user/Login";
 import Logout from "./components/user/Logout";
 import Setup from "./components/Setup";
 import Dashboard from "./components/Dashboard";
+import Customers from "./components/customers/Customers";
 import Nav from "./components/Nav";
+import Header from "./components/header/Header";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./stylesheets/style.css";
 import NotFound from "./components/NotFound";
@@ -21,12 +23,22 @@ const router = createBrowserRouter([
         <App />
       </>
     ),
-    errorElement: <NotFound />,
+    errorElement: (
+      <>
+        <NotFound />,
+        <Security />
+      </>
+    ),
   },
   {
     path: "/login",
     element: <Login />,
-    errorElement: <NotFound />,
+    errorElement: (
+      <>
+        <NotFound />,
+        <Security />
+      </>
+    ),
   },
   {
     path: "/logout",
@@ -36,7 +48,12 @@ const router = createBrowserRouter([
         <Logout />
       </>
     ),
-    errorElement: <NotFound />,
+    errorElement: (
+      <>
+        <NotFound />,
+        <Security />
+      </>
+    ),
   },
   {
     path: "/setup",
@@ -46,7 +63,12 @@ const router = createBrowserRouter([
         <Setup />
       </div>
     ),
-    errorElement: <NotFound />,
+    errorElement: (
+      <>
+        <NotFound />,
+        <Security />
+      </>
+    ),
   },
   {
     path: "/dashboard",
@@ -54,10 +76,33 @@ const router = createBrowserRouter([
       <div className="dashboard-outer-wrapper">
         <Security />
         <Nav />
+        <Header title="Dashboard" />
         <Dashboard />
       </div>
     ),
-    errorElement: <NotFound />,
+    errorElement: (
+      <>
+        <NotFound />,
+        <Security />
+      </>
+    ),
+  },
+  {
+    path: "/customers",
+    element: (
+      <div className="dashboard-outer-wrapper">
+        <Security />
+        <Nav />
+        <Header title="Customers" />
+        <Customers />
+      </div>
+    ),
+    errorElement: (
+      <>
+        <NotFound />,
+        <Security />
+      </>
+    ),
   },
 ]);
 

@@ -11,7 +11,7 @@ router.post(
   authenticateToken,
   upload,
   resizeAndCompressImage,
-  async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+  async (req: Request, res: Response): Promise<any> => {
     try {
       const user = req.session.user;
 

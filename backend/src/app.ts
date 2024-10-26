@@ -19,7 +19,8 @@ import checkAuthRouter from "./routes/security/check-auth";
 import loginRouter from "./routes/login";
 import setupRouter from "./routes/setup";
 import logoutRouter from "./routes/logout";
-// import searchRouter from "./routes/search/search";
+import searchRouter from "./routes/search/search";
+import userRouter from "./routes/user";
 
 // import customersRouter from "./routes/customers/customers";
 // import customerRouter from "./routes/customers/customer";
@@ -150,7 +151,8 @@ app.use("/api/check-auth/", checkAuthRouter);
 app.use("/api/login/", loginRouter);
 app.use("/api/setup/", setupRouter);
 app.use("/api/logout/", logoutRouter);
-// app.use("/api/search", searchRouter);
+app.use("/api/search", searchRouter);
+app.use("/api/user", userRouter);
 
 // app.use("/api/customers/", customersRouter);
 // app.use("/api/customers/customer/", customerRouter);
