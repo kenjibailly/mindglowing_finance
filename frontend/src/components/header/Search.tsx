@@ -2,8 +2,10 @@ import { useState, useEffect } from "react";
 import SearchInput from "./SearchInput";
 import SearchResults from "./SearchResults";
 
+import { SearchResult } from "../types/SearchResults";
+
 const Search = () => {
-  const [searchResults, setSearchResults] = useState<any>(null);
+  const [searchResults, setSearchResults] = useState<SearchResult | null>(null);
   const [isResultsVisible, setIsResultsVisible] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
 
@@ -15,7 +17,7 @@ const Search = () => {
         `/api/search?q=${encodeURIComponent(searchTerm)}`
       );
       const json = await response.json();
-      setSearchResults(json);
+      setSearchResults(json.search_results);
       setIsResultsVisible(true);
     } catch (error) {
       setError("Could not find any results");

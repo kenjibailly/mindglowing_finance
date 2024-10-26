@@ -2,8 +2,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+import { SearchResult } from "../types/SearchResults";
+
 interface SearchResultsProps {
-  results: any;
+  results: SearchResult | null;
   isVisible: boolean;
   error: string;
 }
@@ -24,7 +26,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({
   return (
     <div className="searchResultsPopup">
       <ul>
-        {results.search_results.customers.map((customer: any) => (
+        {results.customers.map((customer: any) => (
           <Link to={`/customers/customer/${customer._id}`} key={customer._id}>
             <li>
               {customer.personal_information.first_name}{" "}
@@ -33,7 +35,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({
             </li>
           </Link>
         ))}
-        {results.search_results.invoices.map((invoice: any) => (
+        {results.invoices.map((invoice: any) => (
           <Link to={`/invoices/invoice/${invoice._id}`} key={invoice._id}>
             <li>
               {results.customization_settings.invoice_prefix}
@@ -42,14 +44,14 @@ const SearchResults: React.FC<SearchResultsProps> = ({
             </li>
           </Link>
         ))}
-        {results.search_results.products.map((product: any) => (
+        {results.products.map((product: any) => (
           <Link to={`/products/product/${product._id}`} key={product._id}>
             <li>
               {product.name} {product.description}
             </li>
           </Link>
         ))}
-        {results.search_results.projects.map((project: any) => (
+        {results.projects.map((project: any) => (
           <Link to={`/projects/project/${project._id}`} key={project._id}>
             <li>{project.name}</li>
           </Link>
