@@ -4,6 +4,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Login from "./components/user/Login";
 import Logout from "./components/user/Logout";
 import Setup from "./components/Setup";
+import Index from "./components/Index";
 import Dashboard from "./components/Dashboard";
 import Customers from "./components/customers/Customers";
 import Nav from "./components/Nav";
@@ -19,9 +20,7 @@ const router = createBrowserRouter([
     element: (
       <ProtectedRoute>
         <div className="dashboard-outer-wrapper">
-          <Nav />
-          <Header title="Dashboard" />
-          <Dashboard />
+          <Index />
         </div>
       </ProtectedRoute>
     ),
@@ -42,20 +41,12 @@ const router = createBrowserRouter([
   },
   {
     path: "/login",
-    element: (
-      <ProtectedRoute>
-        <Login />
-      </ProtectedRoute>
-    ),
+    element: <Login />,
     errorElement: <NotFound />,
   },
   {
     path: "/logout",
-    element: (
-      <ProtectedRoute>
-        <Logout />
-      </ProtectedRoute>
-    ),
+    element: <Logout />,
     errorElement: <NotFound />,
   },
   {

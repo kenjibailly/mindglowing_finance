@@ -10,9 +10,9 @@ const router: Router = express.Router();
 /* POST login. */
 router.post("/", async (req: Request, res: Response): Promise<any> => {
   const { username, password } = req.body;
-  logger.info(req.session.user);
   // Check if user is already logged in
   if (req.session.user) {
+    logger.info("Already logged in");
     return res.status(200).json({ message: "Already logged in" });
   }
 

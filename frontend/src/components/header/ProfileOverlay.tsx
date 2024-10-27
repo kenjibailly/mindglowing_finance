@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import "../../stylesheets/navigation/profile_overlay.css";
+import useOverlay from "../hooks/useOverlay";
 import { useRef } from "react";
 
 interface Props {
@@ -8,9 +9,7 @@ interface Props {
 
 const ProfileOverlay: React.FC<Props> = ({ setIsVisible }) => {
   const profileOverlay = useRef<HTMLDivElement>(null);
-  const closeOverlay = () => {
-    setIsVisible(false);
-  };
+  const { closeOverlay } = useOverlay(setIsVisible);
   return (
     <div ref={profileOverlay} className="profile-overlay-wrapper">
       <div className="blur" onClick={closeOverlay}></div>

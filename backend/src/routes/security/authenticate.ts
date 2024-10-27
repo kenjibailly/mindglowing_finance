@@ -25,7 +25,6 @@ export function authenticateToken(
     res.status(401).json({ message: "Unauthorized, please log in" });
     return; // Ensure we return here to prevent any further execution
   }
-
   // Correctly typed verify function
   jwt.verify(
     token,
@@ -36,6 +35,7 @@ export function authenticateToken(
         res
           .status(403)
           .json({ message: "Invalid or expired token, please log in" });
+        logger.warn("Invalid or expired token, please log in");
         return; // Ensure we return here to prevent any further execution
       }
 

@@ -25,6 +25,7 @@ const Login: React.FC = () => {
       const data = await response.json();
       if (response.ok) {
         setIsAuthenticated(true);
+        navigate("/");
         if (data.user.setup) {
           navigate("/setup");
         } else {

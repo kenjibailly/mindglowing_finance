@@ -21,7 +21,7 @@ const ProfileButton: React.FC = () => {
           setUserPicture(user_picture);
         }
       } catch (error) {
-        setError("Could not find user profile picture");
+        setError("Problem loading user");
       }
     };
 

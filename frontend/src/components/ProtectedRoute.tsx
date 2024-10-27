@@ -10,14 +10,13 @@ interface ProtectedRouteProps {
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   const { isAuthenticated, loading } = useAuth();
   const navigate = useNavigate();
-
   useEffect(() => {
     if (!loading && !isAuthenticated) {
-      navigate("/login"); // Redirect to login if not authenticated
+      navigate("/login");
     }
   }, [isAuthenticated, loading, navigate]);
 
-  if (loading) return null; // Optionally render a loading spinner
+  if (loading) return null;
 
   return <>{isAuthenticated ? children : null}</>;
 };
