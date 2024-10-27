@@ -21,6 +21,7 @@ interface UsePaginatedTableResult<T> {
   handleCheckItem: (id: string) => void;
   handleSort?: (sortBy: string) => void;
   getSortClass: (field: string) => string;
+  fetchItems: () => Promise<void>;
 }
 
 interface Identifiable {
@@ -53,47 +54,47 @@ function usePaginatedTable<T extends Identifiable>({
 
   const location = useLocation();
 
+  const fetchItems = async () => {
+    setLoading(true); // Start loading
+    try {
+      const queryParams = new URLSearchParams(location.search);
+      const page = queryParams.get("page");
+      const pageNumber = page ? parseInt(page, 10) : 1;
+      const sortBy = enableSorting ? queryParams.get("sort_by") : null;
+      const order = enableSorting
+        ? (queryParams.get("sort_order") as "asc" | "desc") || "asc"
+        : "asc";
+
+      const response = await fetch(
+        `/api${baseUrl}?page=${pageNumber}${
+          sortBy ? `&sort_by=${sortBy}` : ""
+        }&sort_order=${order}`
+      );
+
+      if (!response.ok) throw new Error("Getting items failed");
+
+      const data = await response.json();
+      setCurrentPage(data.currentPage);
+      setTotalPages(data.totalPages);
+      setItems(data.items);
+    } catch (err) {
+      setError((err as Error).message || "Unknown error");
+    } finally {
+      setLoading(false); // Stop loading
+    }
+  };
+
   useEffect(() => {
-    const queryParams = new URLSearchParams(location.search);
-    const page = queryParams.get("page");
-    const pageNumber = page ? parseInt(page, 10) : 1;
-    const sortBy = enableSorting ? queryParams.get("sort_by") : null;
-    const order = enableSorting
-      ? (queryParams.get("sort_order") as "asc" | "desc") || "asc"
-      : "asc";
-
-    setCurrentPage(pageNumber);
-
-    const fetchItems = async () => {
-      try {
-        const response = await fetch(
-          `/api${baseUrl}?page=${pageNumber}&sort_by=${
-            sortBy || ""
-          }&sort_order=${order}`
-        );
-        if (!response.ok) throw new Error("Getting items failed");
-
-        const data = await response.json();
-        setCurrentPage(data.currentPage);
-        setTotalPages(data.totalPages);
-        setItems(data.items);
-      } catch (err) {
-        setError((err as Error).message || "Unknown error");
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchItems();
   }, [location.search, baseUrl, enableSorting]);
 
   // Function to toggle all checkboxes
   const handleCheckAll = () => {
     if (isAllChecked) {
-      setCheckedItems(new Set()); // Uncheck all
+      setCheckedItems(new Set());
     } else {
       const allIds = new Set(items.map((item) => item._id as string));
-      setCheckedItems(allIds); // Check all
+      setCheckedItems(allIds);
     }
     setIsAllChecked(!isAllChecked);
   };
@@ -121,6 +122,7 @@ function usePaginatedTable<T extends Identifiable>({
     handleCheckItem,
     handleSort: enableSorting ? handleSort : undefined,
     getSortClass,
+    fetchItems,
   };
 }
 

@@ -6,6 +6,8 @@ import "../../stylesheets/checkbox/checkbox.css";
 import Error from "../Error";
 import Pagination from "../Pagination";
 import usePaginatedTable from "../hooks/usePaginatedTable";
+import useDeleteItems from "../hooks/useDeleteItems";
+import Loader from "../Loader";
 
 const Customers: React.FC = () => {
   const {
@@ -20,21 +22,40 @@ const Customers: React.FC = () => {
     handleCheckAll,
     handleCheckItem,
     getSortClass,
+    fetchItems,
   } = usePaginatedTable<Customer>({
     baseUrl: "/customers",
     enableSorting: true,
   });
 
-  const handleDeleteSelected = () => {
-    // Implement delete functionality
+  const {
+    deleteItems,
+    loading: deleting,
+    error: deleteError,
+  } = useDeleteItems();
+
+  const handleDeleteSelected = async () => {
+    const selectedIds = Array.from(checkedItems); // Get selected IDs
+    if (selectedIds.length === 0) {
+      alert("No items selected for deletion");
+      return;
+    }
+
+    const confirmed = window.confirm(
+      "Are you sure you want to delete the selected items?"
+    );
+    if (confirmed) {
+      await deleteItems("/api/customers/delete/", selectedIds);
+      fetchItems();
+    }
   };
 
-  if (loading) {
-    return <div>Loading...</div>;
+  if (loading || deleting) {
+    return <Loader />;
   }
 
-  if (error) {
-    return <Error error={error} />;
+  if (error || deleteError) {
+    return <Error error={error || deleteError} />;
   }
 
   return (

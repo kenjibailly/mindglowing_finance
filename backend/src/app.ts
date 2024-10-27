@@ -27,7 +27,7 @@ import customersRouter from "./routes/customers/customers";
 // import createCustomerRouter from "./routes/customers/create_customer";
 // import editCustomerRouter from "./routes/customers/edit_customer";
 // import deleteCustomerRouter from "./routes/customers/delete_customer";
-// import deleteSelectedCustomersRouter from "./routes/customers/delete_selected_customers";
+import deleteSelectedCustomersRouter from "./routes/customers/delete_customers";
 
 // import productsRouter from "./routes/products/products";
 // import productRouter from "./routes/products/product";
@@ -159,7 +159,7 @@ app.use("/api/customers/", customersRouter);
 // app.use("/api/customers/create/", createCustomerRouter);
 // app.use("/api/customers/edit/", editCustomerRouter);
 // app.use("/api/customers/delete/", deleteCustomerRouter);
-// app.use("/api/customers/delete-selected/", deleteSelectedCustomersRouter);
+app.use("/api/customers/delete/", deleteSelectedCustomersRouter);
 
 // app.use("/api/products/", productsRouter);
 // app.use("/api/products/product/", productRouter);
