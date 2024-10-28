@@ -1,5 +1,5 @@
 // usePaginatedTable.ts
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useLocation } from "react-router-dom";
 import useSorting from "./useSorting";
 
@@ -14,14 +14,14 @@ interface UsePaginatedTableResult<T> {
   error: string | null;
   currentPage: number;
   totalPages: number;
-  linkOptions: string;
+  linkOptions: string; // Ensure this is a string
   isAllChecked: boolean;
   checkedItems: Set<string>;
   handleCheckAll: () => void;
   handleCheckItem: (id: string) => void;
   handleSort?: (sortBy: string) => void;
   getSortClass: (field: string) => string;
-  fetchItems: () => Promise<void>;
+  fetchItems: (sortBy?: string, order?: "asc" | "desc") => Promise<void>; // Accept parameters
 }
 
 interface Identifiable {
@@ -32,18 +32,6 @@ function usePaginatedTable<T extends Identifiable>({
   baseUrl,
   enableSorting = false,
 }: UsePaginatedTableOptions): UsePaginatedTableResult<T> {
-  const {
-    linkOptions: sortLinkOptions,
-    handleSort,
-    getSortClass,
-  } = enableSorting
-    ? useSorting(baseUrl)
-    : {
-        linkOptions: "",
-        handleSort: undefined,
-        getSortClass: () => "",
-      };
-
   const [items, setItems] = useState<T[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -54,41 +42,48 @@ function usePaginatedTable<T extends Identifiable>({
 
   const location = useLocation();
 
-  const fetchItems = async () => {
-    setLoading(true); // Start loading
-    try {
-      const queryParams = new URLSearchParams(location.search);
-      const page = queryParams.get("page");
-      const pageNumber = page ? parseInt(page, 10) : 1;
-      const sortBy = enableSorting ? queryParams.get("sort_by") : null;
-      const order = enableSorting
-        ? (queryParams.get("sort_order") as "asc" | "desc") || "asc"
-        : "asc";
+  // Modified fetchItems to accept sort parameters
+  const fetchItems = useCallback(
+    async (sortBy?: string, order: "asc" | "desc" = "asc") => {
+      setLoading(true);
+      try {
+        const queryParams = new URLSearchParams(location.search);
+        const page = queryParams.get("page");
+        const pageNumber = page ? parseInt(page, 10) : 1;
 
-      const response = await fetch(
-        `/api${baseUrl}?page=${pageNumber}${
-          sortBy ? `&sort_by=${sortBy}` : ""
-        }&sort_order=${order}`
-      );
+        const response = await fetch(
+          `/api${baseUrl}?page=${pageNumber}${
+            sortBy ? `&sort_by=${sortBy}` : ""
+          }&sort_order=${order}`
+        );
 
-      if (!response.ok) throw new Error("Getting items failed");
+        if (!response.ok) throw new Error("Getting items failed");
 
-      const data = await response.json();
-      setCurrentPage(data.currentPage);
-      setTotalPages(data.totalPages);
-      setItems(data.items);
-    } catch (err) {
-      setError((err as Error).message || "Unknown error");
-    } finally {
-      setLoading(false); // Stop loading
-    }
-  };
+        const data = await response.json();
+        setCurrentPage(data.currentPage);
+        setTotalPages(data.totalPages);
+        setItems(data.items);
+      } catch (err) {
+        setError((err as Error).message || "Unknown error");
+      } finally {
+        setLoading(false);
+      }
+    },
+    [location.search, baseUrl] // Keep dependencies
+  );
+
+  const { linkOptions, handleSort, getSortClass } = enableSorting
+    ? useSorting(fetchItems) // Pass modified fetchItems
+    : {
+        linkOptions: "",
+        handleSort: undefined,
+        getSortClass: () => "",
+      };
 
   useEffect(() => {
-    fetchItems();
-  }, [location.search, baseUrl, enableSorting]);
+    fetchItems(); // Call without parameters to fetch based on URL
+  }, [fetchItems]); // Use fetchItems as the dependency
 
-  // Function to toggle all checkboxes
   const handleCheckAll = () => {
     if (isAllChecked) {
       setCheckedItems(new Set());
@@ -99,7 +94,6 @@ function usePaginatedTable<T extends Identifiable>({
     setIsAllChecked(!isAllChecked);
   };
 
-  // Function to handle individual checkbox toggle
   const handleCheckItem = (id: string) => {
     setCheckedItems((prev) => {
       const newSet = new Set(prev);
@@ -115,7 +109,7 @@ function usePaginatedTable<T extends Identifiable>({
     error,
     currentPage,
     totalPages,
-    linkOptions: enableSorting ? sortLinkOptions : "",
+    linkOptions,
     isAllChecked,
     checkedItems,
     handleCheckAll,

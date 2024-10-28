@@ -1,38 +1,50 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+// useSorting.ts
+import { useLocation } from "react-router-dom";
 
-interface UseSortingResult {
-  sortOrder: "asc" | "desc";
-  sortedField: string | null;
-  linkOptions: string;
-  handleSort: (sortBy: string) => void;
-  getSortClass: (field: string) => string; // Add to the interface
-}
-
-function useSorting(baseUrl: string): UseSortingResult {
-  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
-  const [sortedField, setSortedField] = useState<string | null>(null);
-  const [linkOptions, setLinkOptions] = useState<string>("");
-  const navigate = useNavigate();
+const useSorting = (
+  fetchItems: (sortBy: string, order: "asc" | "desc") => Promise<void>
+) => {
+  const location = useLocation();
 
   const handleSort = (sortBy: string) => {
+    const queryParams = new URLSearchParams(window.location.search);
+    const currentSort = queryParams.get("sort_by");
+    const currentOrder = queryParams.get("sort_order");
+
+    // Determine the new order
     const newOrder =
-      sortedField === sortBy && sortOrder === "asc" ? "desc" : "asc";
-    setSortOrder(newOrder);
-    setSortedField(sortBy);
-    setLinkOptions(`&sort_by=${sortBy}&sort_order=${newOrder}`);
-    navigate(`${baseUrl}?page=1&sort_by=${sortBy}&sort_order=${newOrder}`);
+      currentSort === sortBy
+        ? currentOrder === "asc"
+          ? "desc"
+          : "asc" // Toggle order
+        : "asc"; // Default to ascending if a different field is clicked
+
+    // Set the query parameters for sorting
+    queryParams.set("sort_by", sortBy);
+    queryParams.set("sort_order", newOrder);
+    // Update the URL without causing a full page refresh
+    const newPath = `${location.pathname}?${queryParams.toString()}`;
+    window.history.replaceState({}, "", newPath);
+
+    // Fetch items with the updated sorting parameters
+    fetchItems(sortBy, newOrder);
   };
 
-  // Utility to determine sorting class
   const getSortClass = (field: string) => {
-    if (sortedField === field) {
-      return sortOrder === "asc" ? "sort-asc" : "sort-desc";
+    const queryParams = new URLSearchParams(window.location.search);
+    const currentSort = queryParams.get("sort_by");
+    const currentOrder = queryParams.get("sort_order");
+
+    if (field === currentSort) {
+      return currentOrder === "asc" ? "sort-asc" : "sort-desc";
     }
     return "";
   };
 
-  return { sortOrder, sortedField, linkOptions, handleSort, getSortClass }; // Include getSortClass in the return
-}
+  // Construct link options for pagination
+  const linkOptions = `&${new URLSearchParams(location.search).toString()}`;
+
+  return { handleSort, getSortClass, linkOptions };
+};
 
 export default useSorting;

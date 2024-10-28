@@ -1,9 +1,13 @@
 import React from "react";
 import "../stylesheets/loader.css";
 
-const Loader: React.FC = () => {
+interface LoaderProps {
+  fullPage: boolean;
+}
+
+const Loader: React.FC<LoaderProps> = ({ fullPage }) => {
   return (
-    <div className="loader-container">
+    <div className={`loader-container ${fullPage ? "full-page" : ""}`}>
       <ul className="loader">
         <li></li>
         <li></li>
