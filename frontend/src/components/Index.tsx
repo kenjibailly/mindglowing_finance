@@ -5,9 +5,10 @@ const Index = () => {
   const navigate = useNavigate();
   useEffect(() => {
     navigate("/dashboard");
-    return;
   }),
     [];
+
+  return null;
 };
 
 export default Index;

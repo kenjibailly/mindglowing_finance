@@ -4,8 +4,9 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "build": "tsc",
-    "start": "ts-node ./src/bin/www.ts"
+    "build": "tsc --project tsconfig.prod.json",
+    "start": "npm run build && NODE_ENV=production node ./dist/bin/www.js",
+    "dev": "NODE_ENV=development nodemon --watch '*' --exec npx ts-node ./src/bin/www.ts"
   },
   "author": {
     "name": "Mind Glowing",

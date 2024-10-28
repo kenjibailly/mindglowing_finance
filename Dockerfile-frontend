@@ -11,4 +11,4 @@ COPY ./frontend/ /app
 RUN npm install
 
 # Set the default command to run your bot
-CMD ["npm", "run", "dev"]
+CMD ["npm", "start"]

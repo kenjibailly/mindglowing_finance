@@ -7,6 +7,7 @@ import Setup from "./components/Setup";
 import Index from "./components/Index";
 import Dashboard from "./components/Dashboard";
 import Customers from "./components/customers/Customers";
+import Customer from "./components/customers/Customer";
 import Nav from "./components/Nav";
 import Header from "./components/header/Header";
 import NotFound from "./components/NotFound";
@@ -68,6 +69,19 @@ const router = createBrowserRouter([
           <Nav />
           <Header title="Customers" />
           <Customers />
+        </div>
+      </ProtectedRoute>
+    ),
+    errorElement: <NotFound />,
+  },
+  {
+    path: "/customers/customer/:id",
+    element: (
+      <ProtectedRoute>
+        <div className="dashboard-outer-wrapper">
+          <Nav />
+          <Header title="Customer" />
+          <Customer />
         </div>
       </ProtectedRoute>
     ),
