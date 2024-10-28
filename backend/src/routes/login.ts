@@ -20,6 +20,7 @@ router.post("/", async (req: Request, res: Response): Promise<any> => {
     // Find the user in the database
     const user = await User.findOne({ username });
     if (!user) {
+      logger.warn("Invalid username or password");
       return res.status(401).json({ error: "Invalid username or password" });
     }
 
@@ -31,6 +32,7 @@ router.post("/", async (req: Request, res: Response): Promise<any> => {
 
     // Check if the hashed password matches
     if (user.password !== hashedEnteredPassword) {
+      logger.warn("Invalid username or password");
       return res.status(401).json({ error: "Invalid username or password" });
     }
 
@@ -62,6 +64,8 @@ router.post("/", async (req: Request, res: Response): Promise<any> => {
       username: user.username,
       setup: user.setup,
     };
+
+    logger.success("Login successful");
 
     // Send success response
     return res

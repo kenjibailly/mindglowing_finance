@@ -5,7 +5,7 @@ services:
     container_name: mindglowing_finance_nginx
     # restart: unless-stopped
     ports:
-      - 8159:80
+      # - 8159:80
       - 8160:443
     volumes:
       # - ./nginx/web/:/usr/share/nginx/html
@@ -26,8 +26,8 @@ services:
     container_name: mindglowing_finance_frontend
     restart: unless-stopped
     working_dir: /app
-    ports:
-      - "8161:8000"
+    # ports:
+    # - "8161:8000"
     volumes:
       - ./frontend/:/app
       - ./backend/uploads/:/app/uploads
@@ -45,8 +45,8 @@ services:
     restart: unless-stopped
     working_dir: /app
     # command: "nodemon --watch '*' --exec npx ts-node ./src/bin/www.ts"
-    ports:
-      - "8162:3000"
+    # ports:
+    #   - "8162:3000"
     volumes:
       - ./backend/:/app
       - /app/node_modules

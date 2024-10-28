@@ -4,13 +4,14 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "start": "npm run build && serve -s dist -l 8000",
-    "dev": "NODE_ENV=development vite --port 8000 --host",
-    "build": "NODE_ENV=production tsc --project tsconfig.prod.json && vite build",
+    "start": "node -e \"require('dotenv').config(); process.env.NODE_ENV === 'production' ? require('child_process').execSync('npm run build && serve -s dist -l 8000', { stdio: 'inherit' }) : require('child_process').execSync('npm run dev', { stdio: 'inherit' });\"",
+    "dev": "vite --port 8000 --host",
+    "build": "tsc --project tsconfig.prod.json && vite build",
     "preview": "vite preview --port 5000",
     "lint": "eslint ."
   },
   "dependencies": {
+    "dotenv": "^16.4.5",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.27.0"
