@@ -1,30 +1,193 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import Error from "../Error";
+import Loader from "../Loader";
+import { Customer as CustomerData } from "../types/Customers";
+import "../../stylesheets/overview/overview.css";
+import useDeleteItems from "../hooks/useDeleteItems";
 
 const Customer: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const [customerData, setCustomerData] = useState(null);
+  const [customerData, setCustomerData] = useState<CustomerData | null>(null);
+  const [error, setError] = useState<null | string>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const navigate = useNavigate();
 
-  useEffect(() => {
+  const fetchItems = async () => {
     // Fetch customer data using the id
     const fetchCustomerData = async () => {
-      console.log(id);
-      return;
-      const response = await fetch(`/api/customers/${id}`);
-      const data = await response.json();
-      setCustomerData(data);
+      setLoading(true);
+      try {
+        const response = await fetch(`/api/customers/customer/${id}`);
+        const data = await response.json();
+        if (response.ok) {
+          setCustomerData(data.customer);
+        } else {
+          setError("Something went wrong");
+        }
+      } catch (err) {
+        setError((err as Error).message || "Unknown error");
+      }
     };
 
     if (id) fetchCustomerData();
+  };
+
+  useEffect(() => {
+    fetchItems();
   }, [id]);
 
+  const {
+    handleDeleteSelected,
+    loading: deleting,
+    error: deleteError,
+  } = useDeleteItems(fetchItems);
+
+  const handleDeleteCustomer = async () => {
+    if (id) {
+      await handleDeleteSelected("/api/customers/delete", id);
+      if (!deleteError) {
+        navigate("/customers");
+      }
+    }
+  };
+
+  if (error || deleteError) {
+    return <Error error={error || deleteError} />;
+  }
+
+  if (loading || deleting) {
+    <Loader fullPage={false} />;
+  }
+
+  if (!customerData) {
+    return <Loader fullPage={true} />;
+  }
+
   return (
-    <div>
-      {customerData ? (
-        <div>{/* Render customer details here */}</div>
-      ) : (
-        <p>Loading...</p>
-      )}
+    <div className="wrapper customer-overview">
+      <a className="link" href="/customers/">
+        Customers
+      </a>
+      <a className="button" href={`/customers/edit/${customerData._id}`}>
+        Edit Customer
+      </a>
+
+      <div className="alert alert-success hidden" role="alert">
+        Customer edited!
+      </div>
+
+      {/* <form action={`/customers/delete/${customerData._id}`} method="post"> */}
+      <button onClick={handleDeleteCustomer} type="submit">
+        Delete
+      </button>
+      {/* </form> */}
+
+      <div className="overview">
+        <div className="separate">
+          <h2>Personal Information</h2>
+          <div className="inline">
+            <p>First Name:</p>
+            <p>{customerData.personal_information.first_name}</p>
+          </div>
+          <div className="inline">
+            <p>Last Name:</p>
+            <p>{customerData.personal_information.last_name}</p>
+          </div>
+          <div className="inline">
+            <p>Email:</p>
+            <p>{customerData.personal_information.email}</p>
+          </div>
+          <div className="inline">
+            <p>Company:</p>
+            <p>{customerData.personal_information.company}</p>
+          </div>
+          <div className="inline">
+            <p>Currency:</p>
+            <p>
+              {customerData.personal_information.currency_name} (
+              {customerData.personal_information.currency_symbol})
+            </p>
+          </div>
+        </div>
+
+        <div className="inline">
+          <div className="separate half">
+            <h2>Billing Details:</h2>
+            <div className="inline">
+              <p>Street:</p>
+              <p>{customerData.billing_details.street}</p>
+            </div>
+            <div className="inline">
+              <p>Street 2:</p>
+              <p>{customerData.billing_details.street2}</p>
+            </div>
+            <div className="inline">
+              <p>City:</p>
+              <p>{customerData.billing_details.city}</p>
+            </div>
+            <div className="inline">
+              <p>State:</p>
+              <p>{customerData.billing_details.state}</p>
+            </div>
+            <div className="inline">
+              <p>ZIP:</p>
+              <p>{customerData.billing_details.zip}</p>
+            </div>
+            <div className="inline">
+              <p>Country:</p>
+              <p>{customerData.billing_details.country}</p>
+            </div>
+          </div>
+
+          <div className="separate half">
+            <h2>Shipping Details:</h2>
+            <div className="inline">
+              <p>Street:</p>
+              <p>{customerData.shipping_details.street}</p>
+            </div>
+            <div className="inline">
+              <p>Street 2:</p>
+              <p>{customerData.shipping_details.street2}</p>
+            </div>
+            <div className="inline">
+              <p>City:</p>
+              <p>{customerData.shipping_details.city}</p>
+            </div>
+            <div className="inline">
+              <p>State:</p>
+              <p>{customerData.shipping_details.state}</p>
+            </div>
+            <div className="inline">
+              <p>ZIP:</p>
+              <p>{customerData.shipping_details.zip}</p>
+            </div>
+            <div className="inline">
+              <p>Country:</p>
+              <p>{customerData.shipping_details.country}</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="separate">
+          <h2>Contact Information</h2>
+          <div className="inline">
+            <p>Preferred Contact Medium:</p>
+            <p>
+              {customerData.contact_information.preferred_contact_medium !==
+              "Other"
+                ? customerData.contact_information.preferred_contact_medium
+                : customerData.contact_information.other_option_response}
+            </p>
+          </div>
+          {customerData.contact_information.contact_medium_username && (
+            <div className="inline">
+              <p>Contact Medium Username:</p>
+              <p>{customerData.contact_information.contact_medium_username}</p>
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 };

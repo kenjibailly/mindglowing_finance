@@ -1,7 +1,7 @@
 // useDeleteItems.ts
 import { useState } from "react";
 
-const useDeleteItems = () => {
+const useDeleteItems = (fetchItems: () => Promise<void>) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -22,7 +22,6 @@ const useDeleteItems = () => {
         throw new Error("Failed to delete items");
       }
 
-      // You might want to return response data if needed
       return await response.json();
     } catch (err) {
       setError((err as Error).message || "Unknown error");
@@ -31,7 +30,32 @@ const useDeleteItems = () => {
     }
   };
 
-  return { deleteItems, loading, error };
+  // Handler function for deleting multiple items or a single item
+  const handleDeleteSelected = async (
+    url: string,
+    selectedIds: string | string[]
+  ) => {
+    const idsArray = Array.isArray(selectedIds) ? selectedIds : [selectedIds];
+
+    if (idsArray.length === 0) {
+      alert("No items selected for deletion");
+      return;
+    }
+
+    const confirmed = window.confirm(
+      "Are you sure you want to delete the selected items?"
+    );
+
+    if (confirmed) {
+      try {
+        await deleteItems(url, idsArray);
+      } catch (error) {
+        setError((error as Error).message);
+      }
+    }
+  };
+
+  return { deleteItems, handleDeleteSelected, loading, error };
 };
 
 export default useDeleteItems;

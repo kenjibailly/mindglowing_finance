@@ -3,11 +3,20 @@ table {
     font-family: 'poppinsmedium';
     border-top-right-radius: 10px;
     border-collapse: collapse;
+    background-color: var(--dark-color-lighter1);
 }
 
 thead {
     background-color: var(--dark-color-lighter3);
-    border-bottom: 3px solid var(--dark-color-lighter4);
+}
+
+
+thead th:first-child {
+    border-radius: 10px 0 0 10px;
+} 
+
+thead th:last-child {
+    border-radius: 0 0 10px 0;
 }
 
 thead tr th {

@@ -29,96 +29,19 @@ const Customers: React.FC = () => {
   });
 
   const {
-    deleteItems,
+    handleDeleteSelected,
     loading: deleting,
     error: deleteError,
-  } = useDeleteItems();
+  } = useDeleteItems(fetchItems);
 
-  const handleDeleteSelected = async () => {
-    const selectedIds = Array.from(checkedItems); // Get selected IDs
-    if (selectedIds.length === 0) {
-      alert("No items selected for deletion");
-      return;
-    }
-
-    const confirmed = window.confirm(
-      "Are you sure you want to delete the selected items?"
-    );
-    if (confirmed) {
-      await deleteItems("/api/customers/delete/", selectedIds);
+  const handleDeleteCustomers = async () => {
+    const selectedIds = Array.from(checkedItems);
+    await handleDeleteSelected("/api/customers/delete", selectedIds);
+    // Check if there's an error; if not, navigate to /customers
+    if (!deleteError) {
       fetchItems();
     }
   };
-
-  // if (loading || deleting) {
-  //   return (
-  //     <div className="wrapper">
-  //       <Link
-  //         to="/customers/create"
-  //         key="/customers/create"
-  //         className="button create-customer-button"
-  //       >
-  //         Create Customer
-  //       </Link>
-  //       <div className="customers table">
-  //         <table className="table-sort">
-  //           <thead>
-  //             <tr>
-  //               <th data-field="checkbox">
-  //                 <label className="checkbox">
-  //                   <input type="checkbox" onChange={handleCheckAll} />
-  //                 </label>
-  //               </th>
-  //               <th
-  //                 onClick={() => handleSort && handleSort("customer_name")}
-  //                 className={getSortClass("customer_name")}
-  //               >
-  //                 Name
-  //               </th>
-  //               <th
-  //                 onClick={() =>
-  //                   handleSort && handleSort("personal_information.email")
-  //                 }
-  //                 className={getSortClass("personal_information.email")}
-  //               >
-  //                 Email
-  //               </th>
-  //               <th
-  //                 onClick={() => handleSort && handleSort("amount_due")}
-  //                 className={getSortClass("amount_due")}
-  //               >
-  //                 Amount Due
-  //               </th>
-  //               <th
-  //                 onClick={() => handleSort && handleSort("created_on")}
-  //                 className={getSortClass("created_on")}
-  //               >
-  //                 Created on
-  //               </th>
-  //             </tr>
-  //           </thead>
-  //           <tbody>
-  //             <tr>
-  //               <td>
-  //                 <label className="checkbox">
-  //                   <input
-  //                     type="checkbox"
-  //                     className="customer-checkbox box-checkbox"
-  //                   />
-  //                 </label>
-  //               </td>
-  //               <td></td>
-  //               <td></td>
-  //               <td></td>
-  //               <td></td>
-  //             </tr>
-  //           </tbody>
-  //         </table>
-  //       </div>
-  //       <Loader fullPage={false} />
-  //     </div>
-  //   );
-  // }
 
   if (error || deleteError) {
     return <Error error={error || deleteError} />;
@@ -133,7 +56,7 @@ const Customers: React.FC = () => {
       >
         Create Customer
       </Link>
-      <button onClick={handleDeleteSelected} type="submit">
+      <button onClick={handleDeleteCustomers} type="submit">
         Delete
       </button>
       <div className="customers table">
