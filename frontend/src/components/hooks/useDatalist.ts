@@ -2,7 +2,8 @@ import { useEffect } from "react";
 
 const useDatalist = (
   inputRef: React.RefObject<HTMLInputElement>,
-  datalistRef: React.RefObject<HTMLDataListElement>
+  datalistRef: React.RefObject<HTMLDataListElement>,
+  loading: boolean = false
 ) => {
   useEffect(() => {
     const input = inputRef.current;
@@ -118,7 +119,7 @@ const useDatalist = (
       datalist.removeEventListener("click", handleOptionClick);
       document.removeEventListener("click", handleClickOutside);
     };
-  }, [inputRef, datalistRef]);
+  }, [inputRef, datalistRef, loading]);
 };
 
 export default useDatalist;

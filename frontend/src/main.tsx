@@ -14,6 +14,7 @@ import NotFound from "./components/NotFound";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { AuthProvider } from "./components/context/AuthContext";
 import "./stylesheets/style.css";
+import EditCustomer from "./components/customers/EditCustomer";
 
 const router = createBrowserRouter([
   {
@@ -75,7 +76,7 @@ const router = createBrowserRouter([
     errorElement: <NotFound />,
   },
   {
-    path: "/customers/customer/:id",
+    path: "/customers/:id",
     element: (
       <ProtectedRoute>
         <div className="dashboard-outer-wrapper">
@@ -86,6 +87,18 @@ const router = createBrowserRouter([
       </ProtectedRoute>
     ),
     errorElement: <NotFound />,
+  },
+  {
+    path: "/customers/edit/:id",
+    element: (
+      <ProtectedRoute>
+        <div className="dashboard-outer-wrapper">
+          <Nav />
+          <Header title="Edit Customer" />
+          <EditCustomer />
+        </div>
+      </ProtectedRoute>
+    ),
   },
 ]);
 

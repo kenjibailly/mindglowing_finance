@@ -1,5 +1,4 @@
 header {
-    height: 65px;
     display: flex;
     transition: box-shadow .4s;
     margin-left: calc(30px + 220px);

@@ -1,7 +1,7 @@
 // useDeleteItems.ts
 import { useState } from "react";
 
-const useDeleteItems = (fetchItems: () => Promise<void>) => {
+const useDeleteItems = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 

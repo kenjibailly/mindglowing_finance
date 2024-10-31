@@ -4,7 +4,7 @@ import "../../stylesheets/login/login.css";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
-const Login: React.FC = () => {
+const Login = () => {
   const { isAuthenticated, setIsAuthenticated } = useAuth();
   const [error, setError] = useState<string>("");
   const [username, setUsername] = useState<string>("");

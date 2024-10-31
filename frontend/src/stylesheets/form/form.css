@@ -283,3 +283,10 @@ th {
   .input-contact-medium ul {
     height: 300px;
   }
+
+  li.radio:has(input[type=text]) {
+    display: flex;
+  }
+  li.radio:has(input[type=text]) input[type=text] {
+    margin-left: 10px;
+  }

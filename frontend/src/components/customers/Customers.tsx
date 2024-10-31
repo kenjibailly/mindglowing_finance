@@ -1,15 +1,14 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import { Customer } from "../types/Customers";
 import "../../stylesheets/table/table.css";
 import "../../stylesheets/checkbox/checkbox.css";
-import Error from "../Error";
+import Alert from "../Alert";
 import Pagination from "../Pagination";
 import usePaginatedTable from "../hooks/usePaginatedTable";
 import useDeleteItems from "../hooks/useDeleteItems";
 import Loader from "../Loader";
 
-const Customers: React.FC = () => {
+const Customers = () => {
   const {
     items,
     loading,
@@ -32,7 +31,7 @@ const Customers: React.FC = () => {
     handleDeleteSelected,
     loading: deleting,
     error: deleteError,
-  } = useDeleteItems(fetchItems);
+  } = useDeleteItems();
 
   const handleDeleteCustomers = async () => {
     const selectedIds = Array.from(checkedItems);
@@ -44,7 +43,7 @@ const Customers: React.FC = () => {
   };
 
   if (error || deleteError) {
-    return <Error error={error || deleteError} />;
+    return <Alert message={error || deleteError} type="error" />;
   }
 
   return (
@@ -120,10 +119,7 @@ const Customers: React.FC = () => {
                     </label>
                   </td>
                   <td>
-                    <Link
-                      className="link"
-                      to={`/customers/customer/${item._id}`}
-                    >
+                    <Link className="link" to={`/customers/${item._id}`}>
                       {item.personal_information.company ||
                         `${item.personal_information.first_name} ${item.personal_information.last_name}`}
                     </Link>

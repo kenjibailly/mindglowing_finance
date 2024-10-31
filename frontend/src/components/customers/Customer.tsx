@@ -1,37 +1,33 @@
-import React, { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import Error from "../Error";
+import Alert from "../Alert";
 import Loader from "../Loader";
-import { Customer as CustomerData } from "../types/Customers";
 import "../../stylesheets/overview/overview.css";
 import useDeleteItems from "../hooks/useDeleteItems";
+import useCustomerData from "../hooks/useCustomerData";
 
-const Customer: React.FC = () => {
+const Customer = () => {
   const { id } = useParams<{ id: string }>();
-  const [customerData, setCustomerData] = useState<CustomerData | null>(null);
-  const [error, setError] = useState<null | string>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+  const { customerData, loading, error, fetchItems } = useCustomerData(id);
   const navigate = useNavigate();
+  //   // Fetch customer data using the id
+  //   const fetchCustomerData = async () => {
+  //     setLoading(true);
+  //     try {
+  //       const response = await fetch(`/api/customers/${id}`);
+  //       const data = await response.json();
+  //       if (response.ok) {
+  //         setCustomerData(data.customer);
+  //       } else {
+  //         setError("Something went wrong");
+  //       }
+  //     } catch (err) {
+  //       setError((err as Error).message || "Unknown error");
+  //     }
+  //   };
 
-  const fetchItems = async () => {
-    // Fetch customer data using the id
-    const fetchCustomerData = async () => {
-      setLoading(true);
-      try {
-        const response = await fetch(`/api/customers/customer/${id}`);
-        const data = await response.json();
-        if (response.ok) {
-          setCustomerData(data.customer);
-        } else {
-          setError("Something went wrong");
-        }
-      } catch (err) {
-        setError((err as Error).message || "Unknown error");
-      }
-    };
-
-    if (id) fetchCustomerData();
-  };
+  //   if (id) fetchCustomerData();
+  // };
 
   useEffect(() => {
     fetchItems();
@@ -41,7 +37,7 @@ const Customer: React.FC = () => {
     handleDeleteSelected,
     loading: deleting,
     error: deleteError,
-  } = useDeleteItems(fetchItems);
+  } = useDeleteItems();
 
   const handleDeleteCustomer = async () => {
     if (id) {
@@ -53,7 +49,7 @@ const Customer: React.FC = () => {
   };
 
   if (error || deleteError) {
-    return <Error error={error || deleteError} />;
+    return <Alert message={error || deleteError} type="error" />;
   }
 
   if (loading || deleting) {
@@ -77,11 +73,7 @@ const Customer: React.FC = () => {
         Customer edited!
       </div>
 
-      {/* <form action={`/customers/delete/${customerData._id}`} method="post"> */}
-      <button onClick={handleDeleteCustomer} type="submit">
-        Delete
-      </button>
-      {/* </form> */}
+      <button onClick={handleDeleteCustomer}>Delete</button>
 
       <div className="overview">
         <div className="separate">

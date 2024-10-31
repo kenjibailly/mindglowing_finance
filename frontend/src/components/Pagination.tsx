@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 
 interface PaginationProps {
@@ -8,12 +7,12 @@ interface PaginationProps {
   linkOptions: string;
 }
 
-const Pagination: React.FC<PaginationProps> = ({
+const Pagination = ({
   currentPage,
   totalPages,
   link,
   linkOptions,
-}) => {
+}: PaginationProps) => {
   return (
     <div className="pagination">
       {currentPage > 1 && totalPages > 1 && (
