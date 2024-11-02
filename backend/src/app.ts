@@ -23,7 +23,7 @@ import searchRouter from "./routes/search/search";
 import userRouter from "./routes/user";
 
 import customersRouter from "./routes/customers/customers";
-// import createCustomerRouter from "./routes/customers/create_customer";
+import createCustomerRouter from "./routes/customers/create_customer";
 import editCustomerRouter from "./routes/customers/edit_customer";
 // import deleteCustomerRouter from "./routes/customers/delete_customer";
 import deleteSelectedCustomersRouter from "./routes/customers/delete_customers";
@@ -154,7 +154,7 @@ app.use("/api/search", searchRouter);
 app.use("/api/user", userRouter);
 
 app.use("/api/customers/", customersRouter);
-// app.use("/api/customers/create/", createCustomerRouter);
+app.use("/api/customers/create/", createCustomerRouter);
 app.use("/api/customers/edit/", editCustomerRouter);
 // app.use("/api/customers/delete/", deleteCustomerRouter);
 app.use("/api/customers/delete/", deleteSelectedCustomersRouter);

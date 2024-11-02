@@ -1,35 +1,16 @@
-import { Link, useNavigate, useParams } from "react-router-dom";
-import useCustomerData from "../hooks/useCustomerData";
-import useDeleteItems from "../hooks/useDeleteItems";
-import { useEffect, useRef, useState } from "react";
-import Alert from "../Alert";
-import Loader from "../Loader";
-import useDatalist from "../hooks/useDatalist";
+import { useState, useRef, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import CountriesOptionList from "../options/CountriesOptionList";
-import useSameAddress from "../hooks/useSameAddress";
-import { toggleShipping } from "../hooks/useSameAddress";
-import { AddressDetails, AddressField } from "../types/Customers";
-import useAddressDetails from "../hooks/useAddressDetails";
 import CurrenciesOptionList from "../options/CurrenciesOptionList";
-import useChangeRadio from "../hooks/usePreferredContactMedium";
+import { AddressDetails, AddressField } from "../types/Customers";
+import useSameAddress from "../hooks/useSameAddress";
+import useDatalist from "../hooks/useDatalist";
+import useAddressDetails from "../hooks/useAddressDetails";
+import Alert from "../Alert";
 
-const EditCustomer = () => {
-  const { id } = useParams<{ id: string }>();
-  const {
-    customerData,
-    loading,
-    error: customerError,
-    fetchItems,
-  } = useCustomerData(id);
-  const [success, setSuccess] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
+const CreateCustomer = () => {
   const [isSameAddress, setIsSameAddress] = useState<boolean>(true);
-  const [preferredContactMedium, setPreferredContactMedium] = useState<string>(
-    customerData
-      ? customerData.contact_information.preferred_contact_medium
-      : ""
-  );
-
+  const [error, setError] = useState<string | null>(null);
   const [addressDetails, setAddressDetails] = useState<AddressDetails>({
     billing_details: {
       street: "",
@@ -48,7 +29,6 @@ const EditCustomer = () => {
       country: "",
     },
   });
-
   const currencyInputRef = useRef<HTMLInputElement>(null);
   const currencyDatalistRef = useRef<HTMLDataListElement>(null);
 
@@ -57,10 +37,27 @@ const EditCustomer = () => {
 
   const shippingDetailsCountryInputRef = useRef<HTMLInputElement>(null);
   const shippingDetailsCountryDatalistRef = useRef<HTMLDataListElement>(null);
-
   const shippingDetailsDivRef = useRef<HTMLDivElement>(null);
 
   const navigate = useNavigate();
+
+  useDatalist(currencyInputRef, currencyDatalistRef);
+  useDatalist(
+    billingDetailsCountryInputRef,
+    billingDetailsCountryDatalistRef,
+    false,
+    {
+      onSelect: (e) => handleAddressChange(e, "billing_details"),
+    }
+  );
+  useDatalist(
+    shippingDetailsCountryInputRef,
+    shippingDetailsCountryDatalistRef,
+    false,
+    {
+      onSelect: (e) => handleAddressChange(e, "shipping_details"),
+    }
+  );
 
   const handleAddressChange = useAddressDetails(
     isSameAddress,
@@ -73,41 +70,6 @@ const EditCustomer = () => {
     shippingDetailsDivRef
   );
 
-  const handlePreferredContactMedium = useChangeRadio(
-    setPreferredContactMedium
-  );
-
-  useEffect(() => {
-    fetchItems();
-  }, [id]);
-
-  useEffect(() => {
-    // Update the checkbox state when customerData changes
-    if (customerData) {
-      const checkSameAddress =
-        JSON.stringify(customerData.shipping_details) ===
-        JSON.stringify(customerData.billing_details);
-      setIsSameAddress(checkSameAddress);
-      toggleShipping(
-        checkSameAddress,
-        setAddressDetails,
-        shippingDetailsDivRef
-      );
-      setPreferredContactMedium(
-        customerData.contact_information.preferred_contact_medium
-      );
-
-      setAddressDetails({
-        billing_details: {
-          ...customerData.billing_details,
-        },
-        shipping_details: {
-          ...customerData.shipping_details,
-        },
-      });
-    }
-  }, [customerData]);
-
   // Sync shipping details with billing only if `isSameAddress` is true
   useEffect(() => {
     if (isSameAddress) {
@@ -118,127 +80,69 @@ const EditCustomer = () => {
     }
   }, [isSameAddress]);
 
-  useDatalist(currencyInputRef, currencyDatalistRef, loading);
-  useDatalist(
-    billingDetailsCountryInputRef,
-    billingDetailsCountryDatalistRef,
-    loading,
-    {
-      onSelect: (e) => handleAddressChange(e, "billing_details"),
-    }
-  );
-  useDatalist(
-    shippingDetailsCountryInputRef,
-    shippingDetailsCountryDatalistRef,
-    loading,
-    {
-      onSelect: (e) => handleAddressChange(e, "shipping_details"),
-    }
-  );
-
-  const {
-    handleDeleteSelected,
-    loading: deleting,
-    error: deleteError,
-  } = useDeleteItems();
-
-  const handleDeleteCustomer = async () => {
-    if (id) {
-      await handleDeleteSelected("/api/customers/delete", id);
-      if (!deleteError) {
-        navigate("/customers");
-      }
-    }
-  };
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formElement = e.currentTarget as HTMLFormElement;
-    const formData = new FormData(formElement);
+    e.preventDefault(); // Prevent the default form submission behavior
 
-    if (customerData) {
-      try {
-        // This object will hold the nested structure created from formData
-        const structuredData: Record<string, any> = {};
+    const formData = new FormData(e.currentTarget);
+    const structuredData: Record<string, any> = {};
 
-        formData.forEach((fieldValue, fieldName) => {
-          // Split the field name by dots to handle nested keys
-          const keySegments = fieldName.split(".");
+    formData.forEach((fieldValue, fieldName) => {
+      // Split the field name by dots to handle nested keys
+      const keySegments = fieldName.split(".");
 
-          // Traverse and build the nested object structure
-          keySegments.reduce((nestedObject, currentSegment, index) => {
-            // If we are at the last segment, assign the field value
-            if (index === keySegments.length - 1) {
-              nestedObject[currentSegment] = fieldValue; // Assign the value to the current key
-            } else {
-              // Create a new nested object if it doesn't exist
-              nestedObject[currentSegment] = nestedObject[currentSegment] || {};
-            }
-            // Return the current nested object for further traversal
-            return nestedObject[currentSegment];
-          }, structuredData); // Start the traversal with the structuredData object
-        });
-        const response = await fetch(
-          `/api/customers/edit/${customerData._id}`,
-          {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(structuredData),
-          }
-        );
-
-        if (response.ok) {
-          setSuccess("Customer updated successfully!");
+      // Traverse and build the nested object structure
+      keySegments.reduce((nestedObject, currentSegment, index) => {
+        // If we are at the last segment, assign the field value
+        if (index === keySegments.length - 1) {
+          nestedObject[currentSegment] = fieldValue; // Assign the value to the current key
         } else {
-          throw new Error(
-            "Could not update customer.\n\n" +
-              response.status +
-              " " +
-              response.statusText
-          );
+          // Create a new nested object if it doesn't exist
+          nestedObject[currentSegment] = nestedObject[currentSegment] || {};
         }
-      } catch (error) {
-        setError((error as Error).message || "An unknown error occurred");
+        // Return the current nested object for further traversal
+        return nestedObject[currentSegment];
+      }, structuredData); // Start the traversal with the structuredData object
+    });
+
+    try {
+      const response = await fetch("/api/customers/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(structuredData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to create customer");
       }
+
+      // Parse the response to get the created customer data
+      const customerData = await response.json();
+
+      // Navigate to the customer's page using the _id from the response
+      navigate(`/customers/${customerData._id}`);
+    } catch (error) {
+      setError((error as Error).message || "An unknown error occurred");
     }
   };
-
-  if (deleteError || customerError) {
-    return <Alert message={deleteError || customerError} type="error" />;
-  }
-
-  if (loading || deleting) {
-    <Loader fullPage={false} />;
-  }
-
-  if (!customerData) {
-    return <Loader fullPage={true} />;
-  }
 
   return (
     <>
-      {error && (
-        <Alert message={error || deleteError || customerError} type="error" />
-      )}
-      {success && <Alert message={success} type="success" />}
+      {error && <Alert message={error} type="error" />}
       <div className="wrapper">
         <Link className="link" to="/customers/">
           Customers
         </Link>
 
-        <button onClick={handleDeleteCustomer}>Delete</button>
-
-        <form onSubmit={handleSubmit} encType="multipart/form-data">
-          <div className="separate">
+        <form onSubmit={handleSubmit}>
+          <div className="personal_information separate">
             <h2>Personal Information</h2>
             <label htmlFor="first_name">First Name:</label>
             <input
               type="text"
               id="first_name"
               name="personal_information.first_name"
-              defaultValue={customerData.personal_information.first_name}
               required
             />
 
@@ -247,7 +151,6 @@ const EditCustomer = () => {
               type="text"
               id="last_name"
               name="personal_information.last_name"
-              defaultValue={customerData.personal_information.last_name}
               required
             />
 
@@ -256,7 +159,6 @@ const EditCustomer = () => {
               type="email"
               id="email"
               name="personal_information.email"
-              defaultValue={customerData.personal_information.email}
               required
             />
 
@@ -265,7 +167,6 @@ const EditCustomer = () => {
               type="text"
               id="company"
               name="personal_information.company"
-              defaultValue={customerData.personal_information.company}
             />
 
             <label htmlFor="currency">Currency:</label>
@@ -276,12 +177,6 @@ const EditCustomer = () => {
                 id="currency"
                 className="data-list-input"
                 autoComplete="off"
-                defaultValue={
-                  customerData.personal_information.currency_name +
-                  " (" +
-                  customerData.personal_information.currency_symbol +
-                  ")"
-                }
                 ref={currencyInputRef}
                 required
               />
@@ -307,7 +202,7 @@ const EditCustomer = () => {
                       </label>
                       <input
                         type="text"
-                        id={fieldKey}
+                        id={`billing_${fieldKey}`}
                         name={`billing_details.${fieldKey}`}
                         value={addressDetails.billing_details[fieldKey]} // Use fieldKey here
                         onChange={(e) =>
@@ -324,10 +219,11 @@ const EditCustomer = () => {
               <div className="data-list">
                 <input
                   list="billing_countries"
-                  name="billing_details.country"
+                  name={"billing_details.country"}
                   className="data-list-input"
                   id="billing_country"
                   autoComplete="off"
+                  ref={billingDetailsCountryInputRef}
                   value={addressDetails.billing_details.country}
                   onChange={(e) => handleAddressChange(e, "billing_details")}
                 />
@@ -350,7 +246,7 @@ const EditCustomer = () => {
 
             <div
               ref={shippingDetailsDivRef}
-              className="shipping_details separate"
+              className="shipping_details separate hidden"
             >
               <h2>Shipping Details</h2>
               {Object.keys(addressDetails.shipping_details).map((field) => {
@@ -363,7 +259,7 @@ const EditCustomer = () => {
                       </label>
                       <input
                         type="text"
-                        id={fieldKey}
+                        id={`shipping_${fieldKey}`}
                         name={`shipping_details.${fieldKey}`}
                         value={addressDetails.shipping_details[fieldKey]}
                         onChange={(e) =>
@@ -385,6 +281,7 @@ const EditCustomer = () => {
                   id="shipping_country"
                   autoComplete="off"
                   value={addressDetails.shipping_details.country}
+                  ref={shippingDetailsCountryInputRef}
                   onChange={(e) => handleAddressChange(e, "shipping_details")}
                 />
                 <datalist
@@ -420,8 +317,6 @@ const EditCustomer = () => {
                         id={medium}
                         name="contact_information.preferred_contact_medium"
                         value={medium}
-                        onChange={handlePreferredContactMedium}
-                        checked={preferredContactMedium === medium}
                       />
                       <label htmlFor={medium}>{medium}</label>
                       <div className="check">
@@ -432,10 +327,6 @@ const EditCustomer = () => {
                           className="other-option"
                           type="text"
                           name="contact_information.other_option_response"
-                          defaultValue={
-                            customerData.contact_information
-                              .other_option_response
-                          }
                         />
                       )}
                     </li>
@@ -450,18 +341,15 @@ const EditCustomer = () => {
                   type="text"
                   id="contact_medium_username"
                   name="contact_information.contact_medium_username"
-                  defaultValue={
-                    customerData.contact_information.contact_medium_username
-                  }
                 />
               </div>
             </div>
           </div>
-          <button type="submit">Update</button>
+          <button type="submit">Create</button>
         </form>
       </div>
     </>
   );
 };
 
-export default EditCustomer;
+export default CreateCustomer;
