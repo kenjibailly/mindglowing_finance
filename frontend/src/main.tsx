@@ -17,6 +17,7 @@ import "./stylesheets/style.css";
 import EditCustomer from "./components/customers/EditCustomer";
 import CreateCustomer from "./components/customers/CreateCustomer";
 import Products from "./components/products/Products";
+import Product from "./components/products/Product";
 
 const router = createBrowserRouter([
   {
@@ -126,6 +127,19 @@ const router = createBrowserRouter([
         </div>
       </ProtectedRoute>
     ),
+  },
+  {
+    path: "/products/:id",
+    element: (
+      <ProtectedRoute>
+        <div className="dashboard-outer-wrapper">
+          <Nav />
+          <Header title="Product" />
+          <Product />
+        </div>
+      </ProtectedRoute>
+    ),
+    errorElement: <NotFound />,
   },
 ]);
 

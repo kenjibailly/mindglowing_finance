@@ -1,5 +1,5 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
-import useCustomerData from "../hooks/useCustomerData";
+import { Customer as CustomerData } from "../types/Customers";
 import useDeleteItems from "../hooks/useDeleteItems";
 import { useEffect, useRef, useState } from "react";
 import Alert from "../Alert";
@@ -12,15 +12,20 @@ import { AddressDetails, AddressField } from "../types/Customers";
 import useAddressDetails from "../hooks/useAddressDetails";
 import CurrenciesOptionList from "../options/CurrenciesOptionList";
 import useChangeRadio from "../hooks/usePreferredContactMedium";
+import useFetchData from "../hooks/useFetchData";
 
 const EditCustomer = () => {
   const { id } = useParams<{ id: string }>();
   const {
-    customerData,
+    data: customerData,
     loading,
     error: customerError,
     fetchItems,
-  } = useCustomerData(id);
+  } = useFetchData<CustomerData>({
+    id: id,
+    endpoint: "customers",
+    dataKey: "customer",
+  });
   const [success, setSuccess] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isSameAddress, setIsSameAddress] = useState<boolean>(true);

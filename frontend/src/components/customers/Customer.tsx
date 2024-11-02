@@ -4,30 +4,22 @@ import Alert from "../Alert";
 import Loader from "../Loader";
 import "../../stylesheets/overview/overview.css";
 import useDeleteItems from "../hooks/useDeleteItems";
-import useCustomerData from "../hooks/useCustomerData";
+import { Customer as CustomerData } from "../types/Customers";
+import useFetchData from "../hooks/useFetchData";
 
 const Customer = () => {
   const { id } = useParams<{ id: string }>();
-  const { customerData, loading, error, fetchItems } = useCustomerData(id);
+  const {
+    data: customerData,
+    loading,
+    error,
+    fetchItems,
+  } = useFetchData<CustomerData>({
+    id: id,
+    endpoint: "customers",
+    dataKey: "customer",
+  });
   const navigate = useNavigate();
-  //   // Fetch customer data using the id
-  //   const fetchCustomerData = async () => {
-  //     setLoading(true);
-  //     try {
-  //       const response = await fetch(`/api/customers/${id}`);
-  //       const data = await response.json();
-  //       if (response.ok) {
-  //         setCustomerData(data.customer);
-  //       } else {
-  //         setError("Something went wrong");
-  //       }
-  //     } catch (err) {
-  //       setError((err as Error).message || "Unknown error");
-  //     }
-  //   };
-
-  //   if (id) fetchCustomerData();
-  // };
 
   useEffect(() => {
     fetchItems();

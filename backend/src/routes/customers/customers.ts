@@ -151,18 +151,9 @@ router.get(
         return res.status(404).json({ message: "Customer not found" });
       }
 
-      // Fetch user settings based on the session username
-      const userSettings = await User.findOne({ username: user.username });
-      if (!userSettings) {
-        return res.status(404).json({ message: "User settings not found" });
-      }
-
-      // Return JSON data instead of rendering
+      // Return JSON data
       return res.json({
-        user: userSettings,
         customer: customer,
-        access_token_expiry: process.env.ACCESS_TOKEN_EXPIRY_IN_SECONDS,
-        site_title: "Customer",
       });
     } catch (error) {
       console.error(error);
