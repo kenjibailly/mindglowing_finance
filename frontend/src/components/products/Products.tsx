@@ -1,14 +1,12 @@
 import { Link } from "react-router-dom";
-import { Customer } from "../types/Customers";
-import "../../stylesheets/table/table.css";
-import "../../stylesheets/checkbox/checkbox.css";
-import Alert from "../Alert";
-import Pagination from "../Pagination";
-import usePaginatedTable from "../hooks/usePaginatedTable";
 import useDeleteItems from "../hooks/useDeleteItems";
+import usePaginatedTable from "../hooks/usePaginatedTable";
+import { Product } from "../types/Products";
+import Pagination from "../Pagination";
 import Loader from "../Loader";
+import Alert from "../Alert";
 
-const Customers = () => {
+const Products = () => {
   const {
     items,
     loading,
@@ -22,8 +20,8 @@ const Customers = () => {
     handleCheckItem,
     getSortClass,
     fetchItems,
-  } = usePaginatedTable<Customer>({
-    baseUrl: "/customers",
+  } = usePaginatedTable<Product>({
+    baseUrl: "/products",
     enableSorting: true,
   });
 
@@ -36,7 +34,7 @@ const Customers = () => {
 
   const handleDeleteCustomers = async () => {
     const selectedIds = Array.from(checkedItems);
-    await handleDeleteSelected("/api/customers/delete", selectedIds);
+    await handleDeleteSelected("/api/products/delete", selectedIds);
     // Check if there's an error; if not, navigate to /customers
     if (!deleteError) {
       fetchItems();
@@ -52,50 +50,40 @@ const Customers = () => {
       {deleteError && <Alert message={deleteError} type="error" />}
       {deleteSuccess && <Alert message={deleteSuccess} type="success" />}
       <div className="wrapper">
-        <Link
-          to="/customers/create"
-          key="/customers/create"
-          className="button create-customer-button"
-        >
-          Create Customer
+        <Link to="/products/create" className="button create-product-button">
+          Create Product
         </Link>
+
         <button onClick={handleDeleteCustomers} type="submit">
           Delete
         </button>
-        <div className="customers table">
+        <div className="products table">
           <table className="table-sort">
             <thead>
               <tr>
-                <th data-field="checkbox">
+                <th>
                   <label className="checkbox">
                     <input type="checkbox" onChange={handleCheckAll} />
                   </label>
                 </th>
+                <th>Picture</th>
                 <th
-                  onClick={() => handleSort && handleSort("customer_name")}
-                  className={getSortClass("customer_name")}
+                  onClick={() => handleSort && handleSort("name")}
+                  className={getSortClass("name")}
                 >
                   Name
                 </th>
                 <th
-                  onClick={() =>
-                    handleSort && handleSort("personal_information.email")
-                  }
-                  className={getSortClass("personal_information.email")}
+                  onClick={() => handleSort && handleSort("price")}
+                  className={getSortClass("price")}
                 >
-                  Email
+                  Price
                 </th>
                 <th
-                  onClick={() => handleSort && handleSort("amount_due")}
-                  className={getSortClass("amount_due")}
+                  onClick={() => handleSort && handleSort("customer_name")}
+                  className={getSortClass("description")}
                 >
-                  Amount Due
-                </th>
-                <th
-                  onClick={() => handleSort && handleSort("created_on")}
-                  className={getSortClass("created_on")}
-                >
-                  Created on
+                  Description
                 </th>
               </tr>
             </thead>
@@ -108,7 +96,6 @@ const Customers = () => {
                 </tr>
               </tbody>
             ) : (
-              // Show items when not loading or deleting
               <tbody>
                 {items.map((item) => (
                   <tr key={item._id}>
@@ -116,38 +103,47 @@ const Customers = () => {
                       <label className="checkbox">
                         <input
                           type="checkbox"
-                          className="customer-checkbox box-checkbox"
+                          className="product-checkbox box-checkbox"
                           checked={checkedItems.has(item._id)}
                           onChange={() => handleCheckItem(item._id)}
                         />
                       </label>
                     </td>
                     <td>
-                      <Link className="link" to={`/customers/${item._id}`}>
-                        {item.personal_information.company ||
-                          `${item.personal_information.first_name} ${item.personal_information.last_name}`}
+                      <img
+                        src={`/uploads/resized/${item.picture}`}
+                        width="60px"
+                        alt=""
+                      />
+                    </td>
+                    <td>
+                      <Link className="link" to={`/products/${item._id}`}>
+                        {item.name}
                       </Link>
                     </td>
-                    <td>{item.personal_information.email}</td>
-                    <td>{`${item.personal_information.currency_symbol} ${item.amount_due}`}</td>
-                    <td>{item.created_on}</td>
+                    <td>
+                      {item.currency_symbol} {item.price}
+                    </td>
+                    <td>{item.description}</td>
                   </tr>
                 ))}
               </tbody>
             )}
           </table>
         </div>
-        {totalPages > 1 && (
-          <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            link="/customers/"
-            linkOptions={linkOptions}
-          />
-        )}
+        <div className="pagination">
+          {totalPages > 1 && (
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              link="/products/"
+              linkOptions={linkOptions}
+            />
+          )}
+        </div>
       </div>
     </>
   );
 };
 
-export default Customers;
+export default Products;

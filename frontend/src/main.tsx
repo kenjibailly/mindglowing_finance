@@ -16,6 +16,7 @@ import { AuthProvider } from "./components/context/AuthContext";
 import "./stylesheets/style.css";
 import EditCustomer from "./components/customers/EditCustomer";
 import CreateCustomer from "./components/customers/CreateCustomer";
+import Products from "./components/products/Products";
 
 const router = createBrowserRouter([
   {
@@ -110,6 +111,18 @@ const router = createBrowserRouter([
           <Nav />
           <Header title="Edit Customer" />
           <EditCustomer />
+        </div>
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/products/",
+    element: (
+      <ProtectedRoute>
+        <div className="dashboard-outer-wrapper">
+          <Nav />
+          <Header title="Products" />
+          <Products />
         </div>
       </ProtectedRoute>
     ),

@@ -25,15 +25,14 @@ import userRouter from "./routes/user";
 import customersRouter from "./routes/customers/customers";
 import createCustomerRouter from "./routes/customers/create_customer";
 import editCustomerRouter from "./routes/customers/edit_customer";
-// import deleteCustomerRouter from "./routes/customers/delete_customer";
 import deleteSelectedCustomersRouter from "./routes/customers/delete_customers";
 
-// import productsRouter from "./routes/products/products";
+import productsRouter from "./routes/products/products";
 // import productRouter from "./routes/products/product";
 // import createProductRouter from "./routes/products/create_product";
 // import editProductRouter from "./routes/products/edit_product";
 // import deleteProductRouter from "./routes/products/delete_product";
-// import deleteSelectedProductsRouter from "./routes/products/delete_selected_products";
+import deleteSelectedProductsRouter from "./routes/products/delete_products";
 
 // import invoicesRouter from "./routes/invoices/invoices";
 // import invoiceRouter from "./routes/invoices/invoice";
@@ -159,12 +158,12 @@ app.use("/api/customers/edit/", editCustomerRouter);
 // app.use("/api/customers/delete/", deleteCustomerRouter);
 app.use("/api/customers/delete/", deleteSelectedCustomersRouter);
 
-// app.use("/api/products/", productsRouter);
+app.use("/api/products/", productsRouter);
 // app.use("/api/products/product/", productRouter);
 // app.use("/api/products/create/", createProductRouter);
 // app.use("/api/products/edit/", editProductRouter);
 // app.use("/api/products/delete/", deleteProductRouter);
-// app.use("/api/products/delete-selected/", deleteSelectedProductsRouter);
+app.use("/api/products/delete/", deleteSelectedProductsRouter);
 
 // app.use("/api/invoices/", invoicesRouter);
 // app.use("/api/invoices/invoice/", invoiceRouter);

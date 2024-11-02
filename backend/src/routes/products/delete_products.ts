@@ -1,9 +1,10 @@
 import express, { Request, Response } from "express";
 const router = express.Router();
-import Customer from "../../models/customer";
+import Product from "../../models/product";
 import { authenticateToken } from "../security/authenticate";
+import deleteImageFile from "../picture_handler/deleteImageFile";
 
-// Handle the delete request for selected customers
+// Handle the delete request for selected products
 router.delete(
   "/",
   authenticateToken,
@@ -24,13 +25,19 @@ router.delete(
           .json({ message: "No IDs provided for deletion" });
       }
 
-      // Delete the selected customers in the database
-      const result = await Customer.deleteMany({ _id: { $in: selectedIds } });
+      // Find the products to get the image file names
+      const products = await Product.find({ _id: { $in: selectedIds } });
 
-      if (result.deletedCount === 0) {
-        return res
-          .status(404)
-          .json({ message: "No customers found for deletion" });
+      // Delete the image files
+      await Promise.all(
+        products.map((product) => deleteImageFile(product.picture))
+      );
+
+      // Delete the selected products in the database
+      const result = await Product.deleteMany({ _id: { $in: selectedIds } });
+
+      if (!result.deletedCount) {
+        return res.status(404).send("No products found for deletion");
       }
 
       // Send a JSON response with a success message

@@ -4,6 +4,7 @@ import { useState } from "react";
 const useDeleteItems = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
 
   const deleteItems = async (url: string, selectedIds: string[]) => {
     setLoading(true);
@@ -17,12 +18,14 @@ const useDeleteItems = () => {
         },
         body: JSON.stringify({ selectedIds }),
       });
+      const data = await response.json();
 
       if (!response.ok) {
-        throw new Error("Failed to delete items");
+        throw new Error(data.message || "Failed to delete items");
       }
 
-      return await response.json();
+      setSuccess(data.message);
+      return data;
     } catch (err) {
       setError((err as Error).message || "Unknown error");
     } finally {
@@ -55,7 +58,7 @@ const useDeleteItems = () => {
     }
   };
 
-  return { deleteItems, handleDeleteSelected, loading, error };
+  return { deleteItems, handleDeleteSelected, loading, error, success };
 };
 
 export default useDeleteItems;

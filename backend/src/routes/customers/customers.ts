@@ -38,7 +38,7 @@ router.get(
       const userSettings = await User.findOne({ username: user.username });
       const customizationSettings = await Customization.findOne();
       const itemsPerPage = customizationSettings?.items_per_page || 10;
-      const skip = (parseInt(page) - 1) * itemsPerPage;
+      const skip = (pageNumber - 1) * itemsPerPage;
 
       const totalCustomers = await Customer.countDocuments();
       const totalPages = Math.ceil(totalCustomers / itemsPerPage);
