@@ -23,12 +23,13 @@ import searchRouter from "./routes/search/search";
 import userRouter from "./routes/user";
 
 import customersRouter from "./routes/customers/customers";
+import customerRouter from "./routes/customers/customer";
 import createCustomerRouter from "./routes/customers/create_customer";
 import editCustomerRouter from "./routes/customers/edit_customer";
 import deleteSelectedCustomersRouter from "./routes/customers/delete_customers";
 
 import productsRouter from "./routes/products/products";
-// import productRouter from "./routes/products/product";
+import productRouter from "./routes/products/product";
 // import createProductRouter from "./routes/products/create_product";
 // import editProductRouter from "./routes/products/edit_product";
 // import deleteProductRouter from "./routes/products/delete_product";
@@ -153,13 +154,13 @@ app.use("/api/search", searchRouter);
 app.use("/api/user", userRouter);
 
 app.use("/api/customers/", customersRouter);
+app.use("/api/customers/:id", customerRouter);
 app.use("/api/customers/create/", createCustomerRouter);
 app.use("/api/customers/edit/", editCustomerRouter);
-// app.use("/api/customers/delete/", deleteCustomerRouter);
 app.use("/api/customers/delete/", deleteSelectedCustomersRouter);
 
 app.use("/api/products/", productsRouter);
-// app.use("/api/products/product/", productRouter);
+app.use("/api/products/:id", productRouter);
 // app.use("/api/products/create/", createProductRouter);
 // app.use("/api/products/edit/", editProductRouter);
 // app.use("/api/products/delete/", deleteProductRouter);
