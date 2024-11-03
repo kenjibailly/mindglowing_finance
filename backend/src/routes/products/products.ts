@@ -9,7 +9,7 @@ const router = express.Router();
 router.get(
   "/",
   authenticateToken,
-  async (req: Request, res: Response): Promise<any> => {
+  async (req: Request, res: Response): Promise<void> => {
     // Get the session user that's logged in
     const user = req.session.user;
 
@@ -58,20 +58,20 @@ router.get(
         };
       });
 
-      return res.json({
+      res.json({
         success: true,
         items: updatedProducts,
         currentPage: pageNumber,
         totalPages,
         userSettings,
       });
+      return;
     } catch (error) {
       logger.error(error);
 
       console.error(error);
-      return res
-        .status(500)
-        .json({ success: false, error: (error as Error).message });
+      res.status(500).json({ success: false, error: (error as Error).message });
+      return;
     }
   }
 );

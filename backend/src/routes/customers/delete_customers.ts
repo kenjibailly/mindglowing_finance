@@ -7,7 +7,7 @@ import { authenticateToken } from "../security/authenticate";
 router.delete(
   "/",
   authenticateToken,
-  async (req: Request, res: Response): Promise<any> => {
+  async (req: Request, res: Response): Promise<void> => {
     try {
       // Extract selected IDs from the request body
       let selectedIds = req.body?.selectedIds || [];
@@ -19,18 +19,16 @@ router.delete(
 
       // Check if selectedIds is an array and not empty
       if (!Array.isArray(selectedIds) || selectedIds.length === 0) {
-        return res
-          .status(400)
-          .json({ message: "No IDs provided for deletion" });
+        res.status(400).json({ message: "No IDs provided for deletion" });
+        return;
       }
 
       // Delete the selected customers in the database
       const result = await Customer.deleteMany({ _id: { $in: selectedIds } });
 
       if (result.deletedCount === 0) {
-        return res
-          .status(404)
-          .json({ message: "No customers found for deletion" });
+        res.status(404).json({ message: "No customers found for deletion" });
+        return;
       }
 
       // Send a JSON response with a success message
@@ -39,9 +37,11 @@ router.delete(
           result.deletedCount > 1 ? "s" : ""
         } deleted successfully`,
       });
+      return;
     } catch (error) {
       logger.error(error);
       res.status(500).json({ message: "Internal Server Error" });
+      return;
     }
   }
 );

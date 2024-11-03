@@ -11,7 +11,7 @@ const router = express.Router();
 router.get(
   "/",
   authenticateToken,
-  async (req: Request, res: Response): Promise<any> => {
+  async (req: Request, res: Response): Promise<void> => {
     const user = req.session.user;
 
     const {
@@ -113,18 +113,18 @@ router.get(
         };
       });
 
-      return res.json({
+      res.json({
         success: true,
         items: updatedCustomers,
         currentPage: pageNumber,
         totalPages,
         userSettings,
       });
+      return;
     } catch (error) {
       console.error(error);
-      return res
-        .status(500)
-        .json({ success: false, error: (error as Error).message });
+      res.status(500).json({ success: false, error: (error as Error).message });
+      return;
     }
   }
 );

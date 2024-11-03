@@ -17,8 +17,8 @@ const Product = () => {
   } = useFetchData<ProductData>({
     id: id,
     endpoint: "products",
-    dataKey: "product",
   });
+  const cachedUser = JSON.parse(localStorage.getItem("user") || "{}");
 
   const navigate = useNavigate();
 
@@ -87,7 +87,7 @@ const Product = () => {
           <div className="inline">
             <p>Price:</p>
             <p>
-              {productData.currency_symbol} {productData.price}
+              {cachedUser.currency_symbol} {productData.price}
             </p>
           </div>
           <div className="inline">

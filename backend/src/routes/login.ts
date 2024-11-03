@@ -8,12 +8,13 @@ import crypto from "crypto";
 const router: Router = express.Router();
 
 /* POST login. */
-router.post("/", async (req: Request, res: Response): Promise<any> => {
+router.post("/", async (req: Request, res: Response): Promise<void> => {
   const { username, password } = req.body;
   // Check if user is already logged in
   if (req.session.user) {
     logger.info("Already logged in");
-    return res.status(200).json({ message: "Already logged in" });
+    res.status(200).json({ message: "Already logged in" });
+    return;
   }
 
   try {
@@ -21,7 +22,8 @@ router.post("/", async (req: Request, res: Response): Promise<any> => {
     const user = await User.findOne({ username });
     if (!user) {
       logger.warn("Invalid username or password");
-      return res.status(401).json({ error: "Invalid username or password" });
+      res.status(401).json({ error: "Invalid username or password" });
+      return;
     }
 
     // Hash the entered password
@@ -33,7 +35,8 @@ router.post("/", async (req: Request, res: Response): Promise<any> => {
     // Check if the hashed password matches
     if (user.password !== hashedEnteredPassword) {
       logger.warn("Invalid username or password");
-      return res.status(401).json({ error: "Invalid username or password" });
+      res.status(401).json({ error: "Invalid username or password" });
+      return;
     }
 
     // Generate JWT tokens
@@ -71,12 +74,14 @@ router.post("/", async (req: Request, res: Response): Promise<any> => {
     logger.success("Login successful");
 
     // Send success response
-    return res
+    res
       .status(200)
       .json({ message: "Login successful", user: req.session.user });
+    return;
   } catch (error) {
     console.error(error); // Change this to your logger if needed
-    return res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({ error: "Internal server error" });
+    return;
   }
 });
 

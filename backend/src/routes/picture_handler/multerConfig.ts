@@ -86,7 +86,7 @@ const multerUploadWithLogging = (
   next: NextFunction
 ) => {
   logger.success("Request body before upload:", req.body); // Log body before processing
-  upload(req, res, function (err: any) {
+  upload(req, res, function (err) {
     if (err instanceof MulterError) {
       logger.error("Multer error occurred:", err);
       return res.status(400).send({ error: "Multer error: " + err.message });

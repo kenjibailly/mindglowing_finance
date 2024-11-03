@@ -9,7 +9,7 @@ const router = express.Router({ mergeParams: true });
 router.get(
   "/",
   authenticateToken,
-  async (req: Request, res: Response): Promise<any> => {
+  async (req: Request, res: Response): Promise<void> => {
     // Get the session user that's logged in
     const user = req.session.user;
     // Get the product ID
@@ -19,27 +19,24 @@ router.get(
       const product = await Product.findOne({ _id: product_id });
 
       if (!product) {
-        return res.status(404).json({ message: "Product not found" });
+        res.status(404).json({ message: "Product not found" });
+        return;
       }
 
       // Use the find method to get the user settings
       const userSettings = await User.findOne({ username: user?.username });
       if (!userSettings) {
-        return res.status(404).json({ message: "User settings not found" });
+        res.status(404).json({ message: "User settings not found" });
+        return;
       }
 
-      const updatedProduct = {
-        ...product.toObject(),
-        currency_symbol: userSettings.currency_symbol,
-      };
-
       // Return JSON data
-      return res.json({
-        product: updatedProduct,
-      });
+      res.json(product.toObject());
+      return;
     } catch (error) {
       logger.error(error);
-      return res.status(500).json({ message: "Internal server error" });
+      res.status(500).json({ message: "Internal server error" });
+      return;
     }
   }
 );

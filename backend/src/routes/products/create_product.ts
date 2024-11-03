@@ -18,7 +18,7 @@ router.post(
   authenticateToken,
   upload,
   resizeAndCompressImage,
-  async (req: Request, res: Response): Promise<any> => {
+  async (req: Request, res: Response): Promise<void> => {
     // Extract form data from the request
     const { name, price, description } = req.body;
 
@@ -34,6 +34,7 @@ router.post(
       // Save the product to the database
       const savedProduct = await newProduct.save();
       res.status(201).json(savedProduct);
+      return;
     } catch (error) {
       logger.error(error);
       const err = error as CustomError;
@@ -43,9 +44,11 @@ router.post(
         res
           .status(400)
           .json({ message: "Product with the same name already exists" });
+        return;
       } else {
         // Other internal server error
         res.status(500).json({ message: "Internal Server Error" });
+        return;
       }
     }
   }

@@ -8,7 +8,7 @@ import deleteImageFile from "../picture_handler/deleteImageFile";
 router.delete(
   "/",
   authenticateToken,
-  async (req: Request, res: Response): Promise<any> => {
+  async (req: Request, res: Response): Promise<void> => {
     try {
       // Extract selected IDs from the request body
       let selectedIds = req.body?.selectedIds || [];
@@ -20,9 +20,8 @@ router.delete(
 
       // Check if selectedIds is an array and not empty
       if (!Array.isArray(selectedIds) || selectedIds.length === 0) {
-        return res
-          .status(400)
-          .json({ message: "No IDs provided for deletion" });
+        res.status(400).json({ message: "No IDs provided for deletion" });
+        return;
       }
 
       // Find the products to get the image file names
@@ -37,7 +36,8 @@ router.delete(
       const result = await Product.deleteMany({ _id: { $in: selectedIds } });
 
       if (!result.deletedCount) {
-        return res.status(404).send("No products found for deletion");
+        res.status(404).send("No products found for deletion");
+        return;
       }
 
       // Send a JSON response with a success message
@@ -46,9 +46,11 @@ router.delete(
           result.deletedCount > 1 ? "s" : ""
         } deleted successfully`,
       });
+      return;
     } catch (error) {
       logger.error(error);
       res.status(500).json({ message: "Internal Server Error" });
+      return;
     }
   }
 );

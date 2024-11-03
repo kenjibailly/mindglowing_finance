@@ -7,13 +7,13 @@ router.post("/", (req: Request, res: Response) => {
   req.session.destroy((err: Error | null) => {
     if (err) {
       logger.error("Error destroying session:", err);
-      return res
-        .status(401)
-        .json({ error: "Unable to log out, please try again." });
+      res.status(401).json({ error: "Unable to log out, please try again." });
+      return;
     } else {
       // Redirect to home after logging out
       logger.info("Logout successful");
-      return res.status(200).json({ message: "Logout successful" });
+      res.status(200).json({ message: "Logout successful" });
+      return;
     }
   });
 });

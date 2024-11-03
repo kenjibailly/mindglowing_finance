@@ -8,15 +8,17 @@ const router: Router = express.Router();
 router.get(
   "/",
   authenticateToken,
-  async (req: Request, res: Response): Promise<any> => {
+  async (req: Request, res: Response): Promise<void> => {
     // Check if session or user info is available
     if (req.session && req.session.user) {
       try {
         const user = await User.findById(req.session.user.id);
-        return res.json(user);
+        res.json(user);
+        return;
       } catch (error) {
         logger.error(error);
-        return res.json({ error: "Could not get user info" });
+        res.json({ error: "Could not get user info" });
+        return;
       }
     }
   }

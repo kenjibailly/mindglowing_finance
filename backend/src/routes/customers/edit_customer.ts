@@ -8,13 +8,14 @@ const router: Router = express.Router();
 router.put(
   "/:id",
   authenticateToken,
-  async (req: Request, res: Response): Promise<any> => {
+  async (req: Request, res: Response): Promise<void> => {
     try {
       const customerId = req.params.id;
       const updatedCustomer = req.body;
 
       if (!updatedCustomer || !updatedCustomer.personal_information) {
-        return res.status(400).json({ message: "Invalid customer data" });
+        res.status(400).json({ message: "Invalid customer data" });
+        return;
       }
 
       // Extract currency information
@@ -35,13 +36,16 @@ router.put(
       );
 
       if (!result) {
-        return res.status(404).json({ message: "Customer not found" });
+        res.status(404).json({ message: "Customer not found" });
+        return;
       }
 
-      return res.json({ success: true, customer: result });
+      res.json({ success: true, customer: result });
+      return;
     } catch (error) {
       logger.error(error);
-      return res.status(500).json({ message: "Internal Server Error" });
+      res.status(500).json({ message: "Internal Server Error" });
+      return;
     }
   }
 );

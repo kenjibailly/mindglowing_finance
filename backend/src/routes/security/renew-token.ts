@@ -5,14 +5,15 @@ import config from "config";
 const router: Router = express.Router();
 
 // Endpoint for token renewal
-router.post("/", async (req: Request, res: Response): Promise<any> => {
+router.post("/", async (req: Request, res: Response): Promise<void> => {
   // Extract the token from the request
   const refreshToken = req.cookies.refreshToken;
 
   if (!refreshToken) {
-    return res
+    res
       .status(401)
       .json({ success: false, message: "Refresh token not provided" });
+    return;
   }
 
   try {
@@ -38,12 +39,12 @@ router.post("/", async (req: Request, res: Response): Promise<any> => {
     // Creates the token cookie
     res.cookie("token", accessToken, cookieOptions);
 
-    return res.json({ success: true, token: accessToken });
+    res.json({ success: true, token: accessToken });
+    return;
   } catch (error) {
     console.error("Error verifying refresh token:", error);
-    return res
-      .status(401)
-      .json({ success: false, message: "Invalid refresh token" });
+    res.status(401).json({ success: false, message: "Invalid refresh token" });
+    return;
   }
 });
 

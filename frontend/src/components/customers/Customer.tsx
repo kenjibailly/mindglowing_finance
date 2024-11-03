@@ -17,7 +17,6 @@ const Customer = () => {
   } = useFetchData<CustomerData>({
     id: id,
     endpoint: "customers",
-    dataKey: "customer",
   });
   const navigate = useNavigate();
 

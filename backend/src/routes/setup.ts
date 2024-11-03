@@ -11,7 +11,7 @@ router.post(
   authenticateToken,
   upload,
   resizeAndCompressImage,
-  async (req: Request, res: Response): Promise<any> => {
+  async (req: Request, res: Response): Promise<void> => {
     try {
       const user = req.session.user;
 
@@ -59,11 +59,13 @@ router.post(
       );
 
       if (!updatedUser) {
-        return res.status(404).send("User not found");
+        res.status(404).send("User not found");
+        return;
       }
 
       // Redirect or respond as needed
-      return res.json("Successfully added setup");
+      res.json("Successfully added setup");
+      return;
     } catch (error) {
       console.error(error); // Change this to your logger if needed
       res.status(500).send("Internal Server Error");
