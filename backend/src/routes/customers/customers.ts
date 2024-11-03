@@ -1,4 +1,4 @@
-import express, { Request, Response, NextFunction } from "express";
+import express, { Request, Response } from "express";
 import Customer from "../../models/customer";
 import User from "../../models/user";
 import Customization from "../../models/customization";
@@ -11,12 +11,8 @@ const router = express.Router();
 router.get(
   "/",
   authenticateToken,
-  async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+  async (req: Request, res: Response): Promise<any> => {
     const user = req.session.user;
-
-    if (!user) {
-      return res.status(401).json({ success: false, message: "Unauthorized" });
-    }
 
     const {
       sort_by = "created_on",
@@ -35,7 +31,7 @@ router.get(
     sortOptions[sort_by] = sortDirection;
 
     try {
-      const userSettings = await User.findOne({ username: user.username });
+      const userSettings = await User.findOne({ username: user?.username });
       const customizationSettings = await Customization.findOne();
       const itemsPerPage = customizationSettings?.items_per_page || 10;
       const skip = (pageNumber - 1) * itemsPerPage;

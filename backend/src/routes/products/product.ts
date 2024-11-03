@@ -14,10 +14,6 @@ router.get(
     const user = req.session.user;
     // Get the product ID
     const product_id = req.params.id;
-    // If the user is logged in
-    if (!user) {
-      return res.status(401).json({ message: "Unauthorized. Please log in." });
-    }
     try {
       // Use the find method to get project by id
       const product = await Product.findOne({ _id: product_id });
@@ -27,7 +23,7 @@ router.get(
       }
 
       // Use the find method to get the user settings
-      const userSettings = await User.findOne({ username: user.username });
+      const userSettings = await User.findOne({ username: user?.username });
       if (!userSettings) {
         return res.status(404).json({ message: "User settings not found" });
       }

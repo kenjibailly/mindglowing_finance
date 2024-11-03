@@ -6,14 +6,12 @@ import loggerMorgan from "morgan";
 import mongoose from "mongoose";
 import mongodb_URI from "./routes/mongodb/URI";
 import session from "express-session";
-// import MongoDBStore from "connect-mongodb-session";
 import sessionExpirationMiddleware from "./routes/security/sessionExpirationMiddleware";
 import config from "config";
 import connectMongo from "connect-mongodb-session";
 
 // Routers
-// import indexRouter from "./routes/index";
-import dashboardRouter from "./routes/dashboard";
+// import dashboardRouter from "./routes/dashboard";
 import renewTokenRouter from "./routes/security/renew-token";
 import checkAuthRouter from "./routes/security/check-auth";
 import loginRouter from "./routes/login";
@@ -32,7 +30,6 @@ import productsRouter from "./routes/products/products";
 import productRouter from "./routes/products/product";
 // import createProductRouter from "./routes/products/create_product";
 // import editProductRouter from "./routes/products/edit_product";
-// import deleteProductRouter from "./routes/products/delete_product";
 import deleteSelectedProductsRouter from "./routes/products/delete_products";
 
 // import invoicesRouter from "./routes/invoices/invoices";
@@ -143,8 +140,7 @@ app.use(
 app.use(sessionExpirationMiddleware);
 
 // Routers Initialization
-// app.use("/api", indexRouter);
-app.use("/api/dashboard", dashboardRouter);
+// app.use("/api/dashboard", dashboardRouter);
 app.use("/api/auth/", renewTokenRouter);
 app.use("/api/check-auth/", checkAuthRouter);
 app.use("/api/login/", loginRouter);
@@ -163,7 +159,6 @@ app.use("/api/products/", productsRouter);
 app.use("/api/products/:id", productRouter);
 // app.use("/api/products/create/", createProductRouter);
 // app.use("/api/products/edit/", editProductRouter);
-// app.use("/api/products/delete/", deleteProductRouter);
 app.use("/api/products/delete/", deleteSelectedProductsRouter);
 
 // app.use("/api/invoices/", invoicesRouter);

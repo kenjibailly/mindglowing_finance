@@ -1,4 +1,4 @@
-import express, { Request, Response, NextFunction } from "express";
+import express, { Request, Response } from "express";
 import Customer from "../../models/customer";
 import { authenticateToken } from "../security/authenticate";
 
@@ -7,14 +7,8 @@ const router = express.Router({ mergeParams: true });
 router.get(
   "/",
   authenticateToken,
-  async (req: Request, res: Response, next: NextFunction): Promise<any> => {
-    const user = req.session.user;
+  async (req: Request, res: Response): Promise<any> => {
     const customerId = req.params.id;
-
-    if (!user) {
-      return res.status(401).json({ message: "Unauthorized. Please log in." });
-    }
-
     try {
       // Fetch the customer by ID
       const customer = await Customer.findOne({ _id: customerId });

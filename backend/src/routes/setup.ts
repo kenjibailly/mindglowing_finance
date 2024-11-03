@@ -15,10 +15,6 @@ router.post(
     try {
       const user = req.session.user;
 
-      if (!user) {
-        return res.status(401).send("User not authenticated");
-      }
-
       const {
         date_format,
         currency,
@@ -39,7 +35,7 @@ router.post(
 
       // Update the user document in the database
       const updatedUser = await User.findOneAndUpdate(
-        { username: user.username },
+        { username: user?.username },
         {
           $set: {
             setup: false,
