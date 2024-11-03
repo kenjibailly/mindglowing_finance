@@ -24,10 +24,15 @@ const EditCustomer = () => {
   } = useFetchData<CustomerData>({
     id: id,
     endpoint: "customers",
-    dataKey: "customer",
   });
-  const [success, setSuccess] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<{
+    message: string;
+    id: number;
+  } | null>(null);
+  const [error, setError] = useState<{
+    message: string;
+    id: number;
+  } | null>(null);
   const [isSameAddress, setIsSameAddress] = useState<boolean>(true);
   const [preferredContactMedium, setPreferredContactMedium] = useState<string>(
     customerData
@@ -195,7 +200,10 @@ const EditCustomer = () => {
         );
 
         if (response.ok) {
-          setSuccess("Customer updated successfully!");
+          setSuccess({
+            message: "Customer updated successfully!",
+            id: Date.now(),
+          });
         } else {
           throw new Error(
             "Could not update customer.\n\n" +
@@ -205,13 +213,16 @@ const EditCustomer = () => {
           );
         }
       } catch (error) {
-        setError((error as Error).message || "An unknown error occurred");
+        setError({
+          message: (error as Error).message || "An unknown error occurred",
+          id: Date.now(),
+        });
       }
     }
   };
 
-  if (deleteError || customerError) {
-    return <Alert message={deleteError || customerError} type="error" />;
+  if (customerError) {
+    return <Alert message={customerError} type="error" />;
   }
 
   if (loading || deleting) {
@@ -225,9 +236,15 @@ const EditCustomer = () => {
   return (
     <>
       {error && (
-        <Alert message={error || deleteError || customerError} type="error" />
+        <Alert
+          key={error.id || deleteError?.id}
+          message={error.message || deleteError?.message || customerError}
+          type="error"
+        />
       )}
-      {success && <Alert message={success} type="success" />}
+      {success && (
+        <Alert key={success.id} message={success.message} type="success" />
+      )}
       <div className="wrapper">
         <Link className="link" to="/customers/">
           Customers

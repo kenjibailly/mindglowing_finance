@@ -1,5 +1,5 @@
 // Alert.tsx
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import "../stylesheets/alert.css";
 
 interface AlertProps {
@@ -8,17 +8,19 @@ interface AlertProps {
 }
 
 const Alert = ({ message, type }: AlertProps) => {
+  const alertRef = useRef<HTMLDivElement | null>(null);
+  const [prevMessage, setPrevMessage] = useState<string | null>(null);
   useEffect(() => {
-    const alertElement = document.getElementById("alert");
-    if (alertElement) {
-      alertElement.scrollIntoView({ behavior: "smooth" });
+    // Only scroll if the message changes
+    if (message !== prevMessage && alertRef.current) {
+      alertRef.current.scrollIntoView({ behavior: "smooth" });
+      setPrevMessage(message); // Update previous message to current one
     }
-  }, []); // Run only once when the component mounts
+  }, [message, prevMessage]);
 
   const formatAlertMessage = (alertMessage: string | null) => {
     if (!alertMessage) return null;
 
-    // Split the error message by newline and map to paragraph elements
     return alertMessage.split("\n").map((line, index) => (
       <span key={index}>
         {line}
@@ -28,7 +30,7 @@ const Alert = ({ message, type }: AlertProps) => {
   };
 
   return (
-    <div id="alert" className="wrapper">
+    <div ref={alertRef} id="alert" className="wrapper">
       <div className="alert">
         <div className={`alert-message ${type}`}>
           <h1>{type.toUpperCase()}</h1>

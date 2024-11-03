@@ -9,7 +9,10 @@ const CreateProduct = () => {
     usePreviewImage();
   const cachedUser = JSON.parse(localStorage.getItem("user") || "{}");
   const navigate = useNavigate();
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<{
+    message: string;
+    id: number;
+  } | null>(null);
 
   const handleCreateProduct = async (
     event: React.FormEvent<HTMLFormElement>
@@ -41,9 +44,6 @@ const CreateProduct = () => {
       const response = await fetch("/api/products/create", {
         method: "POST",
         body: formData,
-        headers: {
-          Authorization: `Bearer ${cachedUser.token}`, // Optional: Use token if needed
-        },
       });
 
       if (response.ok) {
@@ -55,13 +55,16 @@ const CreateProduct = () => {
         throw new Error("Failed to create product.\n" + errorData.message);
       }
     } catch (error) {
-      setError((error as Error).message || "An unknown error occurred");
+      setError({
+        message: (error as Error).message || "An unknown error occurred",
+        id: Date.now(),
+      });
     }
   };
 
   return (
     <>
-      {error && <Alert message={error} type="error" />}
+      {error && <Alert key={error.id} message={error.message} type="error" />}
       <div className="wrapper">
         <Link className="link" to="/products/">
           Products

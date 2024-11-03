@@ -10,7 +10,10 @@ import Alert from "../Alert";
 
 const CreateCustomer = () => {
   const [isSameAddress, setIsSameAddress] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<{
+    message: string;
+    id: number;
+  } | null>(null);
   const [addressDetails, setAddressDetails] = useState<AddressDetails>({
     billing_details: {
       street: "",
@@ -124,13 +127,16 @@ const CreateCustomer = () => {
       // Navigate to the customer's page using the _id from the response
       navigate(`/customers/${customerData._id}`);
     } catch (error) {
-      setError((error as Error).message || "An unknown error occurred");
+      setError({
+        message: (error as Error).message || "An unknown error occurred",
+        id: Date.now(),
+      });
     }
   };
 
   return (
     <>
-      {error && <Alert message={error} type="error" />}
+      {error && <Alert key={error.id} message={error.message} type="error" />}
       <div className="wrapper">
         <Link className="link" to="/customers/">
           Customers

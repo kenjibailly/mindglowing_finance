@@ -6,6 +6,7 @@ import Products from "../components/products/Products";
 import Product from "../components/products/Product";
 import NotFound from "../components/NotFound";
 import CreateProduct from "../components/products/CreateProduct";
+import EditProduct from "../components/products/EditProduct";
 
 const productRoutes: RouteObject[] = [
   {
@@ -42,6 +43,19 @@ const productRoutes: RouteObject[] = [
           <Nav />
           <Header title="Product" />
           <CreateProduct />
+        </div>
+      </ProtectedRoute>
+    ),
+    errorElement: <NotFound />,
+  },
+  {
+    path: "/products/edit/:id",
+    element: (
+      <ProtectedRoute>
+        <div className="dashboard-outer-wrapper">
+          <Nav />
+          <Header title="Product" />
+          <EditProduct />
         </div>
       </ProtectedRoute>
     ),

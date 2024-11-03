@@ -53,7 +53,13 @@ const Customer = () => {
 
   return (
     <>
-      {deleteError && <Alert message={deleteError} type="error" />}
+      {deleteError && (
+        <Alert
+          key={deleteError.id}
+          message={deleteError.message}
+          type="error"
+        />
+      )}
       <div className="wrapper customer-overview">
         <a className="link" href="/customers/">
           Customers

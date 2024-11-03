@@ -3,8 +3,14 @@ import { useState } from "react";
 
 const useDeleteItems = () => {
   const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState<string | null>(null);
+  const [error, setError] = useState<{
+    message: string;
+    id: number;
+  } | null>(null);
+  const [success, setSuccess] = useState<{
+    message: string;
+    id: number;
+  } | null>(null);
 
   const deleteItems = async (url: string, selectedIds: string[]) => {
     setLoading(true);
@@ -27,7 +33,10 @@ const useDeleteItems = () => {
       setSuccess(data.message);
       return data;
     } catch (err) {
-      setError((err as Error).message || "Unknown error");
+      setError({
+        message: (err as Error).message || "Unknown error",
+        id: Date.now(),
+      });
     } finally {
       setLoading(false);
     }
@@ -53,7 +62,7 @@ const useDeleteItems = () => {
       try {
         await deleteItems(url, idsArray);
       } catch (error) {
-        setError((error as Error).message);
+        setError({ message: (error as Error).message, id: Date.now() });
       }
     }
   };
