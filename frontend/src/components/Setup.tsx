@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "../stylesheets/form/form.css";
 import useDatalist from "./hooks/useDatalist"; // Adjust the path as necessary
 import { useNavigate } from "react-router-dom";
@@ -16,13 +16,15 @@ const Setup = () => {
 
   const { user, setUser } = useAuth();
 
+  useEffect(() => {
+    if (user && !user.user.setup) {
+      navigate("/dashboard");
+      return;
+    }
+  }, []);
+
   const { imageSrc, handleImageChange, fileInputRef, handleImageClick } =
     usePreviewImage();
-
-  if (user && !user.user.setup) {
-    navigate("/dashboard");
-    return;
-  }
 
   const countryInputRef = useRef<HTMLInputElement>(null);
   const countryDatalistRef = useRef<HTMLDataListElement>(null);
