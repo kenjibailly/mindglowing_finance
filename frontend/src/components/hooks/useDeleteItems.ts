@@ -30,7 +30,7 @@ const useDeleteItems = () => {
         throw new Error(data.message || "Failed to delete items");
       }
 
-      setSuccess(data.message);
+      setSuccess({ message: data.message, id: Date.now() });
       return data;
     } catch (err) {
       setError({

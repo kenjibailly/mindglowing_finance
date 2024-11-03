@@ -1,12 +1,12 @@
 import { Link } from "react-router-dom";
 import useDeleteItems from "../hooks/useDeleteItems";
 import usePaginatedTable from "../hooks/usePaginatedTable";
-import { Product } from "../types/Products";
+import { ProjectExtraData } from "../types/Projects";
 import Pagination from "../Pagination";
 import Loader from "../Loader";
 import Alert from "../Alert";
 
-const Products = () => {
+const Projects = () => {
   const {
     items,
     loading,
@@ -20,8 +20,8 @@ const Products = () => {
     handleCheckItem,
     getSortClass,
     fetchItems,
-  } = usePaginatedTable<Product>({
-    baseUrl: "/products",
+  } = usePaginatedTable<ProjectExtraData>({
+    baseUrl: "/projects",
     enableSorting: true,
   });
 
@@ -32,9 +32,9 @@ const Products = () => {
     success: deleteSuccess,
   } = useDeleteItems();
 
-  const handleDeleteCustomers = async () => {
+  const handleDeleteProjects = async () => {
     const selectedIds = Array.from(checkedItems);
-    await handleDeleteSelected("/api/products/delete", selectedIds);
+    await handleDeleteSelected("/api/projects/delete", selectedIds);
     // Check if there's an error; if not, navigate to /customers
     if (!deleteError) {
       fetchItems();
@@ -61,15 +61,16 @@ const Products = () => {
           type="success"
         />
       )}
+
       <div className="wrapper">
-        <Link to="/products/create" className="button create-product-button">
-          Create Product
+        <Link to="/projects/create" className="button create-project-button">
+          Create Project
         </Link>
 
-        <button onClick={handleDeleteCustomers} type="submit">
+        <button onClick={handleDeleteProjects} type="submit">
           Delete
         </button>
-        <div className="products table">
+        <div className="projects table">
           <table className="table-sort">
             <thead>
               <tr>
@@ -78,7 +79,6 @@ const Products = () => {
                     <input type="checkbox" onChange={handleCheckAll} />
                   </label>
                 </th>
-                <th>Picture</th>
                 <th
                   onClick={() => handleSort && handleSort("name")}
                   className={getSortClass("name")}
@@ -86,16 +86,22 @@ const Products = () => {
                   Name
                 </th>
                 <th
-                  onClick={() => handleSort && handleSort("price")}
-                  className={getSortClass("price")}
+                  onClick={() => handleSort && handleSort("customer_name")}
+                  className={getSortClass("customer_name")}
                 >
-                  Price
+                  Customer
                 </th>
                 <th
-                  onClick={() => handleSort && handleSort("description")}
-                  className={getSortClass("description")}
+                  onClick={() => handleSort && handleSort("total_time")}
+                  className={getSortClass("total_time")}
                 >
-                  Description
+                  Time
+                </th>
+                <th
+                  onClick={() => handleSort && handleSort("billed")}
+                  className={getSortClass("billed")}
+                >
+                  Billed
                 </th>
               </tr>
             </thead>
@@ -122,21 +128,16 @@ const Products = () => {
                       </label>
                     </td>
                     <td>
-                      <img
-                        src={`/uploads/resized/${item.picture}`}
-                        width="60px"
-                        alt=""
-                      />
-                    </td>
-                    <td>
-                      <Link className="link" to={`/products/${item._id}`}>
+                      <Link
+                        className="link"
+                        to={`/projects/project/${item._id}`}
+                      >
                         {item.name}
                       </Link>
                     </td>
-                    <td>
-                      {item.currency_symbol} {item.price}
-                    </td>
-                    <td>{item.description}</td>
+                    <td>{item.customer_name}</td>
+                    <td>{item.total_time}</td>
+                    <td>{item.billed ? "Yes" : "No"}</td>
                   </tr>
                 ))}
               </tbody>
@@ -158,4 +159,4 @@ const Products = () => {
   );
 };
 
-export default Products;
+export default Projects;

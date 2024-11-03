@@ -66,11 +66,11 @@ import deleteSelectedProductsRouter from "./routes/products/delete_products";
 // import deleteTaxRouter from "./routes/settings/taxes/delete_tax";
 // import deleteSelectedTaxesRouter from "./routes/settings/taxes/delete_selected_taxes";
 
-// import projectsRouter from "./routes/projects/projects";
+import projectsRouter from "./routes/projects/projects";
 // import projectRouter from "./routes/projects/project";
 // import createProjectRouter from "./routes/projects/create_project";
 // import editProjectRouter from "./routes/projects/edit_project";
-// import deleteProjectRouter from "./routes/projects/delete_project";
+import deleteProjectRouter from "./routes/projects/delete_projects";
 // import deleteSelectedProjectsRouter from "./routes/projects/delete_selected_projects";
 
 // import timeTrackingRouter from "./routes/projects/time_tracking/time_tracking";
@@ -210,11 +210,11 @@ app.use("/api/products/delete/", deleteSelectedProductsRouter);
 // app.use("/api/settings/taxes/delete/", deleteTaxRouter);
 // app.use("/api/settings/taxes/delete-selected/", deleteSelectedTaxesRouter);
 
-// app.use("/api/projects/", projectsRouter);
+app.use("/api/projects/", projectsRouter);
 // app.use("/api/projects/project/", projectRouter);
 // app.use("/api/projects/create/", createProjectRouter);
 // app.use("/api/projects/edit/", editProjectRouter);
-// app.use("/api/projects/delete/", deleteProjectRouter);
+app.use("/api/projects/delete/", deleteProjectRouter);
 // app.use("/api/projects/delete-selected/", deleteSelectedProjectsRouter);
 
 // app.use("/api/projects/time-tracking/", timeTrackingRouter);

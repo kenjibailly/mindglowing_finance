@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import "../stylesheets/form/form.css";
-import useDatalist from "./hooks/useDatalist"; // Adjust the path as necessary
+import useDatalist from "./hooks/useDatalist";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "./context/AuthContext";
 import CountriesOptionList from "./options/CountriesOptionList";
