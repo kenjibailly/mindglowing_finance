@@ -63,6 +63,9 @@ router.post("/", async (req: Request, res: Response): Promise<any> => {
       id: user._id,
       username: user.username,
       setup: user.setup,
+      currency_symbol: user.currency_symbol,
+      date_format: user.date_format,
+      picture: user.picture,
     };
 
     logger.success("Login successful");

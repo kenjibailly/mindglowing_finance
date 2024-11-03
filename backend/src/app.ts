@@ -28,7 +28,7 @@ import deleteSelectedCustomersRouter from "./routes/customers/delete_customers";
 
 import productsRouter from "./routes/products/products";
 import productRouter from "./routes/products/product";
-// import createProductRouter from "./routes/products/create_product";
+import createProductRouter from "./routes/products/create_product";
 // import editProductRouter from "./routes/products/edit_product";
 import deleteSelectedProductsRouter from "./routes/products/delete_products";
 
@@ -157,7 +157,7 @@ app.use("/api/customers/delete/", deleteSelectedCustomersRouter);
 
 app.use("/api/products/", productsRouter);
 app.use("/api/products/:id", productRouter);
-// app.use("/api/products/create/", createProductRouter);
+app.use("/api/products/create/", createProductRouter);
 // app.use("/api/products/edit/", editProductRouter);
 app.use("/api/products/delete/", deleteSelectedProductsRouter);
 

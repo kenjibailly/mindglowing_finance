@@ -4,7 +4,7 @@ import { useAuth } from "../context/AuthContext";
 
 const Logout = () => {
   const navigate = useNavigate();
-  const { setUser } = useAuth();
+  const { setUser, setIsAuthenticated } = useAuth();
 
   useEffect(() => {
     const handleLogout = async () => {
@@ -13,9 +13,10 @@ const Logout = () => {
           method: "POST",
           credentials: "include", // Include cookies for session management
         });
-
         if (response.ok) {
           setUser(null);
+          setIsAuthenticated(false);
+          localStorage.removeItem("user");
           // Redirect to login or home page after successful logout
           navigate("/login"); // Use navigate to navigate
         } else {

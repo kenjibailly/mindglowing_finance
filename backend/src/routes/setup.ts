@@ -1,4 +1,4 @@
-import express, { Request, Response, NextFunction } from "express";
+import express, { Request, Response } from "express";
 import { Router } from "express";
 import User from "../models/user"; // Adjust the path if necessary
 import { authenticateToken } from "./security/authenticate";

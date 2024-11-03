@@ -1,12 +1,12 @@
 import { useState } from "react";
 
-interface FetchDataOptions<T> {
+interface FetchDataOptions {
   id: string | undefined;
   endpoint: string;
   dataKey: string; // the key in the response object for the desired data, e.g., "customer" or "product"
 }
 
-const useFetchData = <T>({ id, endpoint, dataKey }: FetchDataOptions<T>) => {
+const useFetchData = <T>({ id, endpoint, dataKey }: FetchDataOptions) => {
   const [data, setData] = useState<T | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);

@@ -136,7 +136,7 @@ router.post(
     try {
       // Save the customer to the database
       const savedCustomer = await newCustomer.save();
-      res.json(savedCustomer);
+      res.status(201).json(savedCustomer);
     } catch (error) {
       const err = error as CustomError;
 

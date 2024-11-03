@@ -31,7 +31,7 @@ const Login = () => {
       const data = await response.json();
       if (response.ok) {
         setIsAuthenticated(true);
-        navigate("/");
+        localStorage.setItem("user", JSON.stringify(data.user));
         if (data.user.setup) {
           navigate("/setup");
         } else {

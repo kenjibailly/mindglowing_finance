@@ -5,15 +5,19 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "./context/AuthContext";
 import CountriesOptionList from "./options/CountriesOptionList";
 import CurrenciesOptionList from "./options/CurrenciesOptionList";
+import usePreviewImage from "./hooks/usePreviewImage";
+import "../stylesheets/images/preview_image.css";
 
 const Setup = () => {
   const navigate = useNavigate();
   const [error, setError] = useState<string>("");
-  const [imageSrc, setImageSrc] = useState<string | null>(null);
   const currencyInputRef = useRef<HTMLInputElement>(null);
   const currencyDatalistRef = useRef<HTMLDataListElement>(null);
 
   const { user, setUser } = useAuth();
+
+  const { imageSrc, handleImageChange, fileInputRef, handleImageClick } =
+    usePreviewImage();
 
   if (user && !user.user.setup) {
     navigate("/dashboard");
@@ -25,19 +29,6 @@ const Setup = () => {
 
   useDatalist(currencyInputRef, currencyDatalistRef);
   useDatalist(countryInputRef, countryDatalistRef);
-
-  const previewImageRef = useRef<HTMLImageElement>(null);
-
-  const previewImage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0]; // Access the first file if available
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImageSrc(reader.result as string); // Set the image URL to state
-      };
-      reader.readAsDataURL(file); // Read the file as a data URL
-    }
-  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -77,7 +68,6 @@ const Setup = () => {
           <option value="en-US">MM/DD/YYYY</option>
           <option value="zh-Hans-CN">YYYY/MM/DD</option>
         </select>
-
         <label htmlFor="currency">Select Currency:</label>
         <div className="data-list">
           <input
@@ -98,7 +88,6 @@ const Setup = () => {
             <CurrenciesOptionList />
           </datalist>
         </div>
-
         <div className="personal-information">
           <label htmlFor="personal_information.first_name">First Name:</label>
           <input
@@ -130,7 +119,6 @@ const Setup = () => {
             name="personal_information.company_name"
           />
         </div>
-
         <div className="address-information">
           <label htmlFor="address_information.street">Street:</label>
           <input
@@ -188,22 +176,23 @@ const Setup = () => {
             </datalist>
           </div>
         </div>
-
         <label htmlFor="picture">Profile Picture:</label>
-        <img
-          className="previewImage"
-          src={imageSrc || ""}
-          width="200px"
-          alt=""
-          ref={previewImageRef}
-        />
+        {imageSrc && (
+          <img
+            className="preview-image"
+            src={imageSrc}
+            alt="Preview"
+            onClick={handleImageClick}
+          />
+        )}
         <input
           type="file"
           id="picture"
           name="picture"
-          onChange={previewImage}
+          onChange={handleImageChange}
+          ref={fileInputRef}
+          className={imageSrc ? "hidden" : ""}
         />
-
         <button type="submit">Finish Setup</button>
       </form>
       {error ? <p className="error">{error}</p> : ""}
