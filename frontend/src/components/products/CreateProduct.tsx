@@ -1,12 +1,15 @@
 import { Link, useNavigate } from "react-router-dom";
 import usePreviewImage from "../hooks/usePreviewImage";
 import "../../stylesheets/images/preview_image.css";
+import { useState } from "react";
+import Alert from "../Alert";
 
 const CreateProduct = () => {
   const { imageSrc, handleImageChange, handleImageClick, fileInputRef } =
     usePreviewImage();
   const cachedUser = JSON.parse(localStorage.getItem("user") || "{}");
   const navigate = useNavigate();
+  const [error, setError] = useState<string | null>(null);
 
   const handleCreateProduct = async (
     event: React.FormEvent<HTMLFormElement>
@@ -49,15 +52,16 @@ const CreateProduct = () => {
         // Redirect or update UI as needed
       } else {
         const errorData = await response.json();
-        console.error("Error creating product:", errorData);
+        throw new Error("Failed to create product.\n" + errorData.message);
       }
     } catch (error) {
-      console.error("Error during fetch:", error);
+      setError((error as Error).message || "An unknown error occurred");
     }
   };
 
   return (
     <>
+      {error && <Alert message={error} type="error" />}
       <div className="wrapper">
         <Link className="link" to="/products/">
           Products

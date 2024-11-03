@@ -114,7 +114,8 @@ const CreateCustomer = () => {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to create customer");
+        const errorData = await response.json();
+        throw new Error("Failed to create customer\n" + errorData.message);
       }
 
       // Parse the response to get the created customer data
