@@ -10,6 +10,7 @@ interface UsePaginatedTableOptions {
 
 interface UsePaginatedTableResult<T> {
   items: T[];
+  data: any;
   loading: boolean;
   error: string | null;
   currentPage: number;
@@ -33,6 +34,7 @@ function usePaginatedTable<T extends Identifiable>({
   enableSorting = false,
 }: UsePaginatedTableOptions): UsePaginatedTableResult<T> {
   const [items, setItems] = useState<T[]>([]);
+  const [data, setData] = useState<any>({});
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -50,7 +52,6 @@ function usePaginatedTable<T extends Identifiable>({
         const queryParams = new URLSearchParams(location.search);
         const page = queryParams.get("page");
         const pageNumber = page ? parseInt(page, 10) : 1;
-
         const response = await fetch(
           `/api${baseUrl}?page=${pageNumber}${
             sortBy ? `&sort_by=${sortBy}` : ""
@@ -63,6 +64,7 @@ function usePaginatedTable<T extends Identifiable>({
         setCurrentPage(data.currentPage);
         setTotalPages(data.totalPages);
         setItems(data.items);
+        setData(data);
       } catch (err) {
         setError((err as Error).message || "Unknown error");
       } finally {
@@ -117,6 +119,7 @@ function usePaginatedTable<T extends Identifiable>({
     handleSort: enableSorting ? handleSort : undefined,
     getSortClass,
     fetchItems,
+    data,
   };
 }
 

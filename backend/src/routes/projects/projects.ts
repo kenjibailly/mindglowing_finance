@@ -47,28 +47,41 @@ router.get(
       const totalPages = Math.ceil(totalProjects / itemsPerPage);
 
       const projects = await Project.aggregate([
-        // Convert customer_id to ObjectId if stored as a string
         {
-          $addFields: {
-            customer_id: { $toObjectId: "$customer_id" }, // Only if customer_id is stored as a string
+          $project: {
+            _id: { $toString: "$_id" },
+            name: 1,
+            customer_id: {
+              $toObjectId: "$customer_id",
+            },
+            billed: 1,
+            created_on: 1,
           },
         },
-        // Join with Customer collection to get customer details
         {
           $lookup: {
             from: "customers",
             localField: "customer_id",
             foreignField: "_id",
-            as: "customer_details",
+            as: "customer",
+            pipeline: [
+              {
+                $project: {
+                  "personal_information.first_name": 1,
+                  "personal_information.last_name": 1,
+                  "personal_information.company": 1,
+                },
+              },
+            ],
           },
         },
         {
-          $unwind: {
-            path: "$customer_details",
-            preserveNullAndEmptyArrays: true, // Keeps the project even if no customer is found
+          $addFields: {
+            customer: {
+              $arrayElemAt: ["$customer", 0],
+            },
           },
         },
-        // Add a new field customer_name based on personal_information from the customer_details
         {
           $addFields: {
             customer_name: {
@@ -76,55 +89,62 @@ router.get(
                 if: {
                   $or: [
                     {
-                      $eq: [
-                        "$customer_details.personal_information.company",
-                        "",
-                      ],
+                      $eq: ["$customer.personal_information.company", ""],
                     },
                     {
-                      $eq: [
-                        "$customer_details.personal_information.company",
-                        null,
-                      ],
+                      $eq: ["$customer.personal_information.company", null],
                     },
                   ],
                 },
                 then: {
                   $concat: [
-                    "$customer_details.personal_information.first_name",
+                    "$customer.personal_information.first_name",
                     " ",
-                    "$customer_details.personal_information.last_name",
+                    "$customer.personal_information.last_name",
                   ],
                 },
-                else: "$customer_details.personal_information.company",
+                else: "$customer.personal_information.company",
               },
             },
           },
         },
-        // Calculate total time for timeTracking in seconds
+        {
+          $lookup: {
+            as: "timetrackings",
+            from: "timetrackings",
+            foreignField: "project_id",
+            localField: "_id",
+          },
+        },
         {
           $addFields: {
             total_time_seconds: {
               $reduce: {
                 input: {
                   $map: {
-                    input: "$timeTracking",
+                    input: "$timetrackings",
                     as: "entry",
                     in: {
                       $cond: {
-                        if: { $ifNull: ["$$entry.stop", false] },
+                        if: {
+                          $and: [
+                            {
+                              $ifNull: ["$$entry.start", false],
+                            },
+                            {
+                              $ifNull: ["$$entry.stop", false],
+                            },
+                          ],
+                        },
                         then: {
                           $divide: [
-                            { $subtract: ["$$entry.stop", "$$entry.start"] },
+                            {
+                              $subtract: ["$$entry.stop", "$$entry.start"],
+                            },
                             1000,
-                          ], // Stop - Start in seconds
+                          ],
                         },
-                        else: {
-                          $divide: [
-                            { $subtract: [new Date(), "$$entry.start"] },
-                            1000,
-                          ], // Ongoing (current time - start)
-                        },
+                        else: 0,
                       },
                     },
                   },
@@ -133,60 +153,6 @@ router.get(
                 in: { $add: ["$$value", "$$this"] },
               },
             },
-          },
-        },
-        // Add formatted total_time to the project as well (for easy display) without fractional seconds
-        {
-          $addFields: {
-            total_time: {
-              $let: {
-                vars: {
-                  total_seconds: { $floor: "$total_time_seconds" }, // Correctly floor total_time_seconds to remove fraction
-                  hours: {
-                    $floor: {
-                      $divide: [{ $floor: "$total_time_seconds" }, 3600],
-                    },
-                  },
-                  minutes: {
-                    $mod: [
-                      {
-                        $floor: {
-                          $divide: [{ $floor: "$total_time_seconds" }, 60],
-                        },
-                      },
-                      60,
-                    ],
-                  },
-                  seconds: { $mod: [{ $floor: "$total_time_seconds" }, 60] }, // Floor seconds as well
-                },
-                in: {
-                  $concat: [
-                    { $toString: "$$hours" },
-                    ":",
-                    {
-                      $cond: [
-                        { $gte: ["$$minutes", 10] },
-                        { $toString: "$$minutes" },
-                        { $concat: ["0", { $toString: "$$minutes" }] },
-                      ],
-                    },
-                    ":",
-                    {
-                      $cond: [
-                        { $gte: ["$$seconds", 10] },
-                        { $toString: "$$seconds" },
-                        { $concat: ["0", { $toString: "$$seconds" }] },
-                      ],
-                    },
-                  ],
-                },
-              },
-            },
-          },
-        },
-        // Convert project.billed to "Yes" or "No"
-        {
-          $addFields: {
             billed: {
               $cond: {
                 if: { $eq: ["$billed", true] },
@@ -196,74 +162,72 @@ router.get(
             },
           },
         },
-        // Sort by the specified field, including the newly calculated total_time_seconds if needed
+        {
+          $addFields: {
+            total_time: {
+              $concat: [
+                {
+                  $toString: {
+                    $floor: {
+                      $divide: ["$total_time_seconds", 3600],
+                    },
+                  },
+                },
+                "h ",
+                {
+                  $toString: {
+                    $floor: {
+                      $mod: [
+                        {
+                          $divide: ["$total_time_seconds", 60],
+                        },
+                        60,
+                      ],
+                    },
+                  },
+                },
+                "m ",
+                {
+                  $toString: {
+                    $floor: {
+                      $mod: ["$total_time_seconds", 60],
+                    },
+                  },
+                },
+                "s",
+              ],
+            },
+          },
+        },
+        // Sort and paginate projects
         {
           $sort: {
             [sort_by === "total_time" ? "total_time_seconds" : sort_by]:
-              sort_order === "asc" ? 1 : -1, // Sort dynamically based on the field selected
-            _id: 1, // Always sort by _id as the secondary key to ensure stable sorting
+              sort_order === "asc" ? 1 : -1,
+            _id: 1, // Secondary sort by _id for stable sorting
           },
         },
-        // Apply pagination after sorting
-        { $skip: skip },
-        { $limit: itemsPerPage },
+        {
+          $skip: skip, // Pagination skip
+        },
+        {
+          $limit: itemsPerPage, // Pagination limit
+        },
+        {
+          $project: {
+            _id: 1,
+            name: 1,
+            customer_name: 1,
+            total_time: 1,
+            created_on: 1,
+            billed: 1,
+          },
+        },
       ]);
-
-      // Add the customer info to the projects array
-      const updatedProjects = await Promise.all(
-        projects.map(async (project) => {
-          // Get the current time
-          const currentTime = new Date();
-
-          // Calculate total time tracking for the current project
-          const timeTrackingArray = project.timeTracking.map(
-            (entry: TimeTracking) => {
-              // Ensure both are treated as timestamps in milliseconds
-              let timePassed = Math.round(
-                (currentTime.getTime() - entry.start.getTime()) / 1000
-              ); // in seconds
-              // Check if there's already a stop time, then format that time and change the timePassed
-              var stop = "";
-              if (entry.stop) {
-                stop = formatDateTime(entry.stop, userSettings as UserType);
-                timePassed = Math.round(
-                  (entry.stop.getTime() - entry.start.getTime()) / 1000
-                );
-              }
-              return {
-                _id: entry._id,
-                name: entry.name,
-                start: formatDateTime(entry.start, userSettings as UserType),
-                stop: stop,
-                timePassed: formatTime(timePassed),
-              };
-            }
-          );
-
-          // Calculate the total time passed of all the time tracking for the current project
-          const totalSeconds = timeTrackingArray.reduce(
-            (total: number, entry: { timePassed: string }) => {
-              const [hours, minutes, seconds] = entry.timePassed
-                .split(":")
-                .map(Number);
-              return total + hours * 3600 + minutes * 60 + seconds;
-            },
-            0
-          );
-
-          // Use your formatTime function to get the formatted result
-          const totalTimePassed = formatTime(totalSeconds);
-
-          return {
-            ...project,
-            total_time: totalTimePassed, // Add total time to the project
-          };
-        })
-      );
 
       res.json({
         success: true,
-        items: updatedProjects,
+        items: projects,
         currentPage: pageNumber,
         totalPages,
         userSettings,

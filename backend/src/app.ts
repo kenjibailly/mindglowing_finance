@@ -67,16 +67,18 @@ import deleteSelectedProductsRouter from "./routes/products/delete_products";
 // import deleteSelectedTaxesRouter from "./routes/settings/taxes/delete_selected_taxes";
 
 import projectsRouter from "./routes/projects/projects";
-// import projectRouter from "./routes/projects/project";
+import projectRouter from "./routes/projects/project";
 // import createProjectRouter from "./routes/projects/create_project";
 // import editProjectRouter from "./routes/projects/edit_project";
 import deleteProjectRouter from "./routes/projects/delete_projects";
 // import deleteSelectedProjectsRouter from "./routes/projects/delete_selected_projects";
 
+import timeTrackingsRouter from "./routes/projects/time_tracking/time_trackings";
+
 // import timeTrackingRouter from "./routes/projects/time_tracking/time_tracking";
 // import startTimeTrackingRouter from "./routes/projects/time_tracking/start_time_tracking";
 // import stopTimeTrackingRouter from "./routes/projects/time_tracking/stop_time_tracking";
-// import deleteSelectedTimeTrackingsRouter from "./routes/projects/time_tracking/delete_selected_time_trackings";
+import deleteSelectedTimeTrackingsRouter from "./routes/projects/time_tracking/delete_selected_time_trackings";
 
 // import customizationRouter from "./routes/settings/customization/customization";
 
@@ -211,19 +213,20 @@ app.use("/api/products/delete/", deleteSelectedProductsRouter);
 // app.use("/api/settings/taxes/delete-selected/", deleteSelectedTaxesRouter);
 
 app.use("/api/projects/", projectsRouter);
-// app.use("/api/projects/project/", projectRouter);
+app.use("/api/projects/:id", projectRouter);
 // app.use("/api/projects/create/", createProjectRouter);
 // app.use("/api/projects/edit/", editProjectRouter);
 app.use("/api/projects/delete/", deleteProjectRouter);
 // app.use("/api/projects/delete-selected/", deleteSelectedProjectsRouter);
 
+app.use("/api/projects/:projectId/time-trackings/", timeTrackingsRouter);
 // app.use("/api/projects/time-tracking/", timeTrackingRouter);
 // app.use("/api/projects/time-tracking/start", startTimeTrackingRouter);
 // app.use("/api/projects/time-tracking/stop", stopTimeTrackingRouter);
-// app.use(
-//   "/api/projects/time-tracking/delete-selected",
-//   deleteSelectedTimeTrackingsRouter
-// );
+app.use(
+  "/api/projects/time-trackings/delete",
+  deleteSelectedTimeTrackingsRouter
+);
 
 // app.use("/api/settings/customization/", customizationRouter);
 

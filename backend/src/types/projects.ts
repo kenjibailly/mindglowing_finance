@@ -13,6 +13,7 @@ export interface TimeTracking {
   name: string;
   start: Date;
   stop: Date;
+  duration_seconds: number;
 }
 
 export interface ProjectExtraData extends Project {

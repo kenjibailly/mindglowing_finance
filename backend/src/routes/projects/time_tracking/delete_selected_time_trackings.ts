@@ -1,10 +1,10 @@
 import express, { Request, Response } from "express";
-const router = express.Router();
-import Project from "../../models/project";
-import TimeTrackings from "../../models/time_trackings";
-import { authenticateToken } from "../security/authenticate";
+import TimeTrackings from "../../../models/time_trackings";
+import { authenticateToken } from "../../security/authenticate";
 
-// Handle the delete request for selected projects
+const router = express.Router();
+
+// Handle the delete request for selected time trackings
 router.delete(
   "/",
   authenticateToken,
@@ -24,26 +24,22 @@ router.delete(
         return;
       }
 
-      // Delete the selected projects in the database
-      const result = await Project.deleteMany({ _id: { $in: selectedIds } });
+      // Delete the selected customers in the database
+      const result = await TimeTrackings.deleteMany({
+        _id: { $in: selectedIds },
+      });
 
-      if (!result.deletedCount) {
-        res.status(404).send("No projects found for deletion");
+      if (result.deletedCount === 0) {
+        res.status(404).json({ message: "No customers found for deletion" });
         return;
       }
 
-      // Delete related timetracking entries
-      const timetrackingResult = await TimeTrackings.deleteMany({
-        project_id: { $in: selectedIds },
-      });
-
       // Send a JSON response with a success message
       res.status(200).json({
-        message: `${result.deletedCount} project${
+        message: `${result.deletedCount} product${
           result.deletedCount > 1 ? "s" : ""
         } deleted successfully`,
       });
-      return;
     } catch (error) {
       logger.error(error);
       res.status(500).send("Internal Server Error");

@@ -1,3 +1,6 @@
+.wrapper.project-overview #alert {
+    margin: 0;
+}
 .alert {
     margin-bottom: 10px;
 }

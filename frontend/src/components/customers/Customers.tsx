@@ -49,8 +49,20 @@ const Customers = () => {
 
   return (
     <>
-      {deleteError && <Alert message={deleteError} type="error" />}
-      {deleteSuccess && <Alert message={deleteSuccess} type="success" />}
+      {deleteError && (
+        <Alert
+          key={deleteError.id}
+          message={deleteError.message}
+          type="error"
+        />
+      )}
+      {deleteSuccess && (
+        <Alert
+          key={deleteSuccess.id}
+          message={deleteSuccess.message}
+          type="success"
+        />
+      )}
       <div className="wrapper">
         <Link
           to="/customers/create"
@@ -81,19 +93,21 @@ const Customers = () => {
                   onClick={() =>
                     handleSort && handleSort("personal_information.email")
                   }
-                  className={getSortClass("personal_information.email")}
+                  className={
+                    getSortClass("personal_information.email") + ` sort-th`
+                  }
                 >
                   Email
                 </th>
                 <th
                   onClick={() => handleSort && handleSort("amount_due")}
-                  className={getSortClass("amount_due")}
+                  className={getSortClass("amount_due") + ` sort-th`}
                 >
                   Amount Due
                 </th>
                 <th
                   onClick={() => handleSort && handleSort("created_on")}
-                  className={getSortClass("created_on")}
+                  className={getSortClass("created_on") + ` sort-th`}
                 >
                   Created on
                 </th>

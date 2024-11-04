@@ -12,7 +12,6 @@ interface ITimeTracking {
 interface IProject extends Document {
   name: string;
   customer_id?: string;
-  timeTracking?: ITimeTracking[];
   description?: string;
   billed?: boolean;
   created_on?: Date;
@@ -22,14 +21,6 @@ interface IProject extends Document {
 const projectSchema: Schema = new mongoose.Schema({
   name: { type: String, required: true, unique: true },
   customer_id: { type: String },
-  timeTracking: [
-    {
-      name: { type: String },
-      time: { type: Number },
-      start: { type: Date },
-      stop: { type: Date },
-    },
-  ],
   description: { type: String },
   billed: { type: Boolean, default: false },
   created_on: { type: Date, default: Date.now },

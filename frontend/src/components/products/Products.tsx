@@ -81,19 +81,19 @@ const Products = () => {
                 <th>Picture</th>
                 <th
                   onClick={() => handleSort && handleSort("name")}
-                  className={getSortClass("name")}
+                  className={getSortClass("name") + ` sort-th`}
                 >
                   Name
                 </th>
                 <th
                   onClick={() => handleSort && handleSort("price")}
-                  className={getSortClass("price")}
+                  className={getSortClass("price") + ` sort-th`}
                 >
                   Price
                 </th>
                 <th
                   onClick={() => handleSort && handleSort("description")}
-                  className={getSortClass("description")}
+                  className={getSortClass("description") + ` sort-th`}
                 >
                   Description
                 </th>

@@ -45,7 +45,7 @@ table td img {
     border-radius: 10px;
 }
 
-.table-sort th {
+.sort-th {
     cursor: pointer;
     position: relative;
 }
@@ -54,7 +54,7 @@ table td img {
     cursor: default;
 }
 
-.table-sort th:not(:first-child)::after {
+.sort-th::after {
     content: '';
     position: absolute;
     margin-left: 10px;

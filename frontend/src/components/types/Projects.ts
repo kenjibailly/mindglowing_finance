@@ -1,9 +1,11 @@
+import { Invoice } from "./Invoices";
+import { CustomizationSettings } from "./CustomizationSettings";
+
 export interface Project {
   _id: string;
   name: string;
   customer_id: string;
   description: string;
-  timeTracking: Array<TimeTracking>;
   created_on: Date;
   billed: boolean;
 }
@@ -18,4 +20,23 @@ export interface TimeTracking {
 export interface ProjectExtraData extends Project {
   customer_name: string;
   total_time: string;
+  invoice_number?: number;
+}
+
+// Override fields in TimeTracking for ProjectFetch
+export interface TimeTrackingFetch
+  extends Omit<TimeTracking, "start" | "stop"> {
+  start: string;
+  stop: string;
+  totalTime: string;
+}
+
+// Extend Project and use TimeTrackingFetch in place of TimeTracking
+export interface ProjectFetch extends Project {
+  invoice: Invoice;
+  project: Project;
+  customizationSettings: CustomizationSettings;
+  customer_name: string;
+  total_time: string;
+  invoice_number?: number;
 }

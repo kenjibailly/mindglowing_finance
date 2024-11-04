@@ -81,25 +81,25 @@ const Projects = () => {
                 </th>
                 <th
                   onClick={() => handleSort && handleSort("name")}
-                  className={getSortClass("name")}
+                  className={getSortClass("name") + ` sort-th`}
                 >
                   Name
                 </th>
                 <th
                   onClick={() => handleSort && handleSort("customer_name")}
-                  className={getSortClass("customer_name")}
+                  className={getSortClass("customer_name") + ` sort-th`}
                 >
                   Customer
                 </th>
                 <th
-                  onClick={() => handleSort && handleSort("total_time")}
-                  className={getSortClass("total_time")}
+                  onClick={() => handleSort && handleSort("total_time_seconds")}
+                  className={getSortClass("total_time_seconds") + ` sort-th`}
                 >
                   Time
                 </th>
                 <th
                   onClick={() => handleSort && handleSort("billed")}
-                  className={getSortClass("billed")}
+                  className={getSortClass("billed") + ` sort-th`}
                 >
                   Billed
                 </th>
@@ -128,16 +128,13 @@ const Projects = () => {
                       </label>
                     </td>
                     <td>
-                      <Link
-                        className="link"
-                        to={`/projects/project/${item._id}`}
-                      >
+                      <Link className="link" to={`/projects/${item._id}`}>
                         {item.name}
                       </Link>
                     </td>
                     <td>{item.customer_name}</td>
                     <td>{item.total_time}</td>
-                    <td>{item.billed ? "Yes" : "No"}</td>
+                    <td>{item.billed}</td>
                   </tr>
                 ))}
               </tbody>
