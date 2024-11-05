@@ -20,7 +20,7 @@ router.post(
       const { time_tracking_name } = req.body;
 
       if (!time_tracking_name) {
-        res.status(400).send("No time tracking name provided!");
+        res.status(400).json({ message: "No time tracking name provided!" });
         return;
       }
 

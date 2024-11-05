@@ -3,26 +3,15 @@ import Alert from "../Alert";
 import Loader from "../Loader";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import useDeleteItems from "../hooks/useDeleteItems";
-import {
-  ProjectFetch,
-  TimeTrackingFetch,
-  TimeTracking as TimeTrackingType,
-} from "../types/Projects";
+import { ProjectFetch, TimeTrackingFetch } from "../types/Projects";
 import useFetchData from "../hooks/useFetchData";
 import Pagination from "../Pagination";
 import usePaginatedTable from "../hooks/usePaginatedTable";
 
-interface Timers {
-  id: string;
-  time: string;
-  running: boolean;
-  newTime: string;
-}
+import useRunningTimer from "../hooks/useStartRunningTimer";
 
 const Project = () => {
   const { id } = useParams<{ id: string }>();
-  // const [timers, setTimers] = useState<Record<string, string>>({});
-  const [timers, setTimers] = useState<Array<Timers>>([]);
   const [timeTrackingSuccess, setTimeTrackingSuccess] = useState<{
     message: string;
     id: number;
@@ -62,6 +51,9 @@ const Project = () => {
     baseUrl: `/projects/${id}/time-trackings/`,
     enableSorting: true,
   });
+
+  const { startUseRunningTimer, stopAllRunningTimers, timers } =
+    useRunningTimer(); // Call the hook function
 
   const navigate = useNavigate();
 
@@ -139,9 +131,11 @@ const Project = () => {
           });
         }
       } else {
+        const error = await response.json();
         setTimeTrackingError({
-          message:
-            "Something went wrong while starting the time tracking, please try again later.",
+          message: error.message
+            ? error.message
+            : "Something went wrong while starting the time tracking, please try again later.\n",
           id: Date.now(),
         });
       }
@@ -169,6 +163,7 @@ const Project = () => {
       if (response.ok) {
         setIsTimeTrackingRunning(false);
         fetchTableItems();
+        stopAllRunningTimers();
         if (!loadingTableItems) {
           setTimeTrackingSuccess({
             message: "Time tracking successfully stopped!",
@@ -190,71 +185,6 @@ const Project = () => {
         id: Date.now(),
       });
     }
-  };
-
-  const parseTime = (timeString: string) => {
-    const [hours, minutes, seconds] = timeString
-      .split(" ")
-      .map((part) => parseInt(part, 10) || 0);
-    return { hours, minutes, seconds };
-  };
-
-  const startUseRunningTimer = (initialTimeString: string, id: string) => {
-    const existingTimer = timers.find(
-      (timer) => timer.id === id && timer.running
-    );
-    if (existingTimer) return;
-
-    const { hours, minutes, seconds } = parseTime(initialTimeString);
-
-    let updatedSeconds = seconds;
-    let updatedMinutes = minutes;
-    let updatedHours = hours;
-
-    const updateTimer = setInterval(() => {
-      if (!isTimeTrackingRunning) clearInterval(updateTimer);
-      // Update seconds
-      updatedSeconds += 1;
-
-      if (updatedSeconds >= 60) {
-        updatedSeconds = 0;
-        updatedMinutes += 1;
-
-        if (updatedMinutes >= 60) {
-          updatedMinutes = 0;
-          updatedHours += 1;
-        }
-      }
-
-      const newTime = `${updatedHours}h ${updatedMinutes}m ${updatedSeconds}s`;
-
-      // Update the timer in the state
-      setTimers((prevTimers: Array<Timers>) => {
-        const timerExists = prevTimers.some((timer) => timer.id === id); // Check if the timer already exists
-
-        if (timerExists) {
-          // If the timer exists, update its time
-          return prevTimers.map((timer) => {
-            if (timer.id === id) {
-              return { ...timer, newTime: newTime }; // Update existing timer
-            }
-            return timer; // Return unchanged timer
-          });
-        } else {
-          // If the timer does not exist, create a new one
-          return [
-            ...prevTimers,
-            {
-              id: id,
-              running: true,
-              time: initialTimeString,
-              newTime: newTime,
-            }, // New timer object
-          ];
-        }
-      });
-    }, 1000);
-    return;
   };
 
   if (error) {
@@ -365,6 +295,14 @@ const Project = () => {
             key={timeTrackingSuccess.id}
             message={timeTrackingSuccess.message}
             type="success"
+            scroll={true}
+          />
+        )}
+        {timeTrackingError && !loadingTableItems && (
+          <Alert
+            key={timeTrackingError.id}
+            message={timeTrackingError.message}
+            type="error"
             scroll={true}
           />
         )}
