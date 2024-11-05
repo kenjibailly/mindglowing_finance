@@ -132,16 +132,26 @@ const Project = () => {
     }
   };
 
-  const handleStopTimeTracking = async () => {
+  const handleStopTimeTracking = async (id: string) => {
     try {
       const response = await fetch(
-        `/api/projects/${projectData?.project._id}/time-trackings/stop`
+        `/api/projects/${projectData?.project._id}/time-trackings/stop/${id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
       );
       if (response.ok) {
-        setTimeTrackingSuccess({
-          message: "Time tracking successfully stopped!",
-          id: Date.now(),
-        });
+        setIsTimeTrackingRunning(false);
+        fetchTableItems();
+        if (!loadingTableItems) {
+          setTimeTrackingSuccess({
+            message: "Time tracking successfully stopped",
+            id: Date.now(),
+          });
+        }
       } else {
         setTimeTrackingError({
           message:
@@ -178,7 +188,8 @@ const Project = () => {
     let updatedMinutes = minutes;
     let updatedHours = hours;
 
-    setInterval(() => {
+    const updateTimer = setInterval(() => {
+      if (!isTimeTrackingRunning) clearInterval(updateTimer);
       // Update seconds
       updatedSeconds += 1;
 
@@ -313,8 +324,7 @@ const Project = () => {
         ) : (
           <Alert
             key={Date.now()}
-            message={`❗You currently have running time trackings, stop your time tracking
-            to start a new one.`}
+            message={`❗You currently have running time trackings, stop your time tracking to start a new one.`}
             type="info"
             scroll={false}
           />
@@ -323,6 +333,14 @@ const Project = () => {
           <Alert
             key={deleteSuccess.id}
             message={deleteSuccess.message}
+            type="success"
+            scroll={true}
+          />
+        )}
+        {timeTrackingSuccess && !loadingTableItems && (
+          <Alert
+            key={timeTrackingSuccess.id}
+            message={timeTrackingSuccess.message}
             type="success"
             scroll={true}
           />
@@ -433,8 +451,10 @@ const Project = () => {
                           ) : (
                             <button
                               type="submit"
-                              className="time-tracking-stop"
-                              onClick={handleStopTimeTracking}
+                              className="time-tracking-stop button"
+                              onClick={() =>
+                                handleStopTimeTracking(timeTracking._id)
+                              }
                             >
                               Stop
                             </button>
