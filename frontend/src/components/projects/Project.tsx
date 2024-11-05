@@ -1,15 +1,38 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Alert from "../Alert";
 import Loader from "../Loader";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import useDeleteItems from "../hooks/useDeleteItems";
-import { ProjectFetch, TimeTrackingFetch } from "../types/Projects";
+import {
+  ProjectFetch,
+  TimeTrackingFetch,
+  TimeTracking as TimeTrackingType,
+} from "../types/Projects";
 import useFetchData from "../hooks/useFetchData";
 import Pagination from "../Pagination";
 import usePaginatedTable from "../hooks/usePaginatedTable";
 
+interface Timers {
+  id: string;
+  time: string;
+  running: boolean;
+  newTime: string;
+}
+
 const Project = () => {
   const { id } = useParams<{ id: string }>();
+  // const [timers, setTimers] = useState<Record<string, string>>({});
+  const [timers, setTimers] = useState<Array<Timers>>([]);
+  const [timeTrackingSuccess, setTimeTrackingSuccess] = useState<{
+    message: string;
+    id: number;
+  } | null>(null);
+  const [timeTrackingError, setTimeTrackingError] = useState<{
+    message: string;
+    id: number;
+  } | null>(null);
+  const [isTimeTrackingRunning, setIsTimeTrackingRunning] =
+    useState<boolean>(false);
   const {
     data: projectData,
     loading,
@@ -47,6 +70,13 @@ const Project = () => {
     fetchTableItems();
   }, [id]);
 
+  useEffect(() => {
+    const hasRunningTimeTracking = (timeTrackings as TimeTrackingFetch[]).some(
+      (item) => item.stop === null || item.stop === ""
+    );
+    setIsTimeTrackingRunning(hasRunningTimeTracking);
+  }, [timeTrackings]);
+
   const {
     handleDeleteSelected,
     loading: deleting,
@@ -73,6 +103,124 @@ const Project = () => {
         navigate("/projects");
       }
     }
+  };
+
+  const handleStartTimeTracking = async () => {
+    try {
+      const response = await fetch(
+        `/api/projects/${projectData?.project._id}/time-trackings/start`
+      );
+      if (response.ok) {
+        setTimeTrackingSuccess({
+          message: "Time tracking successfully started!",
+          id: Date.now(),
+        });
+      } else {
+        setTimeTrackingError({
+          message:
+            "Something went wrong while starting the time tracking, please try again later.",
+          id: Date.now(),
+        });
+      }
+    } catch (err) {
+      setTimeTrackingError({
+        message:
+          "Something went wrong while starting the time tracking, please try again later.\n" +
+          (err as Error).message,
+        id: Date.now(),
+      });
+    }
+  };
+
+  const handleStopTimeTracking = async () => {
+    try {
+      const response = await fetch(
+        `/api/projects/${projectData?.project._id}/time-trackings/stop`
+      );
+      if (response.ok) {
+        setTimeTrackingSuccess({
+          message: "Time tracking successfully stopped!",
+          id: Date.now(),
+        });
+      } else {
+        setTimeTrackingError({
+          message:
+            "Something went wrong while stopping the time tracking, please try again later.",
+          id: Date.now(),
+        });
+      }
+    } catch (err) {
+      setTimeTrackingError({
+        message:
+          "Something went wrong while stopping the time tracking, please try again later.\n" +
+          (err as Error).message,
+        id: Date.now(),
+      });
+    }
+  };
+
+  const parseTime = (timeString: string) => {
+    const [hours, minutes, seconds] = timeString
+      .split(" ")
+      .map((part) => parseInt(part, 10) || 0);
+    return { hours, minutes, seconds };
+  };
+
+  const startUseRunningTimer = (initialTimeString: string, id: string) => {
+    const existingTimer = timers.find(
+      (timer) => timer.id === id && timer.running
+    );
+    if (existingTimer) return;
+
+    const { hours, minutes, seconds } = parseTime(initialTimeString);
+
+    let updatedSeconds = seconds;
+    let updatedMinutes = minutes;
+    let updatedHours = hours;
+
+    setInterval(() => {
+      // Update seconds
+      updatedSeconds += 1;
+
+      if (updatedSeconds >= 60) {
+        updatedSeconds = 0;
+        updatedMinutes += 1;
+
+        if (updatedMinutes >= 60) {
+          updatedMinutes = 0;
+          updatedHours += 1;
+        }
+      }
+
+      const newTime = `${updatedHours}h ${updatedMinutes}m ${updatedSeconds}s`;
+
+      // Update the timer in the state
+      setTimers((prevTimers: Array<Timers>) => {
+        const timerExists = prevTimers.some((timer) => timer.id === id); // Check if the timer already exists
+
+        if (timerExists) {
+          // If the timer exists, update its time
+          return prevTimers.map((timer) => {
+            if (timer.id === id) {
+              return { ...timer, newTime: newTime }; // Update existing timer
+            }
+            return timer; // Return unchanged timer
+          });
+        } else {
+          // If the timer does not exist, create a new one
+          return [
+            ...prevTimers,
+            {
+              id: id,
+              running: true,
+              time: initialTimeString,
+              newTime: newTime,
+            }, // New timer object
+          ];
+        }
+      });
+    }, 1000);
+    return;
   };
 
   if (error) {
@@ -103,15 +251,9 @@ const Project = () => {
         <Link className="button" to="/projects/edit/{{project._id}}">
           Edit Project
         </Link>
-
-        <div className="alert alert-success hidden" role="alert">
-          Project edited!
-        </div>
-
         <button onClick={handleDeleteProject} type="submit">
           Delete
         </button>
-
         <div className="overview separate">
           <div className="inline">
             <p>Name:</p>
@@ -146,20 +288,17 @@ const Project = () => {
             </div>
           )}
         </div>
-
-        {projectData.billed ? (
+        {projectData.billed && (
           <div className="separate">
             <p>
               ❗This project has been added to an invoice, start a new project
               to track time or delete your invoice.
             </p>
           </div>
-        ) : (
-          <form
-            action="/projects/time-tracking/start/{{project._id}}/"
-            method="post"
-          >
-            <label htmlFor="time-tracking-name">Name:</label>
+        )}
+        {isTimeTrackingRunning && !projectData.billed && (
+          <form onSubmit={handleStartTimeTracking}>
+            <label htmlFor="time-tracking-name">Add Time Tracking:</label>
             <input
               type="text"
               className="time-tracking-name"
@@ -171,15 +310,6 @@ const Project = () => {
             </button>
           </form>
         )}
-
-        <form
-          action="/projects/time-tracking/stop/{{project._id}}/"
-          method="post"
-        >
-          <button type="submit" className="time-tracking-stop hidden">
-            Stop
-          </button>
-        </form>
         {deleteSuccess && (
           <Alert
             key={deleteSuccess.id}
@@ -187,7 +317,7 @@ const Project = () => {
             type="success"
           />
         )}
-        {timeTrackingsData.items.length > 0 && (
+        {!loadingTableItems && timeTrackingsData.items.length > 0 && (
           <>
             <button onClick={handleDeleteTimeTrackings} type="submit">
               Delete
@@ -197,7 +327,18 @@ const Project = () => {
                 <div className="inline">
                   <p>Total Time:</p>
                   <p className="total-time-passed">
-                    {timeTrackingsData.totalTime}
+                    {isTimeTrackingRunning && timers ? (
+                      <>
+                        {startUseRunningTimer(
+                          timeTrackingsData.totalTime ?? "0h 0m 0s",
+                          "total_time"
+                        )}
+                        {timers.find((timer) => timer.id === "total_time")
+                          ?.newTime || "0h 0m 0s"}
+                      </>
+                    ) : (
+                      timeTrackingsData.totalTime
+                    )}
                   </p>
                 </div>
               </div>
@@ -261,25 +402,32 @@ const Project = () => {
                         </td>
                         <td>{timeTracking.name}</td>
                         <td className="time-passed">
-                          {timeTracking.totalTime}
+                          {timeTracking.stop !== "" ? (
+                            timeTracking.totalTime
+                          ) : (
+                            <>
+                              {startUseRunningTimer(
+                                timeTracking.totalTime ?? "0h 0m 0s",
+                                timeTracking._id
+                              )}
+                              {timers.find(
+                                (timer) => timer.id === timeTracking._id
+                              )?.newTime || "0h 0m 0s"}
+                            </>
+                          )}
                         </td>
                         <td>{timeTracking.start}</td>
                         <td className="stop-td">
                           {timeTracking.stop ? (
                             <p className="stop">{timeTracking.stop}</p>
                           ) : (
-                            <form
-                              action="/projects/time-tracking/stop/{{../project._id}}/{{_id}}"
-                              method="post"
+                            <button
+                              type="submit"
+                              className="time-tracking-stop"
+                              onClick={handleStopTimeTracking}
                             >
-                              <button
-                                type="submit"
-                                className="time-tracking-stop"
-                                // onClick="stopTimeTracking()"
-                              >
-                                Stop
-                              </button>
-                            </form>
+                              Stop
+                            </button>
                           )}
                         </td>
                       </tr>

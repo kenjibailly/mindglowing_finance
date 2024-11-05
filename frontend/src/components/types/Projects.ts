@@ -14,7 +14,7 @@ export interface TimeTracking {
   _id: string;
   name: string;
   start: Date;
-  stop: Date;
+  stop?: Date;
 }
 
 export interface ProjectExtraData extends Project {

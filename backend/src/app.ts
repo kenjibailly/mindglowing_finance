@@ -220,9 +220,12 @@ app.use("/api/projects/delete/", deleteProjectRouter);
 // app.use("/api/projects/delete-selected/", deleteSelectedProjectsRouter);
 
 app.use("/api/projects/:projectId/time-trackings/", timeTrackingsRouter);
-// app.use("/api/projects/time-tracking/", timeTrackingRouter);
-// app.use("/api/projects/time-tracking/start", startTimeTrackingRouter);
-// app.use("/api/projects/time-tracking/stop", stopTimeTrackingRouter);
+// app.use("/api/projects/:projectId/time-tracking/", timeTrackingRouter);
+// app.use(
+//   "/api/projects/:projectId/time-tracking/start",
+//   startTimeTrackingRouter
+// );
+// app.use("/api/projects/:projectId/time-tracking/stop", stopTimeTrackingRouter);
 app.use(
   "/api/projects/time-trackings/delete",
   deleteSelectedTimeTrackingsRouter
