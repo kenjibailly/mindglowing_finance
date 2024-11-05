@@ -42,7 +42,7 @@ const Products = () => {
   };
 
   if (error) {
-    return <Alert message={error} type="error" />;
+    return <Alert message={error} type="error" scroll={true} />;
   }
 
   return (
@@ -52,6 +52,7 @@ const Products = () => {
           key={deleteError.id}
           message={deleteError.message}
           type="error"
+          scroll={true}
         />
       )}
       {deleteSuccess && (
@@ -59,6 +60,7 @@ const Products = () => {
           key={deleteSuccess.id}
           message={deleteSuccess.message}
           type="success"
+          scroll={true}
         />
       )}
       <div className="wrapper">

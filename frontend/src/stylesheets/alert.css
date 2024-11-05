@@ -17,3 +17,8 @@
 .alert-message.success {
     background-color: rgb(31, 171, 40);
 }
+
+.alert-message.info {
+    margin-top: 20px;
+    background-color: blueviolet;
+}

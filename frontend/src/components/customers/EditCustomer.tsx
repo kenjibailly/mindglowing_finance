@@ -222,7 +222,7 @@ const EditCustomer = () => {
   };
 
   if (customerError) {
-    return <Alert message={customerError} type="error" />;
+    return <Alert message={customerError} type="error" scroll={true} />;
   }
 
   if (loading || deleting) {
@@ -240,10 +240,16 @@ const EditCustomer = () => {
           key={error.id || deleteError?.id}
           message={error.message || deleteError?.message || customerError}
           type="error"
+          scroll={true}
         />
       )}
       {success && (
-        <Alert key={success.id} message={success.message} type="success" />
+        <Alert
+          key={success.id}
+          message={success.message}
+          type="success"
+          scroll={true}
+        />
       )}
       <div className="wrapper">
         <Link className="link" to="/customers/">

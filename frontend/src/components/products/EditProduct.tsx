@@ -97,7 +97,7 @@ const EditProduct = () => {
   };
 
   if (productError) {
-    return <Alert message={productError} type="error" />;
+    return <Alert message={productError} type="error" scroll={true} />;
   }
 
   if (loading || deleting) {
@@ -115,10 +115,16 @@ const EditProduct = () => {
           key={error.id || deleteError?.id}
           message={error.message || deleteError?.message || productError}
           type="error"
+          scroll={true}
         />
       )}
       {success && (
-        <Alert key={success.id} message={success.message} type="success" />
+        <Alert
+          key={success.id}
+          message={success.message}
+          type="success"
+          scroll={true}
+        />
       )}
       <div className="wrapper">
         <Link to="/products/" className="link">

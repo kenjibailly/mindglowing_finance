@@ -224,7 +224,7 @@ const Project = () => {
   };
 
   if (error) {
-    return <Alert message={error} type="error" />;
+    return <Alert message={error} type="error" scroll={true} />;
   }
 
   if (loading || deleting) {
@@ -242,6 +242,7 @@ const Project = () => {
           key={deleteError.id}
           message={deleteError.message}
           type="error"
+          scroll={true}
         />
       )}
       <div className="wrapper project-overview">
@@ -296,7 +297,7 @@ const Project = () => {
             </p>
           </div>
         )}
-        {isTimeTrackingRunning && !projectData.billed && (
+        {!isTimeTrackingRunning && !projectData.billed ? (
           <form onSubmit={handleStartTimeTracking}>
             <label htmlFor="time-tracking-name">Add Time Tracking:</label>
             <input
@@ -309,12 +310,21 @@ const Project = () => {
               Start
             </button>
           </form>
+        ) : (
+          <Alert
+            key={Date.now()}
+            message={`❗You currently have running time trackings, stop your time tracking
+            to start a new one.`}
+            type="info"
+            scroll={false}
+          />
         )}
         {deleteSuccess && (
           <Alert
             key={deleteSuccess.id}
             message={deleteSuccess.message}
             type="success"
+            scroll={true}
           />
         )}
         {!loadingTableItems && timeTrackingsData.items.length > 0 && (

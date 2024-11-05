@@ -42,7 +42,7 @@ const Product = () => {
   };
 
   if (error) {
-    return <Alert message={error} type="error" />;
+    return <Alert message={error} type="error" scroll={true} />;
   }
 
   if (loading || deleting) {

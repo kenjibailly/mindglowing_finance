@@ -136,7 +136,14 @@ const CreateCustomer = () => {
 
   return (
     <>
-      {error && <Alert key={error.id} message={error.message} type="error" />}
+      {error && (
+        <Alert
+          key={error.id}
+          message={error.message}
+          type="error"
+          scroll={true}
+        />
+      )}
       <div className="wrapper">
         <Link className="link" to="/customers/">
           Customers

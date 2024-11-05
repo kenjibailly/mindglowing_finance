@@ -5,14 +5,15 @@ import "../stylesheets/alert.css";
 interface AlertProps {
   message: string | null;
   type: string;
+  scroll: boolean;
 }
 
-const Alert = ({ message, type }: AlertProps) => {
+const Alert = ({ message, type, scroll }: AlertProps) => {
   const alertRef = useRef<HTMLDivElement | null>(null);
   const [prevMessage, setPrevMessage] = useState<string | null>(null);
   useEffect(() => {
     // Only scroll if the message changes
-    if (message !== prevMessage && alertRef.current) {
+    if (message !== prevMessage && alertRef.current && scroll) {
       alertRef.current.scrollIntoView({ behavior: "smooth" });
       setPrevMessage(message); // Update previous message to current one
     }
