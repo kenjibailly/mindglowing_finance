@@ -1,4 +1,3 @@
-// Alert.tsx
 import { useEffect, useRef, useState } from "react";
 import "../stylesheets/alert.css";
 
@@ -10,14 +9,31 @@ interface AlertProps {
 
 const Alert = ({ message, type, scroll }: AlertProps) => {
   const alertRef = useRef<HTMLDivElement | null>(null);
-  const [prevMessage, setPrevMessage] = useState<string | null>(null);
+  const [fade, setFade] = useState(false);
+  const [hidden, setHidden] = useState(false);
+
   useEffect(() => {
-    // Only scroll if the message changes
-    if (message !== prevMessage && alertRef.current && scroll) {
-      alertRef.current.scrollIntoView({ behavior: "smooth" });
-      setPrevMessage(message); // Update previous message to current one
+    if (message) {
+      setFade(false); // Reset fade when a new message appears
+      setHidden(false);
+
+      // Only scroll if the message changes
+      if (alertRef.current && scroll) {
+        alertRef.current.scrollIntoView({ behavior: "smooth" });
+      }
+
+      // Start fade-out effect after 5 seconds
+      const fadeTimeout = setTimeout(() => setFade(true), 5000);
+
+      // Add hidden class after fade-out duration (e.g., 1 second)
+      const hideTimeout = setTimeout(() => setHidden(true), 6000);
+
+      return () => {
+        clearTimeout(fadeTimeout);
+        clearTimeout(hideTimeout);
+      };
     }
-  }, [message, prevMessage]);
+  }, [message, scroll]);
 
   const formatAlertMessage = (alertMessage: string | null) => {
     if (!alertMessage) return null;
@@ -31,7 +47,11 @@ const Alert = ({ message, type, scroll }: AlertProps) => {
   };
 
   return (
-    <div ref={alertRef} id="alert" className="wrapper">
+    <div
+      ref={alertRef}
+      id="alert"
+      className={`wrapper ${fade ? "fade-out" : ""} ${hidden ? "hidden" : ""}`}
+    >
       <div className="alert">
         <div className={`alert-message ${type}`}>
           <h1>{type.toUpperCase()}</h1>

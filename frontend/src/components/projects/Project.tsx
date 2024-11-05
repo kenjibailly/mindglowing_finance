@@ -105,16 +105,39 @@ const Project = () => {
     }
   };
 
-  const handleStartTimeTracking = async () => {
+  const handleStartTimeTracking = async (
+    e: React.FormEvent<HTMLFormElement>
+  ) => {
+    e.preventDefault();
+
+    const form = e.target as HTMLFormElement;
+    const timeTrackingNameInput = form.elements.namedItem(
+      "time_tracking_name"
+    ) as HTMLInputElement;
+    const timeTrackingName = timeTrackingNameInput.value;
+
     try {
       const response = await fetch(
-        `/api/projects/${projectData?.project._id}/time-trackings/start`
+        `/api/projects/${projectData?.project._id}/time-trackings/start`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            time_tracking_name: timeTrackingName, // Send the name in the request body
+          }),
+        }
       );
       if (response.ok) {
-        setTimeTrackingSuccess({
-          message: "Time tracking successfully started!",
-          id: Date.now(),
-        });
+        setIsTimeTrackingRunning(true);
+        fetchTableItems();
+        if (!loadingTableItems) {
+          setTimeTrackingSuccess({
+            message: "Time tracking successfully started!",
+            id: Date.now(),
+          });
+        }
       } else {
         setTimeTrackingError({
           message:
@@ -148,7 +171,7 @@ const Project = () => {
         fetchTableItems();
         if (!loadingTableItems) {
           setTimeTrackingSuccess({
-            message: "Time tracking successfully stopped",
+            message: "Time tracking successfully stopped!",
             id: Date.now(),
           });
         }
@@ -260,7 +283,7 @@ const Project = () => {
         <Link className="link" to="/projects/">
           Projects
         </Link>
-        <Link className="button" to="/projects/edit/{{project._id}}">
+        <Link className="button" to={`/projects/edit/${projectData._id}>`}>
           Edit Project
         </Link>
         <button onClick={handleDeleteProject} type="submit">

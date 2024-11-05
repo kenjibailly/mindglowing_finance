@@ -76,7 +76,7 @@ import deleteProjectRouter from "./routes/projects/delete_projects";
 import timeTrackingsRouter from "./routes/projects/time_tracking/time_trackings";
 
 // import timeTrackingRouter from "./routes/projects/time_tracking/time_tracking";
-// import startTimeTrackingRouter from "./routes/projects/time_tracking/start_time_tracking";
+import startTimeTrackingRouter from "./routes/projects/time_tracking/start_time_tracking";
 import stopTimeTrackingRouter from "./routes/projects/time_tracking/stop_time_tracking";
 import deleteSelectedTimeTrackingsRouter from "./routes/projects/time_tracking/delete_selected_time_trackings";
 
@@ -221,10 +221,10 @@ app.use("/api/projects/delete/", deleteProjectRouter);
 
 app.use("/api/projects/:projectId/time-trackings/", timeTrackingsRouter);
 // app.use("/api/projects/:projectId/time-tracking/", timeTrackingRouter);
-// app.use(
-//   "/api/projects/:projectId/time-tracking/start",
-//   startTimeTrackingRouter
-// );
+app.use(
+  "/api/projects/:projectId/time-trackings/start",
+  startTimeTrackingRouter
+);
 app.use("/api/projects/:projectId/time-trackings/stop", stopTimeTrackingRouter);
 app.use(
   "/api/projects/time-trackings/delete",

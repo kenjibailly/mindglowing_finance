@@ -19,7 +19,7 @@ router.get(
     const user = req.session.user;
     const project_id = req.params.projectId;
     const {
-      sort_by = "created_on",
+      sort_by = "stop",
       sort_order = "asc",
       page = "1",
     } = req.query as {

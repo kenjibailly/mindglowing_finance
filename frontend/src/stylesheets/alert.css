@@ -22,3 +22,17 @@
     margin-top: 20px;
     background-color: blueviolet;
 }
+
+
+#alert {
+    transition: opacity 1s ease; /* Smooth fade-out over 1 second */
+    opacity: 1; /* Fully visible by default */
+  }
+  
+  #alert.fade-out {
+    opacity: 0; /* Start fading to 0 after 5 seconds */
+  }
+  
+  #alert.hidden {
+    display: none; /* Hide the element completely once faded out */
+  }

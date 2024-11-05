@@ -18,9 +18,6 @@ const timeTrackingsSchema: Schema = new mongoose.Schema({
   stop: { type: Date },
 });
 
-// Create a unique compound index on project_id and name
-timeTrackingsSchema.index({ project_id: 1, name: 1 }, { unique: true });
-
 // Create a model using the schema
 const TimeTracking = mongoose.model<ITimeTracking>(
   "TimeTracking",
