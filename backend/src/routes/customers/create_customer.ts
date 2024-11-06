@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 import Customer from "../../models/customer";
 import { authenticateToken } from "../security/authenticate";
-
+import ErrorType from "../../types/error";
 const router = express.Router();
 
 // Handle the POST request to add a customer
@@ -41,10 +41,12 @@ router.post(
     try {
       const savedCustomer = await newCustomer.save();
       res.status(201).json(savedCustomer);
-    } catch (error: any) {
+    } catch (error) {
+      logger.error(error);
+      const err = error as ErrorType;
       if (
-        error.code === 11000 &&
-        error.keyPattern?.["personal_information.email"]
+        err.code === 11000 &&
+        err.keyPattern?.["personal_information.email"]
       ) {
         res.status(400).json({ message: "Same email cannot be used twice" });
       } else {

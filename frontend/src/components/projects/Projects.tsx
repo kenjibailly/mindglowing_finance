@@ -155,7 +155,7 @@ const Projects = () => {
             <Pagination
               currentPage={currentPage}
               totalPages={totalPages}
-              link="/products/"
+              link="/projects/"
               linkOptions={linkOptions}
             />
           )}

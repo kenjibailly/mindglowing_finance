@@ -50,3 +50,8 @@ export interface Customer {
   created_on: string;
   amount_due: number;
 }
+
+// Main Customer interface
+export interface CustomersFetch {
+  items: Array<Customer>;
+}

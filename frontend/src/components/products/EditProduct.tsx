@@ -97,7 +97,7 @@ const EditProduct = () => {
   };
 
   if (productError) {
-    return <Alert message={productError} type="error" scroll={true} />;
+    return <Alert message={productError.message} type="error" scroll={true} />;
   }
 
   if (loading || deleting) {
@@ -108,12 +108,14 @@ const EditProduct = () => {
     return <Loader fullPage={true} />;
   }
 
+  const alertError = error || deleteError || productError;
+
   return (
     <>
-      {error && (
+      {alertError && (
         <Alert
-          key={error.id || deleteError?.id}
-          message={error.message || deleteError?.message || productError}
+          key={alertError?.id}
+          message={alertError?.message}
           type="error"
           scroll={true}
         />
