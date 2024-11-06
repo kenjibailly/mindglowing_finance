@@ -213,7 +213,10 @@ const Project = () => {
         <Link className="link" to="/projects/">
           Projects
         </Link>
-        <Link className="button" to={`/projects/edit/${projectData._id}>`}>
+        <Link
+          className="button"
+          to={`/projects/edit/${projectData.project._id}>`}
+        >
           Edit Project
         </Link>
         <button onClick={handleDeleteProject} type="submit">

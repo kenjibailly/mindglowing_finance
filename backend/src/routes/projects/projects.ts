@@ -7,6 +7,7 @@ import formatTime from "../formatters/time_formatter";
 import formatDateTime from "../formatters/date_time_formatter";
 import { TimeTracking } from "../../types/projects";
 import { User as UserType } from "../../types/user";
+import formatDate from "../formatters/date_formatter";
 
 const router = express.Router();
 
@@ -225,9 +226,24 @@ router.get(
         },
       ]);
 
+      const updatedProjects = projects.map((project) => {
+        const safeUserSettings = userSettings || {
+          date_format: "en-US",
+          time_zone: undefined,
+        };
+
+        return {
+          ...project,
+          created_on: formatDate(project.created_on, {
+            time_zone: safeUserSettings.time_zone,
+            date_format: safeUserSettings.date_format || "en-US",
+          }),
+        };
+      });
+
       res.json({
         success: true,
-        items: projects,
+        items: updatedProjects,
         currentPage: pageNumber,
         totalPages,
         userSettings,

@@ -105,6 +105,12 @@ const Projects = () => {
                 >
                   Billed
                 </th>
+                <th
+                  onClick={() => handleSort && handleSort("created_on")}
+                  className={getSortClass("created_on") + ` sort-th`}
+                >
+                  Created On
+                </th>
               </tr>
             </thead>
             {loading || deleting ? (
@@ -137,6 +143,7 @@ const Projects = () => {
                     <td>{item.customer_name}</td>
                     <td>{item.total_time}</td>
                     <td>{item.billed}</td>
+                    <td>{item.created_on}</td>
                   </tr>
                 ))}
               </tbody>

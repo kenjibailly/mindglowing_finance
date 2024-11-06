@@ -5,6 +5,8 @@ import Header from "../components/header/Header";
 import NotFound from "../components/NotFound";
 import Projects from "../components/projects/Projects";
 import Project from "../components/projects/Project";
+import CreateProject from "../components/projects/CreateProject";
+import EditProject from "../components/projects/EditProject";
 
 const projectRoutes: RouteObject[] = [
   {
@@ -28,6 +30,32 @@ const projectRoutes: RouteObject[] = [
           <Nav />
           <Header title="Project" />
           <Project />
+        </div>
+      </ProtectedRoute>
+    ),
+    errorElement: <NotFound />,
+  },
+  {
+    path: "/projects/create",
+    element: (
+      <ProtectedRoute>
+        <div className="dashboard-outer-wrapper">
+          <Nav />
+          <Header title="Project" />
+          <CreateProject />
+        </div>
+      </ProtectedRoute>
+    ),
+    errorElement: <NotFound />,
+  },
+  {
+    path: "/projects/edit/:id",
+    element: (
+      <ProtectedRoute>
+        <div className="dashboard-outer-wrapper">
+          <Nav />
+          <Header title="Project" />
+          <EditProject />
         </div>
       </ProtectedRoute>
     ),

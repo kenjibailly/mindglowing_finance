@@ -6,7 +6,7 @@ export interface Project {
   name: string;
   customer_id: string;
   description: string;
-  created_on: Date;
+  created_on: string;
   billed: boolean;
 }
 
