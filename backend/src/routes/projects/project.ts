@@ -2,14 +2,8 @@ import express, { Request, Response } from "express";
 import Project from "../../models/project";
 import mongoose from "mongoose";
 import Invoice from "../../models/invoice";
-import User from "../../models/user";
-import TimeTracking from "../../models/time_trackings";
 import Customization from "../../models/customization";
 import { authenticateToken } from "../security/authenticate";
-import formatDateTime from "../formatters/date_time_formatter";
-import formatTime from "../formatters/time_formatter";
-import { TimeTracking as TimeTrackingType } from "../../types/projects";
-import { User as UserType } from "src/types/user";
 
 const router = express.Router({ mergeParams: true });
 
@@ -19,6 +13,7 @@ router.get(
   authenticateToken,
   async function (req: Request, res: Response): Promise<void> {
     const project_id = req.params.id;
+    logger.warn(project_id);
     try {
       const projectObjectId = new mongoose.Types.ObjectId(project_id);
       const project = await Project.aggregate([
@@ -106,7 +101,7 @@ router.get(
       });
     } catch (error) {
       console.error(error);
-      res.status(500).json({ success: false, error: (error as Error).message });
+      res.status(500).json({ message: (error as Error).message });
       return;
     }
   }

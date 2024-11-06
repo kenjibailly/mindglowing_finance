@@ -222,7 +222,7 @@ const EditCustomer = () => {
   };
 
   if (customerError) {
-    return <Alert message={customerError} type="error" scroll={true} />;
+    return <Alert message={customerError.message} type="error" scroll={true} />;
   }
 
   if (loading || deleting) {
@@ -252,8 +252,12 @@ const EditCustomer = () => {
         />
       )}
       <div className="wrapper">
-        <Link className="link" to="/customers/">
-          Customers
+        <Link className="link" to={`/customers/${id}`}>
+          {customerData?.personal_information.company
+            ? customerData.personal_information.company
+            : customerData.personal_information.first_name +
+              " " +
+              customerData.personal_information.last_name}
         </Link>
 
         <button onClick={handleDeleteCustomer}>Delete</button>

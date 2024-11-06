@@ -8,11 +8,16 @@ interface UsePaginatedTableOptions {
   enableSorting?: boolean;
 }
 
+interface ErrorType {
+  message: string;
+  id: number;
+}
+
 interface UsePaginatedTableResult<T> {
   items: T[];
   data: any;
   loading: boolean;
-  error: string | null;
+  error: ErrorType | null;
   currentPage: number;
   totalPages: number;
   linkOptions: string; // Ensure this is a string
@@ -36,7 +41,10 @@ function usePaginatedTable<T extends Identifiable>({
   const [items, setItems] = useState<T[]>([]);
   const [data, setData] = useState<any>({});
   const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<{
+    message: string;
+    id: number;
+  } | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
   const [checkedItems, setCheckedItems] = useState<Set<string>>(new Set());
@@ -66,7 +74,10 @@ function usePaginatedTable<T extends Identifiable>({
         setItems(data.items);
         setData(data);
       } catch (err) {
-        setError((err as Error).message || "Unknown error");
+        setError({
+          message: (err as Error).message || "Unknown error",
+          id: Date.now(),
+        });
       } finally {
         setLoading(false);
       }

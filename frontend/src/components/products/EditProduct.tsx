@@ -129,8 +129,8 @@ const EditProduct = () => {
         />
       )}
       <div className="wrapper">
-        <Link to="/products/" className="link">
-          Products
+        <Link className="link" to={`/products/${id}`}>
+          {productData?.name}
         </Link>
 
         <button onClick={handleDeleteProduct} type="submit">

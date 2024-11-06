@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Alert from "../Alert";
 import Loader from "../Loader";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -40,7 +40,6 @@ const Project = () => {
     currentPage,
     totalPages,
     linkOptions,
-    isAllChecked,
     checkedItems,
     handleCheckAll,
     handleCheckItem,
@@ -188,7 +187,7 @@ const Project = () => {
   };
 
   if (error) {
-    return <Alert message={error} type="error" scroll={true} />;
+    return <Alert message={error.message} type="error" scroll={true} />;
   }
 
   if (loading || deleting) {
@@ -198,13 +197,13 @@ const Project = () => {
   if (!projectData) {
     return <Loader fullPage={true} />;
   }
-
+  const errorData = deleteError || loadingErrorItems;
   return (
     <>
-      {deleteError && (
+      {errorData && (
         <Alert
-          key={deleteError.id}
-          message={deleteError.message}
+          key={errorData.id}
+          message={errorData.message}
           type="error"
           scroll={true}
         />
@@ -215,7 +214,7 @@ const Project = () => {
         </Link>
         <Link
           className="button"
-          to={`/projects/edit/${projectData.project._id}>`}
+          to={`/projects/edit/${projectData.project._id}`}
         >
           Edit Project
         </Link>

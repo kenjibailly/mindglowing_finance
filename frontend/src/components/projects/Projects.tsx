@@ -42,7 +42,7 @@ const Projects = () => {
   };
 
   if (error) {
-    return <Alert message={error} type="error" scroll={true} />;
+    return <Alert message={error.message} type="error" scroll={true} />;
   }
 
   return (

@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Alert from "../Alert";
 import { useEffect, useRef, useState } from "react";
 import { CustomersFetch as CustomerData } from "../types/Customers";
