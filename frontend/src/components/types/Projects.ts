@@ -21,6 +21,7 @@ export interface ProjectExtraData extends Project {
   customer_name: string;
   total_time: string;
   invoice_number?: number;
+  running: boolean;
 }
 
 // Override fields in TimeTracking for ProjectFetch

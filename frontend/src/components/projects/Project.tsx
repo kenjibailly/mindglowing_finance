@@ -52,7 +52,7 @@ const Project = () => {
   });
 
   const { startUseRunningTimer, stopAllRunningTimers, timers } =
-    useRunningTimer(); // Call the hook function
+    useRunningTimer();
 
   const navigate = useNavigate();
 

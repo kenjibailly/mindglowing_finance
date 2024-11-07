@@ -5,6 +5,7 @@ import { ProjectExtraData } from "../types/Projects";
 import Pagination from "../Pagination";
 import Loader from "../Loader";
 import Alert from "../Alert";
+import useRunningTimer from "../hooks/useStartRunningTimer";
 
 const Projects = () => {
   const {
@@ -31,6 +32,9 @@ const Projects = () => {
     error: deleteError,
     success: deleteSuccess,
   } = useDeleteItems();
+
+  const { startUseRunningTimer, stopAllRunningTimers, timers } =
+    useRunningTimer();
 
   const handleDeleteProjects = async () => {
     const selectedIds = Array.from(checkedItems);
@@ -141,7 +145,20 @@ const Projects = () => {
                       </Link>
                     </td>
                     <td>{item.customer_name}</td>
-                    <td>{item.total_time}</td>
+                    <td>
+                      {item.running ? (
+                        <>
+                          {startUseRunningTimer(
+                            item.total_time ?? "0h 0m 0s",
+                            "total_time"
+                          )}
+                          {timers.find((timer) => timer.id === "total_time")
+                            ?.newTime || "0h 0m 0s"}
+                        </>
+                      ) : (
+                        item.total_time
+                      )}
+                    </td>
                     <td>{item.billed}</td>
                     <td>{item.created_on}</td>
                   </tr>

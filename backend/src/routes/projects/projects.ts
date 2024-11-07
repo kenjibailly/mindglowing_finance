@@ -119,6 +119,25 @@ router.get(
         },
         {
           $addFields: {
+            running: {
+              $gt: [
+                {
+                  $size: {
+                    $filter: {
+                      input: "$timetrackings",
+                      as: "entry",
+                      cond: {
+                        $and: [
+                          { $ifNull: ["$$entry.start", false] },
+                          { $not: ["$$entry.stop"] }, // Checks if stop is missing or null
+                        ],
+                      },
+                    },
+                  },
+                },
+                0,
+              ],
+            },
             total_time_seconds: {
               $reduce: {
                 input: {
@@ -127,25 +146,28 @@ router.get(
                     as: "entry",
                     in: {
                       $cond: {
-                        if: {
-                          $and: [
-                            {
-                              $ifNull: ["$$entry.start", false],
-                            },
-                            {
-                              $ifNull: ["$$entry.stop", false],
-                            },
-                          ],
-                        },
+                        if: { $ifNull: ["$$entry.start", false] }, // Check if 'start' exists
                         then: {
-                          $divide: [
-                            {
-                              $subtract: ["$$entry.stop", "$$entry.start"],
+                          $cond: {
+                            if: { $ifNull: ["$$entry.stop", false] }, // If 'stop' exists, use the difference
+                            then: {
+                              $divide: [
+                                {
+                                  $subtract: ["$$entry.stop", "$$entry.start"],
+                                },
+                                1000,
+                              ],
                             },
-                            1000,
-                          ],
+                            else: {
+                              // If 'stop' is missing, use current date
+                              $divide: [
+                                { $subtract: [new Date(), "$$entry.start"] },
+                                1000,
+                              ],
+                            },
+                          },
                         },
-                        else: 0,
+                        else: 0, // If 'start' is missing, treat as 0
                       },
                     },
                   },
@@ -222,9 +244,12 @@ router.get(
             total_time: 1,
             created_on: 1,
             billed: 1,
+            running: 1,
           },
         },
       ]);
+
+      logger.warn(projects);
 
       const updatedProjects = projects.map((project) => {
         const safeUserSettings = userSettings || {
