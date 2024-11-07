@@ -45,7 +45,6 @@ const Account = () => {
 
   useEffect(() => {
     userFetch();
-    console.log(localStorage);
   }, []);
 
   const handleEditUserSettings = async (

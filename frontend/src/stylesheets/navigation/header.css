@@ -1,131 +1,131 @@
 header {
-    display: flex;
-    transition: box-shadow .4s;
-    margin-left: calc(30px + 220px);
-    margin-bottom: 10px;
+  display: flex;
+  transition: box-shadow 0.4s;
+  /* margin-left: calc(30px + 220px); */
+  margin-bottom: 10px;
 }
 
 header .right {
-    position: relative;
+  position: relative;
 }
 
 header > h1 {
-    margin: auto 0;
-    font-size: 50px;
+  margin: auto 0;
+  font-size: 50px;
 }
 
 header > button {
-    margin: auto 0;
+  margin: auto 0;
 }
 
 header button.right {
-    margin-left: auto;
-    margin-bottom: 0;
-    border: none;
-    cursor: pointer;
-    background-color: transparent;
+  margin-left: auto;
+  margin-bottom: 0;
+  border: none;
+  cursor: pointer;
+  background-color: transparent;
 }
 
 header button.right img {
-    border-radius: 50px;
-    margin: auto;
+  border-radius: 50px;
+  margin: auto;
 }
 
 header nav {
-    right: 10px;
-    position: absolute;
-    border-radius: 5px;
-    width: fit-content;
-    top: 100px;
-    max-height: 0px;
-    overflow: hidden;
-    transition: max-height .4s, background-color .4s;
-    width: 150px;
+  right: 10px;
+  position: absolute;
+  border-radius: 5px;
+  width: fit-content;
+  top: 100px;
+  max-height: 0px;
+  overflow: hidden;
+  transition: max-height 0.4s, background-color 0.4s;
+  width: 150px;
 }
 
 header > button:focus + nav {
-    background-color: var(--dark-color-lighter2);
-    max-height: 200px;
+  background-color: var(--dark-color-lighter2);
+  max-height: 200px;
 }
 
 header nav ul {
-    position: relative;
-    padding: 5px;
-    padding-top: 10px;
-    padding-bottom: 0;
+  position: relative;
+  padding: 5px;
+  padding-top: 10px;
+  padding-bottom: 0;
 }
 
 header nav a {
-    display: flex;
-    width: 100%;
+  display: flex;
+  width: 100%;
 }
 
 header nav a li {
-    height: 30px;
-    line-height: 30px;
-    border-radius: 5px;
-    margin-bottom: 10px;
-    transition: background-color .4s;
-    width: 100%;
-    text-align: center;
+  height: 30px;
+  line-height: 30px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  transition: background-color 0.4s;
+  width: 100%;
+  text-align: center;
 }
 
 header nav a li:hover {
-    background-color: var(--dark-color-lighter2);
+  background-color: var(--dark-color-lighter2);
 }
 
 header nav li {
-    margin: auto;
+  margin: auto;
 }
 
 header nav li.logout {
-    padding: 0;
-    width: 90%;
+  padding: 0;
+  width: 90%;
 }
 
 header nav .button {
-    font-size: 16px;
+  font-size: 16px;
 }
 
 header nav .button:hover {
-    color: white;
+  color: white;
 }
 
 header nav .logout .button {
-    padding-left: 0;
-    padding-right: 0;
+  padding-left: 0;
+  padding-right: 0;
 }
 
 .searchResultsPopup {
-    position: absolute;
-    top: 60px;
-    background-color: var(--dark-color);
-    padding-top: 10px;
-    padding-bottom: 10px;
-    padding-left: 20px;
-    padding-right: 20px;
-    border-radius: 10px;
-    right: 10px;
-    max-width: 200px;
-    border-radius: 10px;
+  position: absolute;
+  top: 60px;
+  background-color: var(--dark-color);
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-radius: 10px;
+  right: 10px;
+  max-width: 200px;
+  border-radius: 10px;
 }
 
 .searchResultsPopup p {
-    margin-top: 0;
+  margin-top: 0;
 }
 
 #search {
-    color: var(--purple-color-light);    
+  color: var(--purple-color-light);
 }
 
 ::placeholder {
-    color: var(--purple-color-light);
+  color: var(--purple-color-light);
 }
 
 #searchForm {
-    margin: auto;
+  margin: auto;
 }
 
-#searchForm > input { 
-    margin: 0;
+#searchForm > input {
+  margin: 0;
 }

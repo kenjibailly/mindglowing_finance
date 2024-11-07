@@ -10,44 +10,57 @@ body {
   --dark-color-lighter3: #454074;
   --dark-color-lighter4: #6d679c;
   --dark-color-lighter5: #b097e0;
-  --purple-color: rgba(88,81,216,1);
+  --purple-color: rgba(88, 81, 216, 1);
   --purple-color2: rgb(124, 119, 224);
   --purple-color-light: #b8a8ff;
-  --purple-color-light2:rgb(143, 123, 233);
-  --purple-gradient: linear-gradient(130deg, rgba(88,81,216,1) 0%, rgba(182,167,249,1) 100%);;
-  --purple-gradient2: linear-gradient(310deg, rgba(88,81,216,1) 0%, rgba(182,167,249,1) 100%);;
+  --purple-color-light2: rgb(143, 123, 233);
+  --purple-gradient: linear-gradient(
+    130deg,
+    rgba(88, 81, 216, 1) 0%,
+    rgba(182, 167, 249, 1) 100%
+  );
+  --purple-gradient2: linear-gradient(
+    310deg,
+    rgba(88, 81, 216, 1) 0%,
+    rgba(182, 167, 249, 1) 100%
+  );
+
+  --nav-width-closed: 100px;
+  --nav-width-open: 220px;
+  --nav-gap: 20px;
+  --wrapper-padding: 30px;
 }
 
 @font-face {
-  font-family: 'poppinsmedium';
-  src: url('fonts/poppins-medium-webfont.woff2') format('woff2'),
-       url('fonts/poppins-medium-webfont.woff') format('woff');
+  font-family: "poppinsmedium";
+  src: url("fonts/poppins-medium-webfont.woff2") format("woff2"),
+    url("fonts/poppins-medium-webfont.woff") format("woff");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-   font-family: 'poppinsregular';
-   src: url('fonts/poppins-regular-webfont.woff2') format('woff2'),
-        url('fonts/poppins-regular-webfont.woff') format('woff');
-   font-weight: normal;
-   font-style: normal;
+  font-family: "poppinsregular";
+  src: url("fonts/poppins-regular-webfont.woff2") format("woff2"),
+    url("fonts/poppins-regular-webfont.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
 }
 
 @font-face {
-   font-family: 'poppinssemibold';
-   src: url('fonts/poppins-semibold-webfont.woff2') format('woff2'),
-        url('fonts/poppins-semibold-webfont.woff') format('woff');
-   font-weight: normal;
-   font-style: normal;
+  font-family: "poppinssemibold";
+  src: url("fonts/poppins-semibold-webfont.woff2") format("woff2"),
+    url("fonts/poppins-semibold-webfont.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
 }
 
 @font-face {
-   font-family: 'gilroy';
-   src: url('fonts/gilroy-extrabold-webfont.woff2') format('woff2'),
-        url('fonts/gilroy-extrabold-webfont.woff') format('woff');
-   font-weight: normal;
-   font-style: normal;
+  font-family: "gilroy";
+  src: url("fonts/gilroy-extrabold-webfont.woff2") format("woff2"),
+    url("fonts/gilroy-extrabold-webfont.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
 }
 
 body {
@@ -61,12 +74,16 @@ body {
 }
 
 h1 {
-  font-family: 'gilroy';
+  font-family: "gilroy";
   margin: 0;
 }
 
-a, p, li, input, label {
-  font-family: 'poppinsregular';
+a,
+p,
+li,
+input,
+label {
+  font-family: "poppinsregular";
 }
 
 p {
@@ -90,8 +107,14 @@ button {
   margin-bottom: 16px;
 }
 
-.button, form button {
-  background-image: linear-gradient(92.88deg,#455eb5 9.16%,#5643cc 43.89%,#673fd7 64.72%);
+.button,
+form button {
+  background-image: linear-gradient(
+    92.88deg,
+    #455eb5 9.16%,
+    #5643cc 43.89%,
+    #673fd7 64.72%
+  );
   border-radius: 8px;
   border-style: none;
   box-sizing: border-box;
@@ -105,7 +128,7 @@ button {
   text-align: center;
   text-transform: uppercase;
   touch-action: manipulation;
-  transition: color 1s,box-shadow 1s;
+  transition: color 1s, box-shadow 1s;
   -moz-user-select: none;
   user-select: none;
   -webkit-user-select: none;
@@ -113,7 +136,7 @@ button {
 }
 
 .button:hover {
-  box-shadow: 0 1px 30px rgba(174,163,255,.5);
+  box-shadow: 0 1px 30px rgba(174, 163, 255, 0.5);
   color: #000;
 }
 
@@ -152,16 +175,11 @@ ul li {
 }
 
 .settings-wrapper {
-  margin-left: calc(30px + 220px + 10px + 190px + 30px);
+  /* margin-left: calc(30px + 220px + 10px + 190px + 30px); */
 }
 
-.sidebar-main.closed + .settings-sidebar.closed + header ~ * {
-  margin-left: calc(10px + 190px + 30px);
-}
-
-.sidebar-main.open + .settings-sidebar.closed + header ~ *,
-.sidebar-main.closed + .settings-sidebar.open + header ~ * {
-  margin-left: calc(10px + 190px + 30px + 30px + 95px);
+.settings-wrapper > form > .separate {
+  margin: 0;
 }
 
 .wrapper,
@@ -170,12 +188,10 @@ ul li {
   box-sizing: border-box;
 }
 
-
 .right {
   margin-left: auto;
   display: flex;
 }
-
 
 .hidden {
   display: none;
@@ -189,8 +205,11 @@ ul li {
   margin-right: 20px;
 }
 
-
-
 .invoice-pdf-overview {
   height: calc(100vh - ((30px * 2) + 65px + 28px));
+}
+
+.container {
+  display: flex;
+  min-height: 100vh;
 }
