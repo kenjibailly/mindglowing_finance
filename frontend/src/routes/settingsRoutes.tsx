@@ -14,7 +14,7 @@ const settingsRoutes: RouteObject[] = [
         <div className="dashboard-outer-wrapper">
           <Nav />
           <SettingsNav />
-          <Header title="Project" />
+          <Header title="Account" />
           <Account />
         </div>
       </ProtectedRoute>
