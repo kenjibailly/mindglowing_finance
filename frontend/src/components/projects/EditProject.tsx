@@ -84,7 +84,7 @@ const EditProject = () => {
         setSuccess({ message: "Project successfully edited!", id: Date.now() });
       } else {
         const errorData = await response.json();
-        throw new Error("Failed to create product.\n" + errorData.message);
+        throw new Error("Failed to edit product.\n" + errorData.message);
       }
     } catch (error) {
       console.log(error);

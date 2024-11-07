@@ -9,6 +9,7 @@ import authRoutes from "./routes/authRoutes";
 import customerRoutes from "./routes/customerRoutes";
 import productRoutes from "./routes/productRoutes";
 import projectRoutes from "./routes/projectsRoutes";
+import settingsRoutes from "./routes/settingsRoutes";
 
 const router = createBrowserRouter([
   ...indexRoutes,
@@ -16,6 +17,7 @@ const router = createBrowserRouter([
   ...customerRoutes,
   ...productRoutes,
   ...projectRoutes,
+  ...settingsRoutes,
 ]);
 
 createRoot(document.getElementById("root")!).render(

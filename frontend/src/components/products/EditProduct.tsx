@@ -58,21 +58,31 @@ const EditProduct = () => {
 
     // Create a new FormData instance
     const formData = new FormData();
+    const formDataFields = new FormData(form);
 
-    const nameInput = form.elements.namedItem("name") as HTMLInputElement;
-    const priceInput = form.elements.namedItem("price") as HTMLInputElement;
-    const descriptionInput = form.elements.namedItem(
-      "description"
-    ) as HTMLTextAreaElement;
+    // const nameInput = form.elements.namedItem("name") as HTMLInputElement;
+    // const priceInput = form.elements.namedItem("price") as HTMLInputElement;
+    // const descriptionInput = form.elements.namedItem(
+    //   "description"
+    // ) as HTMLTextAreaElement;
 
-    formData.append("name", nameInput.value);
-    formData.append("price", priceInput.value);
-    formData.append("description", descriptionInput.value);
+    // formData.append("name", nameInput.value);
+    // formData.append("price", priceInput.value);
+    // formData.append("description", descriptionInput.value);
 
     // Append the image file if it exists and is available
     const file = fileInputRef.current?.files?.[0] || null;
     if (file) {
       formData.append("picture", file);
+      console.log(formData);
+    }
+
+    for (const [key, value] of formDataFields.entries()) {
+      if (key !== "picture") {
+        formData.append(key, value);
+        console.log(key);
+        console.log(value);
+      }
     }
 
     try {

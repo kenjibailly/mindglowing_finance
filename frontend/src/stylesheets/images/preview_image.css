@@ -2,4 +2,5 @@
     width: 100%;
     border-radius: 10px;
     cursor: pointer;
+    max-width: 300px;
 }

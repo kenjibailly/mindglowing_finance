@@ -152,7 +152,16 @@ ul li {
 }
 
 .settings-wrapper {
-  margin-left: calc(30px + 220px + 10px + 220px + 30px);
+  margin-left: calc(30px + 220px + 10px + 190px + 30px);
+}
+
+.sidebar-main.closed + .settings-sidebar.closed + header ~ * {
+  margin-left: calc(10px + 190px + 30px);
+}
+
+.sidebar-main.open + .settings-sidebar.closed + header ~ *,
+.sidebar-main.closed + .settings-sidebar.open + header ~ * {
+  margin-left: calc(10px + 190px + 30px + 30px + 95px);
 }
 
 .wrapper,

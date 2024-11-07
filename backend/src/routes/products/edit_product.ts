@@ -47,7 +47,7 @@ router.put(
       const result = await Product.findByIdAndUpdate(
         productId,
         { $set: { name, price, description, picture } },
-        { new: true }
+        { new: true, runValidators: true }
       );
 
       if (!result) {

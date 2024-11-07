@@ -40,7 +40,7 @@ import deleteSelectedProductsRouter from "./routes/products/delete_products";
 // import deleteSelectedInvoicesRouter from "./routes/invoices/delete_selected_invoices";
 // import PDFInvoiceRouter from "./routes/invoices/pdf_invoice";
 
-// import settingsRouter from "./routes/settings/account/account";
+import settingsRouter from "./routes/settings/account/account";
 
 // import paymentMethodRouter from "./routes/settings/payment_methods/payment_methods";
 // import createPaymentMethodRouter from "./routes/settings/payment_methods/create_payment_method";
@@ -171,7 +171,7 @@ app.use("/api/products/delete/", deleteSelectedProductsRouter);
 // app.use("/api/invoices/delete-selected", deleteSelectedInvoicesRouter);
 // app.use("/api/invoices/invoice/pdf", PDFInvoiceRouter);
 
-// app.use("/api/settings/account", settingsRouter);
+app.use("/api/settings/account", settingsRouter);
 
 // app.use("/api/settings/payment-methods/", paymentMethodRouter);
 // app.use("/api/settings/payment-methods/create/", createPaymentMethodRouter);

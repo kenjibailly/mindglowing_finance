@@ -33,8 +33,7 @@ const Projects = () => {
     success: deleteSuccess,
   } = useDeleteItems();
 
-  const { startUseRunningTimer, stopAllRunningTimers, timers } =
-    useRunningTimer();
+  const { startUseRunningTimer, timers } = useRunningTimer();
 
   const handleDeleteProjects = async () => {
     const selectedIds = Array.from(checkedItems);
