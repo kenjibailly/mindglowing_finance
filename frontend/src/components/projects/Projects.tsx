@@ -149,11 +149,11 @@ const Projects = () => {
                       {item.running ? (
                         <>
                           {startUseRunningTimer(
-                            item.total_time ?? "0h 0m 0s",
+                            item.total_time ?? item.total_time,
                             "total_time"
                           )}
                           {timers.find((timer) => timer.id === "total_time")
-                            ?.newTime || "0h 0m 0s"}
+                            ?.newTime || item.total_time}
                         </>
                       ) : (
                         item.total_time

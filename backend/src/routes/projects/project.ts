@@ -13,7 +13,6 @@ router.get(
   authenticateToken,
   async function (req: Request, res: Response): Promise<void> {
     const project_id = req.params.id;
-    logger.warn(project_id);
     try {
       const projectObjectId = new mongoose.Types.ObjectId(project_id);
       const project = await Project.aggregate([

@@ -6,9 +6,9 @@ const formatTime = (seconds: number) => {
   const minutes = Math.floor((seconds % 3600) / 60);
   const remainingSeconds = seconds % 60;
 
-  const formattedTime = `${String(hours).padStart(2, "0")}h ${String(
+  const formattedTime = `${String(hours).padStart(1, "0")}h ${String(
     minutes
-  ).padStart(2, "0")}m ${String(remainingSeconds).padStart(2, "0")}s`;
+  ).padStart(1, "0")}m ${String(remainingSeconds).padStart(1, "0")}s`;
   return formattedTime;
 };
 

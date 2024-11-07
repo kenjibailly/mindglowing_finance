@@ -321,11 +321,12 @@ const Project = () => {
                     {isTimeTrackingRunning && timers ? (
                       <>
                         {startUseRunningTimer(
-                          timeTrackingsData.totalTime ?? "0h 0m 0s",
+                          timeTrackingsData.totalTime ??
+                            timeTrackingsData.totalTime,
                           "total_time"
                         )}
                         {timers.find((timer) => timer.id === "total_time")
-                          ?.newTime || "0h 0m 0s"}
+                          ?.newTime || timeTrackingsData.totalTime}
                       </>
                     ) : (
                       timeTrackingsData.totalTime
@@ -398,12 +399,13 @@ const Project = () => {
                           ) : (
                             <>
                               {startUseRunningTimer(
-                                timeTracking.totalTime ?? "0h 0m 0s",
+                                timeTracking.totalTime ??
+                                  timeTracking.totalTime,
                                 timeTracking._id
                               )}
                               {timers.find(
                                 (timer) => timer.id === timeTracking._id
-                              )?.newTime || "0h 0m 0s"}
+                              )?.newTime || timeTracking.totalTime}
                             </>
                           )}
                         </td>
