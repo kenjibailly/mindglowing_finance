@@ -72,7 +72,7 @@ const PaymentMethods = () => {
         />
       )}
       <div className="settings-wrapper">
-        <Link className="link" to="/settings/payment-methods/create/">
+        <Link className="button" to="/settings/payment-methods/create/">
           Create Payment Method
         </Link>
 
@@ -127,7 +127,7 @@ const PaymentMethods = () => {
                     <td>
                       <Link
                         className="link"
-                        to={`/settings/payment-methods/edit/${item._id}`}
+                        to={`/settings/payment-methods/${item._id}`}
                       >
                         {item.name}
                       </Link>

@@ -32,7 +32,7 @@ router.get(
     try {
       const userSettings = await User.findOne({ username: user?.username });
       if (!userSettings) {
-        res.status(404).json({ message: "Could not find user" });
+        res.status(404).send("Could not find user");
         return;
       }
       const customizationSettings = await Customization.findOne();
@@ -59,7 +59,7 @@ router.get(
         return;
       }
 
-      res.status(200).json({ items: payment_methods });
+      res.status(200).json({ items: payment_methods, totalPages });
       return;
     } catch (error) {
       logger.error(error);

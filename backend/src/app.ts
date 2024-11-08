@@ -42,7 +42,8 @@ import deleteSelectedProductsRouter from "./routes/products/delete_products";
 
 import settingsRouter from "./routes/settings/account/account";
 
-import paymentMethodRouter from "./routes/settings/payment_methods/payment_methods";
+import paymentMethodsRouter from "./routes/settings/payment_methods/payment_methods";
+import paymentMethodRouter from "./routes/settings/payment_methods/payment_method";
 import createPaymentMethodRouter from "./routes/settings/payment_methods/create_payment_method";
 import editPaymentMethodRouter from "./routes/settings/payment_methods/edit_payment_method";
 import deletePaymentMethodRouter from "./routes/settings/payment_methods/delete_selected_payment_methods";
@@ -171,7 +172,8 @@ app.use("/api/products/delete/", deleteSelectedProductsRouter);
 
 app.use("/api/settings/account", settingsRouter);
 
-app.use("/api/settings/payment-methods/", paymentMethodRouter);
+app.use("/api/settings/payment-methods/", paymentMethodsRouter);
+app.use("/api/settings/payment-methods/:id", paymentMethodRouter);
 app.use("/api/settings/payment-methods/create/", createPaymentMethodRouter);
 app.use("/api/settings/payment-methods/edit/", editPaymentMethodRouter);
 app.use("/api/settings/payment-methods/delete/", deletePaymentMethodRouter);
