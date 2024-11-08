@@ -82,7 +82,7 @@ const Customization = () => {
     );
   }
 
-  if (!customizationData) {
+  if (!customizationData || customizationLoading) {
     return <Loader fullPage={true} />;
   }
 

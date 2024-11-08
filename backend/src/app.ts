@@ -42,11 +42,10 @@ import deleteSelectedProductsRouter from "./routes/products/delete_products";
 
 import settingsRouter from "./routes/settings/account/account";
 
-// import paymentMethodRouter from "./routes/settings/payment_methods/payment_methods";
-// import createPaymentMethodRouter from "./routes/settings/payment_methods/create_payment_method";
-// import editPaymentMethodRouter from "./routes/settings/payment_methods/edit_payment_method";
-// import deletePaymentMethodRouter from "./routes/settings/payment_methods/delete_payment_method";
-// import deleteSelectedPaymentMethodsRouter from "./routes/settings/payment_methods/delete_selected_payment_methods";
+import paymentMethodRouter from "./routes/settings/payment_methods/payment_methods";
+import createPaymentMethodRouter from "./routes/settings/payment_methods/create_payment_method";
+import editPaymentMethodRouter from "./routes/settings/payment_methods/edit_payment_method";
+import deletePaymentMethodRouter from "./routes/settings/payment_methods/delete_selected_payment_methods";
 
 // import discountsRouter from "./routes/settings/discounts/discounts";
 // import createDiscountRouter from "./routes/settings/discounts/create_discount";
@@ -71,7 +70,6 @@ import projectRouter from "./routes/projects/project";
 import createProjectRouter from "./routes/projects/create_project";
 import editProjectRouter from "./routes/projects/edit_project";
 import deleteProjectRouter from "./routes/projects/delete_projects";
-// import deleteSelectedProjectsRouter from "./routes/projects/delete_selected_projects";
 
 import timeTrackingsRouter from "./routes/projects/time_tracking/time_trackings";
 
@@ -173,14 +171,10 @@ app.use("/api/products/delete/", deleteSelectedProductsRouter);
 
 app.use("/api/settings/account", settingsRouter);
 
-// app.use("/api/settings/payment-methods/", paymentMethodRouter);
-// app.use("/api/settings/payment-methods/create/", createPaymentMethodRouter);
-// app.use("/api/settings/payment-methods/edit/", editPaymentMethodRouter);
-// app.use("/api/settings/payment-methods/delete/", deletePaymentMethodRouter);
-// app.use(
-//   "/api/settings/payment-methods/delete-selected/",
-//   deleteSelectedPaymentMethodsRouter
-// );
+app.use("/api/settings/payment-methods/", paymentMethodRouter);
+app.use("/api/settings/payment-methods/create/", createPaymentMethodRouter);
+app.use("/api/settings/payment-methods/edit/", editPaymentMethodRouter);
+app.use("/api/settings/payment-methods/delete/", deletePaymentMethodRouter);
 
 // app.use("/api/settings/discounts/", discountsRouter);
 // app.use("/api/settings/discounts/create/", createDiscountRouter);

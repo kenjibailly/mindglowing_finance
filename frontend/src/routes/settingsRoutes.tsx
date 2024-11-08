@@ -6,6 +6,7 @@ import NotFound from "../components/NotFound";
 import Account from "../components/settings/Account";
 import SettingsNav from "../components/SettingsNav";
 import Customization from "../components/settings/Customization";
+import PaymentMethods from "../components/settings/payment-methods/PaymentMethods";
 
 const settingsRoutes: RouteObject[] = [
   {
@@ -31,6 +32,20 @@ const settingsRoutes: RouteObject[] = [
           <SettingsNav />
           <Header title="Customization" />
           <Customization />
+        </div>
+      </ProtectedRoute>
+    ),
+    errorElement: <NotFound />,
+  },
+  {
+    path: "/settings/payment-methods",
+    element: (
+      <ProtectedRoute>
+        <div className="dashboard-outer-wrapper">
+          <Nav />
+          <SettingsNav />
+          <Header title="Payment Methods" />
+          <PaymentMethods />
         </div>
       </ProtectedRoute>
     ),
