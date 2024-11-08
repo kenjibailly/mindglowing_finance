@@ -5,6 +5,7 @@ import Header from "../components/header/Header";
 import NotFound from "../components/NotFound";
 import Account from "../components/settings/Account";
 import SettingsNav from "../components/SettingsNav";
+import Customization from "../components/settings/Customization";
 
 const settingsRoutes: RouteObject[] = [
   {
@@ -16,6 +17,20 @@ const settingsRoutes: RouteObject[] = [
           <SettingsNav />
           <Header title="Account" />
           <Account />
+        </div>
+      </ProtectedRoute>
+    ),
+    errorElement: <NotFound />,
+  },
+  {
+    path: "/settings/customization",
+    element: (
+      <ProtectedRoute>
+        <div className="dashboard-outer-wrapper">
+          <Nav />
+          <SettingsNav />
+          <Header title="Customization" />
+          <Customization />
         </div>
       </ProtectedRoute>
     ),

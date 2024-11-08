@@ -108,7 +108,14 @@ const Account = () => {
   };
 
   if (userError) {
-    return <Alert message={userError.message} type="error" scroll={true} />;
+    return (
+      <Alert
+        key={userError.id}
+        message={userError.message}
+        type="error"
+        scroll={true}
+      />
+    );
   }
 
   if (!userData) {

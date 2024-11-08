@@ -13,7 +13,12 @@ router.get(
     if (req.session && req.session.user) {
       try {
         const user = await User.findById(req.session.user.id);
-        res.json(user);
+        if (!user) {
+          res.status(404).send("User not found!");
+          return;
+        }
+        const { password, ...userWithoutPassword } = user.toObject();
+        res.json(userWithoutPassword);
         return;
       } catch (error) {
         logger.error(error);

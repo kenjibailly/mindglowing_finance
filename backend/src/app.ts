@@ -80,7 +80,7 @@ import startTimeTrackingRouter from "./routes/projects/time_tracking/start_time_
 import stopTimeTrackingRouter from "./routes/projects/time_tracking/stop_time_tracking";
 import deleteSelectedTimeTrackingsRouter from "./routes/projects/time_tracking/delete_selected_time_trackings";
 
-// import customizationRouter from "./routes/settings/customization/customization";
+import customizationRouter from "./routes/settings/customization/customization";
 
 const cors = require("cors");
 const app: Express = express();
@@ -231,7 +231,7 @@ app.use(
   deleteSelectedTimeTrackingsRouter
 );
 
-// app.use("/api/settings/customization/", customizationRouter);
+app.use("/api/settings/customization/", customizationRouter);
 
 // Error handling
 app.use((req: Request, res: Response, next: NextFunction) => {
