@@ -56,6 +56,9 @@ const PaymentMethod = () => {
   return (
     <>
       <div className="settings-wrapper">
+        <Link className="link" to={`/settings/payment-methods`}>
+          Payment Methods
+        </Link>
         <Link className="button" to={`/settings/payment-methods/edit/${id}`}>
           Edit Payment Method
         </Link>

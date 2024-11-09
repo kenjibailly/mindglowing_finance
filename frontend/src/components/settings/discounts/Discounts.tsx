@@ -1,13 +1,13 @@
-import { Link } from "react-router-dom";
-import usePaginatedTable from "../../hooks/usePaginatedTable";
-import { PaymentMethod } from "../../types/PaymentMethods";
 import { useEffect } from "react";
-import Pagination from "../../Pagination";
+import usePaginatedTable from "../../hooks/usePaginatedTable";
+import { Discount } from "../../types/Discounts";
 import useDeleteItems from "../../hooks/useDeleteItems";
 import Alert from "../../Alert";
+import { Link } from "react-router-dom";
+import Pagination from "../../Pagination";
 import Loader from "../../Loader";
 
-const PaymentMethods = () => {
+const Discounts = () => {
   const {
     items,
     loading,
@@ -21,10 +21,12 @@ const PaymentMethods = () => {
     handleCheckItem,
     getSortClass,
     fetchItems,
-  } = usePaginatedTable<PaymentMethod>({
-    baseUrl: "/settings/payment-methods",
+  } = usePaginatedTable<Discount>({
+    baseUrl: "/settings/discounts",
     enableSorting: true,
   });
+
+  const cachedUser = JSON.parse(localStorage.getItem("user") || "{}");
 
   useEffect(() => {
     fetchItems();
@@ -37,12 +39,9 @@ const PaymentMethods = () => {
     success: deleteSuccess,
   } = useDeleteItems();
 
-  const handleDeletePaymentMethods = async () => {
+  const handleDeleteDiscounts = async () => {
     const selectedIds = Array.from(checkedItems);
-    await handleDeleteSelected(
-      "/api/settings/payment-methods/delete",
-      selectedIds
-    );
+    await handleDeleteSelected("/api/settings/discounts/delete", selectedIds);
     // Check if there's an error; if not, navigate to /customers
     if (!deleteError) {
       fetchItems();
@@ -72,14 +71,14 @@ const PaymentMethods = () => {
         />
       )}
       <div className="settings-wrapper">
-        <Link className="button" to="/settings/payment-methods/create/">
-          Create Payment Method
+        <Link className="button" to="/settings/discounts/create/">
+          Create Discount
         </Link>
 
-        <button onClick={handleDeletePaymentMethods} type="submit">
+        <button onClick={handleDeleteDiscounts} type="submit">
           Delete
         </button>
-        <div className="paymentMethods table">
+        <div className="discounts table">
           <table>
             <thead>
               <tr>
@@ -93,6 +92,24 @@ const PaymentMethods = () => {
                   className={getSortClass("name") + ` sort-th`}
                 >
                   Name
+                </th>
+                <th
+                  onClick={() => handleSort && handleSort("code")}
+                  className={getSortClass("code") + ` sort-th`}
+                >
+                  Code
+                </th>
+                <th
+                  onClick={() => handleSort && handleSort("amount.total")}
+                  className={getSortClass("amount.total") + ` sort-th`}
+                >
+                  Total Amount
+                </th>
+                <th
+                  onClick={() => handleSort && handleSort("amount.percentage")}
+                  className={getSortClass("amount.percentage") + ` sort-th`}
+                >
+                  Percentage Amount
                 </th>
                 <th
                   onClick={() => handleSort && handleSort("description")}
@@ -118,7 +135,7 @@ const PaymentMethods = () => {
                       <label className="checkbox">
                         <input
                           type="checkbox"
-                          className="payment-method-checkbox box-checkbox"
+                          className="discount-checkbox box-checkbox"
                           checked={checkedItems.has(item._id)}
                           onChange={() => handleCheckItem(item._id)}
                         />
@@ -127,10 +144,22 @@ const PaymentMethods = () => {
                     <td>
                       <Link
                         className="link"
-                        to={`/settings/payment-methods/${item._id}`}
+                        to={`/settings/discounts/${item._id}`}
                       >
                         {item.name}
                       </Link>
+                    </td>
+                    <td>{item.code}</td>
+                    <td>
+                      {item.amount.total
+                        ? cachedUser.currency_symbol + " " + item.amount.total
+                        : cachedUser.currency_symbol + " 0"}
+                    </td>
+                    <td>
+                      {" "}
+                      {item.amount.percentage
+                        ? item.amount.percentage + "%"
+                        : "0%"}
                     </td>
                     <td>{item.description}</td>
                   </tr>
@@ -143,7 +172,7 @@ const PaymentMethods = () => {
               <Pagination
                 currentPage={currentPage}
                 totalPages={totalPages}
-                link="/settings/payment-methods/"
+                link="/settings/discounts/"
                 linkOptions={linkOptions}
               />
             )}
@@ -154,4 +183,4 @@ const PaymentMethods = () => {
   );
 };
 
-export default PaymentMethods;
+export default Discounts;

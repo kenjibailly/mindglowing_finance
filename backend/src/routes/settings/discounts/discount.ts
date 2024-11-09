@@ -1,5 +1,5 @@
 import express, { Request, Response } from "express";
-import PaymentMethod from "../../../models/payment_method";
+import Discount from "../../../models/discount";
 import { authenticateToken } from "../../security/authenticate";
 
 const router = express.Router({ mergeParams: true });
@@ -11,13 +11,13 @@ router.get(
   async function (req: Request, res: Response): Promise<void> {
     const id = req.params.id;
     try {
-      const paymentMethod = await PaymentMethod.findById(id);
-      if (!paymentMethod) {
-        res.status(404).send("Could not find payment method");
+      const discount = await Discount.findById(id);
+      if (!discount) {
+        res.status(404).send("Could not find discount");
         return;
       }
 
-      res.status(200).json(paymentMethod);
+      res.status(200).json(discount);
       return;
     } catch (error) {
       logger.error(error);

@@ -9,7 +9,7 @@ const router = express.Router();
 router.post(
   "/",
   authenticateToken,
-  async function (req: Request, res: Response, next) {
+  async function (req: Request, res: Response) {
     // Extract form data from the request
     const { payment_method_name, payment_method_description } = req.body;
 

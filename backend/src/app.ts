@@ -48,11 +48,11 @@ import createPaymentMethodRouter from "./routes/settings/payment_methods/create_
 import editPaymentMethodRouter from "./routes/settings/payment_methods/edit_payment_method";
 import deletePaymentMethodRouter from "./routes/settings/payment_methods/delete_selected_payment_methods";
 
-// import discountsRouter from "./routes/settings/discounts/discounts";
-// import createDiscountRouter from "./routes/settings/discounts/create_discount";
-// import editDiscountRouter from "./routes/settings/discounts/edit_discount";
-// import deleteDiscountRouter from "./routes/settings/discounts/delete_discount";
-// import deleteSelectedDiscountsRouter from "./routes/settings/discounts/delete_selected_discounts";
+import discountsRouter from "./routes/settings/discounts/discounts";
+import discountRouter from "./routes/settings/discounts/discount";
+import createDiscountRouter from "./routes/settings/discounts/create_discount";
+import editDiscountRouter from "./routes/settings/discounts/edit_discount";
+import deleteDiscountRouter from "./routes/settings/discounts/delete_selected_discounts";
 
 // import shippingCompaniesRouter from "./routes/settings/shipping_companies/shipping_companies";
 // import createShippingCompanyRouter from "./routes/settings/shipping_companies/create_shipping_company";
@@ -178,14 +178,11 @@ app.use("/api/settings/payment-methods/create/", createPaymentMethodRouter);
 app.use("/api/settings/payment-methods/edit/", editPaymentMethodRouter);
 app.use("/api/settings/payment-methods/delete/", deletePaymentMethodRouter);
 
-// app.use("/api/settings/discounts/", discountsRouter);
-// app.use("/api/settings/discounts/create/", createDiscountRouter);
-// app.use("/api/settings/discounts/edit/", editDiscountRouter);
-// app.use("/api/settings/discounts/delete/", deleteDiscountRouter);
-// app.use(
-//   "/api/settings/discounts/delete-selected/",
-//   deleteSelectedDiscountsRouter
-// );
+app.use("/api/settings/discounts/", discountsRouter);
+app.use("/api/settings/discounts/:id", discountRouter);
+app.use("/api/settings/discounts/create/", createDiscountRouter);
+app.use("/api/settings/discounts/edit/", editDiscountRouter);
+app.use("/api/settings/discounts/delete/", deleteDiscountRouter);
 
 // app.use("/api/settings/shipping-companies/", shippingCompaniesRouter);
 // app.use(

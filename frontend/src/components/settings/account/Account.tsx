@@ -1,14 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
-import useFetchData from "../hooks/useFetchData";
-import CountriesOptionList from "../options/CountriesOptionList";
-import CurrenciesOptionList from "../options/CurrenciesOptionList";
-import TimeZonesOptionList from "../options/TimeZonesOptionList";
-import { UserSettings } from "../types/User";
-import useDatalist from "../hooks/useDatalist";
-import usePreviewImage from "../hooks/usePreviewImage";
-import Loader from "../Loader";
-import Alert from "../Alert";
-import "../../stylesheets/images/preview_image.css";
+import useFetchData from "../../hooks/useFetchData";
+import CountriesOptionList from "../../options/CountriesOptionList";
+import CurrenciesOptionList from "../../options/CurrenciesOptionList";
+import TimeZonesOptionList from "../../options/TimeZonesOptionList";
+import { UserSettings } from "../../types/User";
+import useDatalist from "../../hooks/useDatalist";
+import usePreviewImage from "../../hooks/usePreviewImage";
+import Loader from "../../Loader";
+import Alert from "../../Alert";
+import "../../../stylesheets/images/preview_image.css";
 
 const Account = () => {
   const [error, setError] = useState<{

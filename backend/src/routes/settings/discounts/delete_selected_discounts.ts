@@ -1,5 +1,5 @@
 import express, { Request, Response } from "express";
-import PaymentMethod from "../../../models/payment_method";
+import Discount from "../../../models/discount";
 import { authenticateToken } from "../../security/authenticate";
 
 const router = express.Router();
@@ -24,18 +24,18 @@ router.delete(
         return;
       }
 
-      // Delete the selected payment methods in the database
-      const result = await PaymentMethod.deleteMany({
+      // Delete the selected discounts in the database
+      const result = await Discount.deleteMany({
         _id: { $in: selectedIds },
       });
 
       if (!result.deletedCount) {
-        res.status(404).send("No payment methods found for deletion");
+        res.status(404).send("No discounts found for deletion");
         return;
       }
 
       res.status(200).json({
-        message: `${result.deletedCount} payment method${
+        message: `${result.deletedCount} discount${
           result.deletedCount > 1 ? "s" : ""
         } deleted successfully`,
       });

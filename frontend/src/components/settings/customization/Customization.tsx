@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import useFetchData from "../hooks/useFetchData";
-import { CustomizationSettings } from "../types/CustomizationSettings";
-import Alert from "../Alert";
-import Loader from "../Loader";
+import useFetchData from "../../hooks/useFetchData";
+import { CustomizationSettings } from "../../types/CustomizationSettings";
+import Alert from "../../Alert";
+import Loader from "../../Loader";
 
 const Customization = () => {
   const [error, setError] = useState<{
