@@ -1,12 +1,12 @@
 import express, { Request, Response } from "express";
-import PaymentMethod from "../../../models/payment_method";
+import ShippingCompany from "../../../models/shipping_company";
 import { authenticateToken } from "../../security/authenticate";
 import User from "../../../models/user";
 import Customization from "../../../models/customization";
 
 const router = express.Router();
 
-/* GET /settings/payment-methods/ page. */
+/* GET /settings/shipping-companies/ page. */
 router.get(
   "/",
   authenticateToken,
@@ -39,12 +39,12 @@ router.get(
       const itemsPerPage = customizationSettings?.items_per_page || 10;
       const skip = (pageNumber - 1) * itemsPerPage;
 
-      const totalPaymentMethods = await PaymentMethod.countDocuments();
-      const totalPages = Math.ceil(totalPaymentMethods / itemsPerPage);
+      const totalShippingCompanys = await ShippingCompany.countDocuments();
+      const totalPages = Math.ceil(totalShippingCompanys / itemsPerPage);
 
-      // Find the payment methods
-      const payment_methods = await PaymentMethod.aggregate([
-        // Sort and paginate payment methods
+      // Find the shipping companies
+      const shipping_companys = await ShippingCompany.aggregate([
+        // Sort and paginate shipping companies
         { $sort: sortOptions },
         {
           $skip: skip, // Pagination skip
@@ -54,12 +54,12 @@ router.get(
         },
       ]);
 
-      if (!payment_methods) {
-        res.status(404).send("No payment methods found");
+      if (!shipping_companys) {
+        res.status(404).send("No shipping companies found");
         return;
       }
 
-      res.status(200).json({ items: payment_methods, totalPages });
+      res.status(200).json({ items: shipping_companys, totalPages });
       return;
     } catch (error) {
       logger.error(error);

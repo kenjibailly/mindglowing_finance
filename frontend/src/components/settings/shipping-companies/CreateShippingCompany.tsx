@@ -2,14 +2,14 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Alert from "../../Alert";
 
-const CreatePaymentMethod = () => {
+const CreateShippingCompany = () => {
   const [error, setError] = useState<{
     message: string;
     id: number;
   } | null>(null);
   const navigate = useNavigate();
 
-  const handleCreatePaymentMethod = async (
+  const handleCreateShippingCompany = async (
     event: React.FormEvent<HTMLFormElement>
   ) => {
     event.preventDefault();
@@ -20,7 +20,7 @@ const CreatePaymentMethod = () => {
     // Convert FormData to a JSON object
     const data = Object.fromEntries(formData.entries());
     try {
-      const response = await fetch("/api/settings/payment-methods/create", {
+      const response = await fetch("/api/settings/shipping-companies/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -31,15 +31,15 @@ const CreatePaymentMethod = () => {
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(
-          "Failed to create payment method\n" + errorData.message
+          "Failed to create shipping company\n" + errorData.message
         );
       }
 
-      // Parse the response to get the created payment method data
-      const paymentMethodData = await response.json();
+      // Parse the response to get the created shipping company data
+      const shippingCompanyData = await response.json();
 
       // Navigate to the customer's page using the _id from the response
-      navigate(`/settings/payment-methods/${paymentMethodData._id}`);
+      navigate(`/settings/shipping-companies/${shippingCompanyData._id}`);
     } catch (error) {
       setError({
         message: (error as Error).message || "An unknown error occurred",
@@ -59,26 +59,26 @@ const CreatePaymentMethod = () => {
         />
       )}
       <div className="settings-wrapper">
-        <Link className="link" to="/settings/payment-methods/">
-          Payment Methods
+        <Link className="link" to="/settings/shipping-companies/">
+          Shipping Companies
         </Link>
 
-        <form onSubmit={handleCreatePaymentMethod}>
+        <form onSubmit={handleCreateShippingCompany}>
           <div className="separate">
-            <h2>Create Payment Method</h2>
+            <h2>Create Shipping Company</h2>
 
-            <label htmlFor="payment_method_name">Name:</label>
+            <label htmlFor="shipping_company_name">Name:</label>
             <input
               type="text"
-              id="payment_method_name"
-              name="payment_method_name"
+              id="shipping_company_name"
+              name="shipping_company_name"
               required
             />
 
-            <label htmlFor="payment_method_description">Description:</label>
+            <label htmlFor="shipping_company_description">Description:</label>
             <textarea
-              id="payment_method_description"
-              name="payment_method_description"
+              id="shipping_company_description"
+              name="shipping_company_description"
             ></textarea>
           </div>
 
@@ -89,4 +89,4 @@ const CreatePaymentMethod = () => {
   );
 };
 
-export default CreatePaymentMethod;
+export default CreateShippingCompany;

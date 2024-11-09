@@ -1,11 +1,11 @@
 import { Link, useParams } from "react-router-dom";
-import { PaymentMethod } from "../../types/PaymentMethods";
+import { ShippingCompany } from "../../types/ShippingCompanies";
 import useFetchData from "../../hooks/useFetchData";
 import Loader from "../../Loader";
 import Alert from "../../Alert";
 import { useEffect, useState } from "react";
 
-const EditPaymentMethod = () => {
+const EditShippingCompany = () => {
   const { id } = useParams<{ id: string }>();
   const [error, setError] = useState<{
     message: string;
@@ -16,20 +16,20 @@ const EditPaymentMethod = () => {
     id: number;
   } | null>(null);
   const {
-    data: paymentMethodData,
-    loading: paymentMethodLoading,
-    error: paymentMethodError,
-    fetchItems: paymentMethodFetch,
-  } = useFetchData<PaymentMethod>({
+    data: shippingCompanyData,
+    loading: shippingCompanyLoading,
+    error: shippingCompanyError,
+    fetchItems: shippingCompanyFetch,
+  } = useFetchData<ShippingCompany>({
     id: "",
-    endpoint: `settings/payment-methods/${id}`,
+    endpoint: `settings/shipping-companies/${id}`,
   });
 
   useEffect(() => {
-    paymentMethodFetch();
+    shippingCompanyFetch();
   }, []);
 
-  const handleEditPaymentMethod = async (
+  const handleEditShippingCompany = async (
     event: React.FormEvent<HTMLFormElement>
   ) => {
     event.preventDefault();
@@ -40,17 +40,20 @@ const EditPaymentMethod = () => {
     // Convert FormData to a JSON object
     const data = Object.fromEntries(formData.entries());
     try {
-      const response = await fetch(`/api/settings/payment-methods/edit/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
+      const response = await fetch(
+        `/api/settings/shipping-companies/edit/${id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      );
 
       if (response.ok) {
         setSuccess({
-          message: "Successfully edited payment method",
+          message: "Successfully edited shipping company",
           id: Date.now(),
         });
       }
@@ -58,7 +61,7 @@ const EditPaymentMethod = () => {
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(
-          "Failed to create payment method\n" + errorData.message
+          "Failed to create shipping company\n" + errorData.message
         );
       }
 
@@ -71,15 +74,15 @@ const EditPaymentMethod = () => {
     }
   };
 
-  if (!paymentMethodData || paymentMethodLoading) {
+  if (!shippingCompanyData || shippingCompanyLoading) {
     return <Loader fullPage={true} />;
   }
 
-  if (paymentMethodError) {
+  if (shippingCompanyError) {
     return (
       <Alert
-        key={paymentMethodError.id}
-        message={paymentMethodError.message}
+        key={shippingCompanyError.id}
+        message={shippingCompanyError.message}
         type="error"
         scroll={true}
       />
@@ -105,30 +108,30 @@ const EditPaymentMethod = () => {
         />
       )}
       <div className="settings-wrapper">
-        <Link className="link" to={`/settings/payment-methods/`}>
-          Payment Methods
+        <Link className="link" to={`/settings/shipping-companies/`}>
+          Shipping Companies
         </Link>
 
         <button className="button" type="submit">
           Delete
         </button>
 
-        <form onSubmit={handleEditPaymentMethod}>
+        <form onSubmit={handleEditShippingCompany}>
           <div className="separate">
-            <label htmlFor="payment_method_name">Name:</label>
+            <label htmlFor="shipping_company_name">Name:</label>
             <input
               type="text"
-              id="payment_method_name"
-              name="payment_method_name"
-              defaultValue={paymentMethodData.name}
+              id="shipping_company_name"
+              name="shipping_company_name"
+              defaultValue={shippingCompanyData.name}
               required
             />
 
-            <label htmlFor="payment_method_description">Description:</label>
+            <label htmlFor="shipping_company_description">Description:</label>
             <textarea
-              id="payment_method_description"
-              name="payment_method_description"
-              defaultValue={paymentMethodData.description}
+              id="shipping_company_description"
+              name="shipping_company_description"
+              defaultValue={shippingCompanyData.description}
             ></textarea>
           </div>
 
@@ -139,4 +142,4 @@ const EditPaymentMethod = () => {
   );
 };
 
-export default EditPaymentMethod;
+export default EditShippingCompany;

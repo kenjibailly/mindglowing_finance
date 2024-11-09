@@ -54,11 +54,11 @@ import createDiscountRouter from "./routes/settings/discounts/create_discount";
 import editDiscountRouter from "./routes/settings/discounts/edit_discount";
 import deleteDiscountRouter from "./routes/settings/discounts/delete_selected_discounts";
 
-// import shippingCompaniesRouter from "./routes/settings/shipping_companies/shipping_companies";
-// import createShippingCompanyRouter from "./routes/settings/shipping_companies/create_shipping_company";
-// import editShippingCompanyRouter from "./routes/settings/shipping_companies/edit_shipping_company";
-// import deleteShippingCompanyRouter from "./routes/settings/shipping_companies/delete_shipping_company";
-// import deleteSelectedShippingCompaniesRouter from "./routes/settings/shipping_companies/delete_selected_shipping_companies";
+import shippingCompaniesRouter from "./routes/settings/shipping_companies/shipping_companies";
+import shippingCompanyRouter from "./routes/settings/shipping_companies/shipping_company";
+import createShippingCompanyRouter from "./routes/settings/shipping_companies/create_shipping_company";
+import editShippingCompanyRouter from "./routes/settings/shipping_companies/edit_shipping_company";
+import deleteShippingCompanyRouter from "./routes/settings/shipping_companies/delete_selected_shipping_companies";
 
 // import taxesRouter from "./routes/settings/taxes/taxes";
 // import createTaxRouter from "./routes/settings/taxes/create_tax";
@@ -184,20 +184,17 @@ app.use("/api/settings/discounts/create/", createDiscountRouter);
 app.use("/api/settings/discounts/edit/", editDiscountRouter);
 app.use("/api/settings/discounts/delete/", deleteDiscountRouter);
 
-// app.use("/api/settings/shipping-companies/", shippingCompaniesRouter);
-// app.use(
-//   "/api/settings/shipping-companies/create/",
-//   createShippingCompanyRouter
-// );
-// app.use("/api/settings/shipping-companies/edit/", editShippingCompanyRouter);
-// app.use(
-//   "/api/settings/shipping-companies/delete/",
-//   deleteShippingCompanyRouter
-// );
-// app.use(
-//   "/api/settings/shipping-companies/delete-selected/",
-//   deleteSelectedShippingCompaniesRouter
-// );
+app.use("/api/settings/shipping-companies/", shippingCompaniesRouter);
+app.use("/api/settings/shipping-companies/:id", shippingCompanyRouter);
+app.use(
+  "/api/settings/shipping-companies/create/",
+  createShippingCompanyRouter
+);
+app.use("/api/settings/shipping-companies/edit/", editShippingCompanyRouter);
+app.use(
+  "/api/settings/shipping-companies/delete-selected/",
+  deleteShippingCompanyRouter
+);
 
 // app.use("/api/settings/taxes/", taxesRouter);
 // app.use("/api/settings/taxes/create/", createTaxRouter);
