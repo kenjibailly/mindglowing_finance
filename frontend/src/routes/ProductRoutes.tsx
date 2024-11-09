@@ -8,7 +8,7 @@ import NotFound from "../components/NotFound";
 import CreateProduct from "../components/products/CreateProduct";
 import EditProduct from "../components/products/EditProduct";
 
-const productRoutes: RouteObject[] = [
+const ProductRoutes: RouteObject[] = [
   {
     path: "/products",
     element: (
@@ -63,4 +63,4 @@ const productRoutes: RouteObject[] = [
   },
 ];
 
-export default productRoutes;
+export default ProductRoutes;

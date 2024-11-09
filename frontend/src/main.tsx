@@ -4,20 +4,20 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { AuthProvider } from "./components/context/AuthContext";
 import "./stylesheets/style.css";
 
-import indexRoutes from "./routes/index";
-import authRoutes from "./routes/authRoutes";
-import customerRoutes from "./routes/customerRoutes";
-import productRoutes from "./routes/productRoutes";
-import projectRoutes from "./routes/projectsRoutes";
-import settingsRoutes from "./routes/settingsRoutes";
+import IndexRoutes from "./routes/Index";
+import AuthRoutes from "./routes/AuthRoutes";
+import CustomerRoutes from "./routes/CustomerRoutes";
+import ProductRoutes from "./routes/ProductRoutes";
+import ProjectRoutes from "./routes/ProjectsRoutes";
+import SettingsRoutes from "./routes/SettingsRoutes";
 
 const router = createBrowserRouter([
-  ...indexRoutes,
-  ...authRoutes,
-  ...customerRoutes,
-  ...productRoutes,
-  ...projectRoutes,
-  ...settingsRoutes,
+  ...IndexRoutes,
+  ...AuthRoutes,
+  ...CustomerRoutes,
+  ...ProductRoutes,
+  ...ProjectRoutes,
+  ...SettingsRoutes,
 ]);
 
 createRoot(document.getElementById("root")!).render(

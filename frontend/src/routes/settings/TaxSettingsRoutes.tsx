@@ -4,63 +4,63 @@ import Nav from "../../components/Nav";
 import SettingsNav from "../../components/SettingsNav";
 import Header from "../../components/header/Header";
 import NotFound from "../../components/NotFound";
-import PaymentMethods from "../../components/settings/payment-methods/PaymentMethods";
-import EditPaymentMethod from "../../components/settings/payment-methods/EditPaymentMethod";
-import PaymentMethod from "../../components/settings/payment-methods/PaymentMethod";
-import CreatePaymentMethod from "../../components/settings/payment-methods/CreatePaymentMethod";
+import Taxes from "../../components/settings/taxes/Taxes";
+import EditTax from "../../components/settings/taxes/EditTax";
+import Tax from "../../components/settings/taxes/Tax";
+import CreateTax from "../../components/settings/taxes/CreateTax";
 
-const paymentMethodSettingsRoutes: RouteObject[] = [
+const TaxSettingsRoutes: RouteObject[] = [
   {
-    path: "/settings/payment-methods",
+    path: "/settings/taxes",
     element: (
       <ProtectedRoute>
         <div className="dashboard-outer-wrapper">
           <Nav />
           <SettingsNav />
-          <Header title="Payment Methods" />
-          <PaymentMethods />
+          <Header title="Taxes" />
+          <Taxes />
         </div>
       </ProtectedRoute>
     ),
     errorElement: <NotFound />,
   },
   {
-    path: "/settings/payment-methods/edit/:id",
+    path: "/settings/taxes/edit/:id",
     element: (
       <ProtectedRoute>
         <div className="dashboard-outer-wrapper">
           <Nav />
           <SettingsNav />
-          <Header title="Edit Payment Method" />
-          <EditPaymentMethod />
+          <Header title="Edit Tax" />
+          <EditTax />
         </div>
       </ProtectedRoute>
     ),
     errorElement: <NotFound />,
   },
   {
-    path: "/settings/payment-methods/:id",
+    path: "/settings/taxes/:id",
     element: (
       <ProtectedRoute>
         <div className="dashboard-outer-wrapper">
           <Nav />
           <SettingsNav />
-          <Header title="Payment Method" />
-          <PaymentMethod />
+          <Header title="Tax" />
+          <Tax />
         </div>
       </ProtectedRoute>
     ),
     errorElement: <NotFound />,
   },
   {
-    path: "/settings/payment-methods/create",
+    path: "/settings/taxes/create",
     element: (
       <ProtectedRoute>
         <div className="dashboard-outer-wrapper">
           <Nav />
           <SettingsNav />
-          <Header title="Create Payment Method" />
-          <CreatePaymentMethod />
+          <Header title="Create Tax" />
+          <CreateTax />
         </div>
       </ProtectedRoute>
     ),
@@ -68,4 +68,4 @@ const paymentMethodSettingsRoutes: RouteObject[] = [
   },
 ];
 
-export default paymentMethodSettingsRoutes;
+export default TaxSettingsRoutes;

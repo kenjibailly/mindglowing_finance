@@ -57,7 +57,7 @@ const EditDiscount = () => {
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error("Failed to create discount\n" + errorData.message);
+        throw new Error("Failed to edit discount\n" + errorData.message);
       }
 
       // Navigate to the customer's page using the _id from the response
@@ -106,10 +106,6 @@ const EditDiscount = () => {
         <Link className="link" to={`/settings/discounts/`}>
           Discounts
         </Link>
-
-        <button className="button" type="submit">
-          Delete
-        </button>
 
         <form onSubmit={handleEditDiscount}>
           <div className="separate">

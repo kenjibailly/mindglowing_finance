@@ -59,7 +59,13 @@ router.get(
         return;
       }
 
-      res.status(200).json({ items: shipping_companys, totalPages });
+      res
+        .status(200)
+        .json({
+          items: shipping_companys,
+          totalPages,
+          currentPage: pageNumber,
+        });
       return;
     } catch (error) {
       logger.error(error);

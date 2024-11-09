@@ -9,7 +9,7 @@ import Discount from "../../components/settings/discounts/Discount";
 import CreateDiscount from "../../components/settings/discounts/CreateDiscount";
 import EditDiscount from "../../components/settings/discounts/EditDiscount";
 
-const discountsSettingsRoutes: RouteObject[] = [
+const DiscountsSettingsRoutes: RouteObject[] = [
   {
     path: "/settings/discounts",
     element: (
@@ -68,4 +68,4 @@ const discountsSettingsRoutes: RouteObject[] = [
   },
 ];
 
-export default discountsSettingsRoutes;
+export default DiscountsSettingsRoutes;

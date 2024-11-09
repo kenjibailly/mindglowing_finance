@@ -2,60 +2,60 @@ import { RouteObject } from "react-router-dom";
 import ProtectedRoute from "../components/ProtectedRoute";
 import Nav from "../components/Nav";
 import Header from "../components/header/Header";
+import Customers from "../components/customers/Customers";
+import Customer from "../components/customers/Customer";
+import CreateCustomer from "../components/customers/CreateCustomer";
+import EditCustomer from "../components/customers/EditCustomer";
 import NotFound from "../components/NotFound";
-import Projects from "../components/projects/Projects";
-import Project from "../components/projects/Project";
-import CreateProject from "../components/projects/CreateProject";
-import EditProject from "../components/projects/EditProject";
 
-const projectRoutes: RouteObject[] = [
+const CustomerRoutes: RouteObject[] = [
   {
-    path: "/projects",
+    path: "/customers",
     element: (
       <ProtectedRoute>
         <div className="dashboard-outer-wrapper">
           <Nav />
-          <Header title="Projects" />
-          <Projects />
+          <Header title="Customers" />
+          <Customers />
         </div>
       </ProtectedRoute>
     ),
     errorElement: <NotFound />,
   },
   {
-    path: "/projects/:id",
+    path: "/customers/:id",
     element: (
       <ProtectedRoute>
         <div className="dashboard-outer-wrapper">
           <Nav />
-          <Header title="Project" />
-          <Project />
+          <Header title="Customer" />
+          <Customer />
         </div>
       </ProtectedRoute>
     ),
     errorElement: <NotFound />,
   },
   {
-    path: "/projects/create",
+    path: "/customers/create",
     element: (
       <ProtectedRoute>
         <div className="dashboard-outer-wrapper">
           <Nav />
-          <Header title="Project" />
-          <CreateProject />
+          <Header title="Create Customer" />
+          <CreateCustomer />
         </div>
       </ProtectedRoute>
     ),
     errorElement: <NotFound />,
   },
   {
-    path: "/projects/edit/:id",
+    path: "/customers/edit/:id",
     element: (
       <ProtectedRoute>
         <div className="dashboard-outer-wrapper">
           <Nav />
-          <Header title="Project" />
-          <EditProject />
+          <Header title="Edit Customer" />
+          <EditCustomer />
         </div>
       </ProtectedRoute>
     ),
@@ -63,4 +63,4 @@ const projectRoutes: RouteObject[] = [
   },
 ];
 
-export default projectRoutes;
+export default CustomerRoutes;

@@ -4,63 +4,63 @@ import Nav from "../../components/Nav";
 import SettingsNav from "../../components/SettingsNav";
 import Header from "../../components/header/Header";
 import NotFound from "../../components/NotFound";
-import ShippingCompanies from "../../components/settings/shipping-companies/ShippingCompanies";
-import EditShippingCompany from "../../components/settings/shipping-companies/EditShippingCompany";
-import ShippingCompany from "../../components/settings/shipping-companies/ShippingCompany";
-import CreateShippingCompany from "../../components/settings/shipping-companies/CreateShippingCompany";
+import PaymentMethods from "../../components/settings/payment-methods/PaymentMethods";
+import EditPaymentMethod from "../../components/settings/payment-methods/EditPaymentMethod";
+import PaymentMethod from "../../components/settings/payment-methods/PaymentMethod";
+import CreatePaymentMethod from "../../components/settings/payment-methods/CreatePaymentMethod";
 
-const shippingCompanySettingsRoutes: RouteObject[] = [
+const PaymentMethodSettingsRoutes: RouteObject[] = [
   {
-    path: "/settings/shipping-companies",
+    path: "/settings/payment-methods",
     element: (
       <ProtectedRoute>
         <div className="dashboard-outer-wrapper">
           <Nav />
           <SettingsNav />
-          <Header title="Shipping Companies" />
-          <ShippingCompanies />
+          <Header title="Payment Methods" />
+          <PaymentMethods />
         </div>
       </ProtectedRoute>
     ),
     errorElement: <NotFound />,
   },
   {
-    path: "/settings/shipping-companies/edit/:id",
+    path: "/settings/payment-methods/edit/:id",
     element: (
       <ProtectedRoute>
         <div className="dashboard-outer-wrapper">
           <Nav />
           <SettingsNav />
-          <Header title="Edit Shipping Company" />
-          <EditShippingCompany />
+          <Header title="Edit Payment Method" />
+          <EditPaymentMethod />
         </div>
       </ProtectedRoute>
     ),
     errorElement: <NotFound />,
   },
   {
-    path: "/settings/shipping-companies/:id",
+    path: "/settings/payment-methods/:id",
     element: (
       <ProtectedRoute>
         <div className="dashboard-outer-wrapper">
           <Nav />
           <SettingsNav />
-          <Header title="Shipping Company" />
-          <ShippingCompany />
+          <Header title="Payment Method" />
+          <PaymentMethod />
         </div>
       </ProtectedRoute>
     ),
     errorElement: <NotFound />,
   },
   {
-    path: "/settings/shipping-companies/create",
+    path: "/settings/payment-methods/create",
     element: (
       <ProtectedRoute>
         <div className="dashboard-outer-wrapper">
           <Nav />
           <SettingsNav />
-          <Header title="Create Shipping Company" />
-          <CreateShippingCompany />
+          <Header title="Create Payment Method" />
+          <CreatePaymentMethod />
         </div>
       </ProtectedRoute>
     ),
@@ -68,4 +68,4 @@ const shippingCompanySettingsRoutes: RouteObject[] = [
   },
 ];
 
-export default shippingCompanySettingsRoutes;
+export default PaymentMethodSettingsRoutes;

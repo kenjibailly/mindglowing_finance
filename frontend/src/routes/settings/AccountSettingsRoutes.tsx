@@ -6,7 +6,7 @@ import Header from "../../components/header/Header";
 import Account from "../../components/settings/account/Account";
 import NotFound from "../../components/NotFound";
 
-const accountSettingsRoutes: RouteObject[] = [
+const AccountSettingsRoutes: RouteObject[] = [
   {
     path: "/settings/account",
     element: (
@@ -23,4 +23,4 @@ const accountSettingsRoutes: RouteObject[] = [
   },
 ];
 
-export default accountSettingsRoutes;
+export default AccountSettingsRoutes;

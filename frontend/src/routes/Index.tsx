@@ -8,7 +8,7 @@ import Dashboard from "../components/Dashboard";
 import NotFound from "../components/NotFound";
 import Setup from "../components/Setup";
 
-const customerRoutes: RouteObject[] = [
+const IndexRoutes: RouteObject[] = [
   {
     path: "/",
     element: (
@@ -46,4 +46,4 @@ const customerRoutes: RouteObject[] = [
   },
 ];
 
-export default customerRoutes;
+export default IndexRoutes;

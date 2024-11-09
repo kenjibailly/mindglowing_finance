@@ -1,12 +1,12 @@
 import express, { Request, Response } from "express";
-import PaymentMethod from "../../../models/payment_method";
+import Tax from "../../../models/tax";
 import { authenticateToken } from "../../security/authenticate";
 import User from "../../../models/user";
 import Customization from "../../../models/customization";
 
 const router = express.Router();
 
-/* GET /settings/payment-methods/ page. */
+/* GET /settings/taxes/ page. */
 router.get(
   "/",
   authenticateToken,
@@ -39,12 +39,12 @@ router.get(
       const itemsPerPage = customizationSettings?.items_per_page || 10;
       const skip = (pageNumber - 1) * itemsPerPage;
 
-      const totalPaymentMethods = await PaymentMethod.countDocuments();
-      const totalPages = Math.ceil(totalPaymentMethods / itemsPerPage);
+      const totalTaxs = await Tax.countDocuments();
+      const totalPages = Math.ceil(totalTaxs / itemsPerPage);
 
-      // Find the payment methods
-      const payment_methods = await PaymentMethod.aggregate([
-        // Sort and paginate payment methods
+      // Find the taxes
+      const taxs = await Tax.aggregate([
+        // Sort and paginate taxes
         { $sort: sortOptions },
         {
           $skip: skip, // Pagination skip
@@ -54,14 +54,14 @@ router.get(
         },
       ]);
 
-      if (!payment_methods) {
-        res.status(404).send("No payment methods found");
+      if (!taxs) {
+        res.status(404).send("No taxes found");
         return;
       }
 
       res
         .status(200)
-        .json({ items: payment_methods, totalPages, currentPage: pageNumber });
+        .json({ items: taxs, totalPages, currentPage: pageNumber });
       return;
     } catch (error) {
       logger.error(error);

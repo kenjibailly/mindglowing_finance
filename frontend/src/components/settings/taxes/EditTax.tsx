@@ -1,11 +1,11 @@
 import { Link, useParams } from "react-router-dom";
-import { ShippingCompany } from "../../types/ShippingCompanies";
+import { Tax } from "../../types/Taxes";
 import useFetchData from "../../hooks/useFetchData";
 import Loader from "../../Loader";
 import Alert from "../../Alert";
 import { useEffect, useState } from "react";
 
-const EditShippingCompany = () => {
+const EditTax = () => {
   const { id } = useParams<{ id: string }>();
   const [error, setError] = useState<{
     message: string;
@@ -16,22 +16,20 @@ const EditShippingCompany = () => {
     id: number;
   } | null>(null);
   const {
-    data: shippingCompanyData,
-    loading: shippingCompanyLoading,
-    error: shippingCompanyError,
-    fetchItems: shippingCompanyFetch,
-  } = useFetchData<ShippingCompany>({
+    data: taxData,
+    loading: taxLoading,
+    error: taxError,
+    fetchItems: taxFetch,
+  } = useFetchData<Tax>({
     id: "",
-    endpoint: `settings/shipping-companies/${id}`,
+    endpoint: `settings/taxes/${id}`,
   });
 
   useEffect(() => {
-    shippingCompanyFetch();
+    taxFetch();
   }, []);
 
-  const handleEditShippingCompany = async (
-    event: React.FormEvent<HTMLFormElement>
-  ) => {
+  const handleEditTax = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const form = event.target as HTMLFormElement;
@@ -40,29 +38,24 @@ const EditShippingCompany = () => {
     // Convert FormData to a JSON object
     const data = Object.fromEntries(formData.entries());
     try {
-      const response = await fetch(
-        `/api/settings/shipping-companies/edit/${id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-        }
-      );
+      const response = await fetch(`/api/settings/taxes/edit/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
 
       if (response.ok) {
         setSuccess({
-          message: "Successfully edited shipping company",
+          message: "Successfully edited tax",
           id: Date.now(),
         });
       }
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(
-          "Failed to edit shipping company\n" + errorData.message
-        );
+        throw new Error("Failed to edit tax\n" + errorData.message);
       }
 
       // Navigate to the customer's page using the _id from the response
@@ -74,15 +67,15 @@ const EditShippingCompany = () => {
     }
   };
 
-  if (!shippingCompanyData || shippingCompanyLoading) {
+  if (!taxData || taxLoading) {
     return <Loader fullPage={true} />;
   }
 
-  if (shippingCompanyError) {
+  if (taxError) {
     return (
       <Alert
-        key={shippingCompanyError.id}
-        message={shippingCompanyError.message}
+        key={taxError.id}
+        message={taxError.message}
         type="error"
         scroll={true}
       />
@@ -108,26 +101,45 @@ const EditShippingCompany = () => {
         />
       )}
       <div className="settings-wrapper">
-        <Link className="link" to={`/settings/shipping-companies/`}>
-          Shipping Companies
+        <Link className="link" to={`/settings/taxes/`}>
+          Taxes
         </Link>
 
-        <form onSubmit={handleEditShippingCompany}>
+        <form onSubmit={handleEditTax}>
           <div className="separate">
-            <label htmlFor="shipping_company_name">Name:</label>
+            <label htmlFor="tax_name">Name:</label>
             <input
               type="text"
-              id="shipping_company_name"
-              name="shipping_company_name"
-              defaultValue={shippingCompanyData.name}
+              id="tax_name"
+              name="tax_name"
+              defaultValue={taxData.name}
               required
             />
 
-            <label htmlFor="shipping_company_description">Description:</label>
+            <label htmlFor="tax_percentage">Percentage:</label>
+            <input
+              type="number"
+              id="tax_percentage"
+              name="tax_percentage"
+              defaultValue={taxData.percentage}
+              required
+            />
+
+            <label htmlFor="tax_default">Default:</label>
+            <label className="checkbox">
+              <input
+                type="checkbox"
+                id="tax_default"
+                name="tax_default"
+                defaultChecked={taxData.default}
+              />
+            </label>
+
+            <label htmlFor="tax_description">Description:</label>
             <textarea
-              id="shipping_company_description"
-              name="shipping_company_description"
-              defaultValue={shippingCompanyData.description}
+              id="tax_description"
+              name="tax_description"
+              defaultValue={taxData.description}
             ></textarea>
           </div>
 
@@ -138,4 +150,4 @@ const EditShippingCompany = () => {
   );
 };
 
-export default EditShippingCompany;
+export default EditTax;

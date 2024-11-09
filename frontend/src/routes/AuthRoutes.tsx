@@ -3,7 +3,7 @@ import Login from "../components/user/Login";
 import Logout from "../components/user/Logout";
 import NotFound from "../components/NotFound";
 
-const authRoutes: RouteObject[] = [
+const AuthRoutes: RouteObject[] = [
   {
     path: "/login",
     element: <Login />,
@@ -16,4 +16,4 @@ const authRoutes: RouteObject[] = [
   },
 ];
 
-export default authRoutes;
+export default AuthRoutes;

@@ -57,9 +57,7 @@ const EditPaymentMethod = () => {
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(
-          "Failed to create payment method\n" + errorData.message
-        );
+        throw new Error("Failed to edit payment method\n" + errorData.message);
       }
 
       // Navigate to the customer's page using the _id from the response
@@ -108,10 +106,6 @@ const EditPaymentMethod = () => {
         <Link className="link" to={`/settings/payment-methods/`}>
           Payment Methods
         </Link>
-
-        <button className="button" type="submit">
-          Delete
-        </button>
 
         <form onSubmit={handleEditPaymentMethod}>
           <div className="separate">

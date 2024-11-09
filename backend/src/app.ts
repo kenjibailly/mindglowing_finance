@@ -60,11 +60,11 @@ import createShippingCompanyRouter from "./routes/settings/shipping_companies/cr
 import editShippingCompanyRouter from "./routes/settings/shipping_companies/edit_shipping_company";
 import deleteShippingCompanyRouter from "./routes/settings/shipping_companies/delete_selected_shipping_companies";
 
-// import taxesRouter from "./routes/settings/taxes/taxes";
-// import createTaxRouter from "./routes/settings/taxes/create_tax";
-// import editTaxRouter from "./routes/settings/taxes/edit_tax";
-// import deleteTaxRouter from "./routes/settings/taxes/delete_tax";
-// import deleteSelectedTaxesRouter from "./routes/settings/taxes/delete_selected_taxes";
+import taxesRouter from "./routes/settings/taxes/taxes";
+import taxRouter from "./routes/settings/taxes/tax";
+import createTaxRouter from "./routes/settings/taxes/create_tax";
+import editTaxRouter from "./routes/settings/taxes/edit_tax";
+import deleteTaxRouter from "./routes/settings/taxes/delete_selected_taxes";
 
 import projectsRouter from "./routes/projects/projects";
 import projectRouter from "./routes/projects/project";
@@ -73,8 +73,6 @@ import editProjectRouter from "./routes/projects/edit_project";
 import deleteProjectRouter from "./routes/projects/delete_projects";
 
 import timeTrackingsRouter from "./routes/projects/time_tracking/time_trackings";
-
-// import timeTrackingRouter from "./routes/projects/time_tracking/time_tracking";
 import startTimeTrackingRouter from "./routes/projects/time_tracking/start_time_tracking";
 import stopTimeTrackingRouter from "./routes/projects/time_tracking/stop_time_tracking";
 import deleteSelectedTimeTrackingsRouter from "./routes/projects/time_tracking/delete_selected_time_trackings";
@@ -141,7 +139,6 @@ app.use(
 app.use(sessionExpirationMiddleware);
 
 // Routers Initialization
-// app.use("/api/dashboard", dashboardRouter);
 app.use("/api/auth/", renewTokenRouter);
 app.use("/api/check-auth/", checkAuthRouter);
 app.use("/api/login/", loginRouter);
@@ -196,21 +193,19 @@ app.use(
   deleteShippingCompanyRouter
 );
 
-// app.use("/api/settings/taxes/", taxesRouter);
-// app.use("/api/settings/taxes/create/", createTaxRouter);
-// app.use("/api/settings/taxes/edit/", editTaxRouter);
-// app.use("/api/settings/taxes/delete/", deleteTaxRouter);
-// app.use("/api/settings/taxes/delete-selected/", deleteSelectedTaxesRouter);
+app.use("/api/settings/taxes/", taxesRouter);
+app.use("/api/settings/taxes/:id", taxRouter);
+app.use("/api/settings/taxes/create/", createTaxRouter);
+app.use("/api/settings/taxes/edit/", editTaxRouter);
+app.use("/api/settings/taxes/delete/", deleteTaxRouter);
 
 app.use("/api/projects/", projectsRouter);
 app.use("/api/projects/:id", projectRouter);
 app.use("/api/projects/create/", createProjectRouter);
 app.use("/api/projects/edit/", editProjectRouter);
 app.use("/api/projects/delete/", deleteProjectRouter);
-// app.use("/api/projects/delete-selected/", deleteSelectedProjectsRouter);
 
 app.use("/api/projects/:projectId/time-trackings/", timeTrackingsRouter);
-// app.use("/api/projects/:projectId/time-tracking/", timeTrackingRouter);
 app.use(
   "/api/projects/:projectId/time-trackings/start",
   startTimeTrackingRouter

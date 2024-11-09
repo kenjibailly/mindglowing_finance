@@ -6,7 +6,7 @@ import Header from "../../components/header/Header";
 import Customization from "../../components/settings/customization/Customization";
 import NotFound from "../../components/NotFound";
 
-const customizationSettingsRoutes: RouteObject[] = [
+const CustomizationSettingsRoutes: RouteObject[] = [
   {
     path: "/settings/customization",
     element: (
@@ -23,4 +23,4 @@ const customizationSettingsRoutes: RouteObject[] = [
   },
 ];
 
-export default customizationSettingsRoutes;
+export default CustomizationSettingsRoutes;

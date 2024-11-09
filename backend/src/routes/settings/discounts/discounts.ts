@@ -59,7 +59,9 @@ router.get(
         return;
       }
 
-      res.status(200).json({ items: discounts, totalPages });
+      res
+        .status(200)
+        .json({ items: discounts, totalPages, currentPage: pageNumber });
       return;
     } catch (error) {
       logger.error(error);
