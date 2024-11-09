@@ -192,7 +192,7 @@ app.use(
 );
 app.use("/api/settings/shipping-companies/edit/", editShippingCompanyRouter);
 app.use(
-  "/api/settings/shipping-companies/delete-selected/",
+  "/api/settings/shipping-companies/delete/",
   deleteShippingCompanyRouter
 );
 

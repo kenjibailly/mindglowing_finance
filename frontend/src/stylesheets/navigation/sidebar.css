@@ -78,7 +78,6 @@ nav .active {
 
 .sidebar {
   position: fixed;
-  height: 100%;
   top: 0;
   transition: width 0.3s ease;
 }
