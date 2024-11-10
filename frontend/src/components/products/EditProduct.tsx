@@ -32,6 +32,7 @@ const EditProduct = () => {
   const { imageSrc, handleImageChange, handleImageClick, fileInputRef } =
     usePreviewImage();
   const cachedUser = JSON.parse(localStorage.getItem("user") || "{}");
+  const [chooseTax, setChooseTax] = useState<boolean>(true);
 
   const navigate = useNavigate();
 
@@ -59,7 +60,7 @@ const EditProduct = () => {
   const taxInputRef = useRef<HTMLInputElement>(null);
   const taxIdInputRef = useRef<HTMLInputElement>(null);
   const taxDatalistRef = useRef<HTMLDataListElement>(null);
-  useDatalist(taxInputRef, taxDatalistRef, taxLoading);
+  useDatalist(taxInputRef, taxDatalistRef, taxLoading, {}, chooseTax);
 
   const compareFields = ["name"];
   const { handleChangeSelectedValue, selectedItemId } = useChangeSelectedValue(
@@ -121,6 +122,14 @@ const EditProduct = () => {
         id: Date.now(),
       });
     }
+  };
+
+  useEffect(() => {
+    if (productData?.tax_details) setChooseTax(false);
+  }, [productData]);
+  const handleChooseTax = () => {
+    const toggleTax = chooseTax === true ? false : true;
+    setChooseTax(toggleTax);
   };
 
   if (productError) {
@@ -218,7 +227,7 @@ const EditProduct = () => {
             </div>
 
             <label htmlFor="tax">Tax:</label>
-            {taxData ? (
+            {taxData && !chooseTax ? (
               <div className="data-list">
                 <input
                   list=""
@@ -227,7 +236,9 @@ const EditProduct = () => {
                   className="data-list-input"
                   autoComplete="off"
                   ref={taxInputRef}
-                  defaultValue={productData.tax_details.name}
+                  defaultValue={
+                    productData.tax_details && productData.tax_details.name
+                  }
                   required
                 />
                 <datalist ref={taxDatalistRef} className="data-list-datalist">
@@ -241,10 +252,30 @@ const EditProduct = () => {
             ) : (
               <div className="full-input">
                 <label htmlFor="tax">%</label>
-                <input type="number" id="tax" name="tax" step="1" required />
+                <input
+                  type="number"
+                  id="tax"
+                  name="tax"
+                  step="1"
+                  required
+                  defaultValue={
+                    productData.tax.percentage && productData.tax.percentage
+                  }
+                />
               </div>
             )}
-
+            {taxData && (
+              <>
+                <label htmlFor="manual_tax">Manual Tax</label>
+                <label className="checkbox">
+                  <input
+                    type="checkbox"
+                    onChange={handleChooseTax}
+                    checked={chooseTax}
+                  />
+                </label>
+              </>
+            )}
             <label htmlFor="description">Description:</label>
             <textarea
               id="description"

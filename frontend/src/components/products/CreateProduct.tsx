@@ -18,6 +18,7 @@ const CreateProduct = () => {
     message: string;
     id: number;
   } | null>(null);
+  const [chooseTax, setChooseTax] = useState<boolean>(true);
 
   const {
     data: taxData,
@@ -36,7 +37,7 @@ const CreateProduct = () => {
   const taxInputRef = useRef<HTMLInputElement>(null);
   const taxIdInputRef = useRef<HTMLInputElement>(null);
   const taxDatalistRef = useRef<HTMLDataListElement>(null);
-  useDatalist(taxInputRef, taxDatalistRef, taxLoading);
+  useDatalist(taxInputRef, taxDatalistRef, taxLoading, {}, chooseTax);
 
   const compareFields = ["name"];
   const { handleChangeSelectedValue, selectedItemId } = useChangeSelectedValue(
@@ -93,6 +94,11 @@ const CreateProduct = () => {
     }
   };
 
+  const handleChooseTax = () => {
+    const toggleTax = chooseTax === true ? false : true;
+    setChooseTax(toggleTax);
+  };
+
   if (taxError) {
     return <Alert message={taxError.message} type="error" scroll={true} />;
   }
@@ -146,7 +152,7 @@ const CreateProduct = () => {
             </div>
 
             <label htmlFor="tax">Tax:</label>
-            {taxData ? (
+            {taxData && chooseTax ? (
               <div className="data-list">
                 <input
                   list=""
@@ -170,6 +176,14 @@ const CreateProduct = () => {
                 <label htmlFor="tax">%</label>
                 <input type="number" id="tax" name="tax" step="1" required />
               </div>
+            )}
+            {taxData && (
+              <>
+                <label htmlFor="manual_tax">Manual Tax</label>
+                <label className="checkbox">
+                  <input type="checkbox" onChange={handleChooseTax} />
+                </label>
+              </>
             )}
 
             <label htmlFor="description">Description:</label>

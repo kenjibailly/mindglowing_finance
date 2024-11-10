@@ -8,7 +8,8 @@ const useDatalist = (
   inputRef: React.RefObject<HTMLInputElement>,
   datalistRef: React.RefObject<HTMLDataListElement>,
   loading: boolean = false,
-  options: UseDatalistOptions = {}
+  options: UseDatalistOptions = {},
+  trigger: boolean = false
 ) => {
   const { onSelect } = options;
 
@@ -132,7 +133,7 @@ const useDatalist = (
       datalist.removeEventListener("click", handleOptionClick);
       document.removeEventListener("click", handleClickOutside);
     };
-  }, [inputRef, datalistRef, loading, onSelect]);
+  }, [inputRef, datalistRef, loading, onSelect, trigger]);
 };
 
 export default useDatalist;

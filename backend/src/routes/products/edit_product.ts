@@ -43,19 +43,26 @@ router.put(
         await deleteImageFile(old_product.picture);
       }
 
-      // Update the product in the database
+      // Construct the update object based on the condition
+      const updateData: Record<string, any> = {
+        name,
+        price,
+        "tax.id": tax_id,
+        description,
+        picture,
+      };
+
+      // Conditionally set tax to null if tax_id is provided
+      if (tax_id) {
+        updateData["tax.percentage"] = null;
+      } else {
+        updateData["tax.percentage"] = tax;
+      }
+
+      // Perform the update
       const result = await Product.findByIdAndUpdate(
         productId,
-        {
-          $set: {
-            name,
-            price,
-            "tax.id": tax_id,
-            "tax.percentage": tax,
-            description,
-            picture,
-          },
-        },
+        { $set: updateData },
         { new: true, runValidators: true }
       );
 

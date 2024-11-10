@@ -20,14 +20,19 @@ router.get(
       const product = await Product.aggregate([
         // Match the product by its ID
         { $match: { _id: new mongoose.Types.ObjectId(product_id) } },
-
-        // Convert tax.id to ObjectId if it's a string (before the lookup)
         {
           $addFields: {
-            "tax.id": { $toObjectId: "$tax.id" }, // Convert tax.id to ObjectId
+            "tax.id": {
+              $cond: {
+                if: {
+                  $and: [{ $ne: ["$tax.id", ""] }, { $ne: ["$tax.id", null] }],
+                },
+                then: { $toObjectId: "$tax.id" },
+                else: null, // Keep as null if tax.id is an empty string or null
+              },
+            },
           },
         },
-
         // Now perform the lookup with the converted tax.id field
         {
           $lookup: {

@@ -17,6 +17,7 @@ router.post(
   async (req: Request, res: Response): Promise<void> => {
     // Extract form data from the request
     const { name, price, tax, tax_id, description } = req.body;
+    logger.info(tax_id);
 
     try {
       // Create a new product instance with the form details
