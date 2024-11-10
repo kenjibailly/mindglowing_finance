@@ -6,11 +6,7 @@ import {
   upload,
   resizeAndCompressImage,
 } from "../picture_handler/multerConfig";
-
-interface CustomError extends Error {
-  code?: number;
-  keyPattern?: { [key: string]: number };
-}
+import ErrorType from "../../types/error";
 
 // Handle the POST request to add an product
 router.post(
@@ -20,13 +16,15 @@ router.post(
   resizeAndCompressImage,
   async (req: Request, res: Response): Promise<void> => {
     // Extract form data from the request
-    const { name, price, description } = req.body;
+    const { name, price, tax, tax_id, description } = req.body;
 
     try {
       // Create a new product instance with the form details
       const newProduct = new Product({
         name,
         price,
+        "tax.id": tax_id,
+        "tax.percentage": tax,
         description,
         picture: req.file ? req.file.filename : null,
       });
@@ -37,7 +35,7 @@ router.post(
       return;
     } catch (error) {
       logger.error(error);
-      const err = error as CustomError;
+      const err = error as ErrorType;
       // Check if the error is a duplicate key violation
       if (err.code === 11000 && err.keyPattern && err.keyPattern["name"]) {
         // Duplicate name error

@@ -6,6 +6,10 @@ interface IProduct extends Document {
   price?: number;
   description?: string;
   picture?: string;
+  tax: {
+    id?: string;
+    percentage?: number;
+  };
 }
 
 // Define the product schema
@@ -14,6 +18,10 @@ const productSchema: Schema = new mongoose.Schema({
   price: { type: Number },
   description: { type: String },
   picture: { type: String },
+  tax: {
+    id: { type: String },
+    percentage: { type: Number },
+  },
 });
 
 // Create a model using the schema

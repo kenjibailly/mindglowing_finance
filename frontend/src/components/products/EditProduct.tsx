@@ -1,11 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import useFetchData from "../hooks/useFetchData";
-import { Product as ProductData } from "../types/Products";
+import { ProductFetch as ProductData } from "../types/Products";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Alert from "../Alert";
 import useDeleteItems from "../hooks/useDeleteItems";
 import Loader from "../Loader";
 import usePreviewImage from "../hooks/usePreviewImage";
+import useDatalist from "../hooks/useDatalist";
+import useChangeSelectedValue from "../hooks/useChangeSelectedValue";
+import { fetchTax } from "../types/Taxes";
 
 const EditProduct = () => {
   const { id } = useParams<{ id: string }>();
@@ -34,13 +37,34 @@ const EditProduct = () => {
 
   useEffect(() => {
     fetchItems();
+    fetchTaxes();
   }, [id]);
+
+  const {
+    data: taxData,
+    loading: taxLoading,
+    error: taxError,
+    fetchItems: fetchTaxes,
+  } = useFetchData<fetchTax>({
+    id: "",
+    endpoint: "settings/taxes",
+  });
 
   const {
     handleDeleteSelected,
     loading: deleting,
     error: deleteError,
   } = useDeleteItems();
+
+  const taxInputRef = useRef<HTMLInputElement>(null);
+  const taxIdInputRef = useRef<HTMLInputElement>(null);
+  const taxDatalistRef = useRef<HTMLDataListElement>(null);
+  useDatalist(taxInputRef, taxDatalistRef, taxLoading);
+
+  const compareFields = ["name"];
+  const { handleChangeSelectedValue, selectedItemId } = useChangeSelectedValue(
+    taxData?.items || []
+  );
 
   const handleDeleteProduct = async () => {
     if (id) {
@@ -53,35 +77,28 @@ const EditProduct = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    handleChangeSelectedValue(taxInputRef, taxIdInputRef, compareFields);
+
     // Type-cast event.target to HTMLFormElement
     const form = e.target as HTMLFormElement;
 
     // Create a new FormData instance
     const formData = new FormData();
     const formDataFields = new FormData(form);
-
-    // const nameInput = form.elements.namedItem("name") as HTMLInputElement;
-    // const priceInput = form.elements.namedItem("price") as HTMLInputElement;
-    // const descriptionInput = form.elements.namedItem(
-    //   "description"
-    // ) as HTMLTextAreaElement;
-
-    // formData.append("name", nameInput.value);
-    // formData.append("price", priceInput.value);
-    // formData.append("description", descriptionInput.value);
+    if (selectedItemId) {
+      formData.append("tax_id", selectedItemId.current || "");
+    }
 
     // Append the image file if it exists and is available
     const file = fileInputRef.current?.files?.[0] || null;
     if (file) {
       formData.append("picture", file);
-      console.log(formData);
     }
 
     for (const [key, value] of formDataFields.entries()) {
       if (key !== "picture") {
         formData.append(key, value);
-        console.log(key);
-        console.log(value);
       }
     }
 
@@ -110,12 +127,16 @@ const EditProduct = () => {
     return <Alert message={productError.message} type="error" scroll={true} />;
   }
 
-  if (loading || deleting) {
+  if (loading || deleting || taxLoading) {
     <Loader fullPage={false} />;
   }
 
   if (!productData) {
     return <Loader fullPage={true} />;
+  }
+
+  if (taxError) {
+    return <Alert message={taxError.message} type="error" scroll={true} />;
   }
 
   const alertError = error || deleteError || productError;
@@ -195,6 +216,34 @@ const EditProduct = () => {
                 defaultValue={productData.price}
               />
             </div>
+
+            <label htmlFor="tax">Tax:</label>
+            {taxData ? (
+              <div className="data-list">
+                <input
+                  list=""
+                  name="tax_id_name"
+                  id="tax"
+                  className="data-list-input"
+                  autoComplete="off"
+                  ref={taxInputRef}
+                  defaultValue={productData.tax_details.name}
+                  required
+                />
+                <datalist ref={taxDatalistRef} className="data-list-datalist">
+                  {taxData.items.map((tax) => (
+                    <option key={tax._id} value={`${tax.name}`}>
+                      {tax.name} ({tax.percentage}%)
+                    </option>
+                  ))}
+                </datalist>
+              </div>
+            ) : (
+              <div className="full-input">
+                <label htmlFor="tax">%</label>
+                <input type="number" id="tax" name="tax" step="1" required />
+              </div>
+            )}
 
             <label htmlFor="description">Description:</label>
             <textarea

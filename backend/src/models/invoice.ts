@@ -12,12 +12,10 @@ interface IInvoice extends Document {
   discounts: {
     id: string;
     total: number;
-    percentage: number;
   }[];
   tax: {
     id: string;
     total: number;
-    percentage: number;
   };
   shipping: {
     id: string;

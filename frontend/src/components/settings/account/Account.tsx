@@ -48,12 +48,12 @@ const Account = () => {
   }, []);
 
   const handleEditUserSettings = async (
-    event: React.FormEvent<HTMLFormElement>
+    e: React.FormEvent<HTMLFormElement>
   ) => {
-    event.preventDefault();
+    e.preventDefault();
 
     // Type-cast event.target to HTMLFormElement
-    const form = event.target as HTMLFormElement;
+    const form = e.target as HTMLFormElement;
 
     // Create a new FormData instance
     const formData = new FormData();
@@ -63,7 +63,6 @@ const Account = () => {
     const file = fileInputRef.current?.files?.[0] || null;
     if (file) {
       formData.append("picture", file);
-      console.log(formData);
     }
 
     for (const [key, value] of formDataFields.entries()) {

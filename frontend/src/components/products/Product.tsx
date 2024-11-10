@@ -4,7 +4,7 @@ import Alert from "../Alert";
 import Loader from "../Loader";
 import "../../stylesheets/overview/overview.css";
 import useDeleteItems from "../hooks/useDeleteItems";
-import { Product as ProductData } from "../types/Products";
+import { ProductFetch as ProductData } from "../types/Products";
 import useFetchData from "../hooks/useFetchData";
 
 const Product = () => {
@@ -88,6 +88,15 @@ const Product = () => {
             <p>Price:</p>
             <p>
               {cachedUser.currency_symbol} {productData.price}
+            </p>
+          </div>
+          <div className="inline">
+            <p>Tax:</p>
+            <p>
+              {productData.tax.percentage
+                ? productData.tax.percentage
+                : productData.tax_details.percentage}
+              %
             </p>
           </div>
           <div className="inline">

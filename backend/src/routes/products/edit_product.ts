@@ -18,7 +18,7 @@ router.put(
   async (req: Request, res: Response): Promise<void> => {
     try {
       const productId = req.params.id;
-      const { name, price, description } = req.body;
+      const { name, price, tax, tax_id, description } = req.body;
 
       // Find the product to get the image file name
       const old_product = await Product.findById(productId);
@@ -46,7 +46,16 @@ router.put(
       // Update the product in the database
       const result = await Product.findByIdAndUpdate(
         productId,
-        { $set: { name, price, description, picture } },
+        {
+          $set: {
+            name,
+            price,
+            "tax.id": tax_id,
+            "tax.percentage": tax,
+            description,
+            picture,
+          },
+        },
         { new: true, runValidators: true }
       );
 

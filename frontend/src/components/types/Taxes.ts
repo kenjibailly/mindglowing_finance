@@ -5,3 +5,7 @@ export interface Tax {
   default: boolean;
   description: string;
 }
+
+export interface fetchTax {
+  items: Array<Tax>;
+}

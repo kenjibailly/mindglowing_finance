@@ -33,7 +33,7 @@ import editProductRouter from "./routes/products/edit_product";
 import deleteSelectedProductsRouter from "./routes/products/delete_products";
 
 import invoicesRouter from "./routes/invoices/invoices";
-// import invoiceRouter from "./routes/invoices/invoice";
+import invoiceRouter from "./routes/invoices/invoice";
 // import createInvoiceRouter from "./routes/invoices/create_invoice";
 // import editInvoiceRouter from "./routes/invoices/edit_invoice";
 // import deleteInvoiceRouter from "./routes/invoices/delete_invoice";
@@ -160,7 +160,7 @@ app.use("/api/products/edit/", editProductRouter);
 app.use("/api/products/delete/", deleteSelectedProductsRouter);
 
 app.use("/api/invoices/", invoicesRouter);
-// app.use("/api/invoices/:id", invoiceRouter);
+app.use("/api/invoices/:id", invoiceRouter);
 // app.use("/api/invoices/create/", createInvoiceRouter);
 // app.use("/api/invoices/edit/", editInvoiceRouter);
 // app.use("/api/invoices/delete/", deleteInvoiceRouter);
