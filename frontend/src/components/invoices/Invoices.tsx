@@ -1,16 +1,15 @@
-import { Link } from "react-router-dom";
-import { Customer } from "../types/Customers";
-import "../../stylesheets/table/table.css";
-import "../../stylesheets/checkbox/checkbox.css";
 import Alert from "../Alert";
-import Pagination from "../Pagination";
-import usePaginatedTable from "../hooks/usePaginatedTable";
 import useDeleteItems from "../hooks/useDeleteItems";
+import usePaginatedTable from "../hooks/usePaginatedTable";
+import { InvoicesFetch } from "../types/Invoices";
+import { Link } from "react-router-dom";
+import Pagination from "../Pagination";
 import Loader from "../Loader";
 
-const Customers = () => {
+const Invoices = () => {
   const {
     items,
+    data: InvoicesData,
     loading,
     error,
     currentPage,
@@ -22,8 +21,8 @@ const Customers = () => {
     handleCheckItem,
     getSortClass,
     fetchItems,
-  } = usePaginatedTable<Customer>({
-    baseUrl: "/customers",
+  } = usePaginatedTable<InvoicesFetch>({
+    baseUrl: "/invoices",
     enableSorting: true,
   });
 
@@ -34,10 +33,10 @@ const Customers = () => {
     success: deleteSuccess,
   } = useDeleteItems();
 
-  const handleDeleteCustomers = async () => {
+  const handleDeleteInvoices = async () => {
     const selectedIds = Array.from(checkedItems);
-    await handleDeleteSelected("/api/customers/delete", selectedIds);
-    // Check if there's an error; if not, navigate to /customers
+    await handleDeleteSelected("/api/invoices/delete", selectedIds);
+    // Check if there's an error; if not, navigate to /invoices
     if (!deleteError) {
       fetchItems();
     }
@@ -66,17 +65,14 @@ const Customers = () => {
         />
       )}
       <div className="wrapper">
-        <Link
-          to="/customers/create"
-          key="/customers/create"
-          className="button create-customer-button"
-        >
-          Create Customer
+        <Link to="/invoices/create" className="button create-invoice-button">
+          Create Invoice
         </Link>
-        <button onClick={handleDeleteCustomers} type="submit">
+
+        <button onClick={handleDeleteInvoices} type="submit">
           Delete
         </button>
-        <div className="customers table">
+        <div className="invoices table">
           <table className="table-sort">
             <thead>
               <tr>
@@ -89,17 +85,19 @@ const Customers = () => {
                   onClick={() => handleSort && handleSort("customer_name")}
                   className={getSortClass("customer_name") + ` sort-th`}
                 >
-                  Name
+                  Customer
                 </th>
                 <th
-                  onClick={() =>
-                    handleSort && handleSort("personal_information.email")
-                  }
-                  className={
-                    getSortClass("personal_information.email") + ` sort-th`
-                  }
+                  onClick={() => handleSort && handleSort("number")}
+                  className={getSortClass("number") + ` sort-th`}
                 >
-                  Email
+                  Number
+                </th>
+                <th
+                  onClick={() => handleSort && handleSort("created_on")}
+                  className={getSortClass("created_on") + ` sort-th`}
+                >
+                  Created on
                 </th>
                 <th
                   onClick={() => handleSort && handleSort("amount_due")}
@@ -108,10 +106,28 @@ const Customers = () => {
                   Amount Due
                 </th>
                 <th
-                  onClick={() => handleSort && handleSort("created_on")}
-                  className={getSortClass("created_on") + ` sort-th`}
+                  onClick={() => handleSort && handleSort("amount_total")}
+                  className={getSortClass("amount_total") + ` sort-th`}
                 >
-                  Created on
+                  Total Amount
+                </th>
+                <th
+                  onClick={() => handleSort && handleSort("status")}
+                  className={getSortClass("status") + ` sort-th`}
+                >
+                  Status
+                </th>
+                <th
+                  onClick={() => handleSort && handleSort("due_date")}
+                  className={getSortClass("due_date") + ` sort-th`}
+                >
+                  Due Date
+                </th>
+                <th
+                  onClick={() => handleSort && handleSort("over_due")}
+                  className={getSortClass("over_due") + ` sort-th`}
+                >
+                  Past Due
                 </th>
               </tr>
             </thead>
@@ -127,26 +143,37 @@ const Customers = () => {
               // Show items when not loading or deleting
               <tbody>
                 {items.map((item) => (
-                  <tr key={item._id}>
+                  <tr key={item._id} className={item.over_due ? "overdue" : ""}>
                     <td>
                       <label className="checkbox">
                         <input
                           type="checkbox"
-                          className="customer-checkbox box-checkbox"
+                          className="invoice-checkbox box-checkbox"
                           checked={checkedItems.has(item._id)}
                           onChange={() => handleCheckItem(item._id)}
                         />
                       </label>
                     </td>
+                    <td>{item.customer_name}</td>
                     <td>
-                      <Link className="link" to={`/customers/${item._id}`}>
-                        {item.personal_information.company ||
-                          `${item.personal_information.first_name} ${item.personal_information.last_name}`}
+                      <Link className="link" to={`/invoices/${item._id}`}>
+                        {InvoicesData.customization_settings.invoice_prefix}
+                        {InvoicesData.customization_settings.invoice_separator}
+                        {item.number}
                       </Link>
                     </td>
-                    <td>{item.personal_information.email}</td>
-                    <td>{`${item.personal_information.currency_symbol} ${item.amount_due}`}</td>
                     <td>{item.created_on}</td>
+                    <td>
+                      {InvoicesData.user_settings.currency_symbol}{" "}
+                      {item.amount_due}
+                    </td>
+                    <td>
+                      {InvoicesData.user_settings.currency_symbol}{" "}
+                      {item.amount_total}
+                    </td>
+                    <td>{item.status}</td>
+                    <td>{item.due_date}</td>
+                    <td>{item.over_due ? "Yes" : "No"}</td>
                   </tr>
                 ))}
               </tbody>
@@ -157,7 +184,7 @@ const Customers = () => {
           <Pagination
             currentPage={currentPage}
             totalPages={totalPages}
-            link="/customers/"
+            link="/invoices/"
             linkOptions={linkOptions}
           />
         )}
@@ -166,4 +193,4 @@ const Customers = () => {
   );
 };
 
-export default Customers;
+export default Invoices;

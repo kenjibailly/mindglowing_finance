@@ -9,6 +9,7 @@ import AuthRoutes from "./routes/AuthRoutes";
 import CustomerRoutes from "./routes/CustomerRoutes";
 import ProductRoutes from "./routes/ProductRoutes";
 import ProjectRoutes from "./routes/ProjectsRoutes";
+import InvoiceRoutes from "./routes/InvoicesRoutes";
 import SettingsRoutes from "./routes/SettingsRoutes";
 
 const router = createBrowserRouter([
@@ -17,6 +18,7 @@ const router = createBrowserRouter([
   ...CustomerRoutes,
   ...ProductRoutes,
   ...ProjectRoutes,
+  ...InvoiceRoutes,
   ...SettingsRoutes,
 ]);
 

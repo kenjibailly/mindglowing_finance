@@ -249,8 +249,6 @@ router.get(
         },
       ]);
 
-      logger.warn(projects);
-
       const updatedProjects = projects.map((project) => {
         const safeUserSettings = userSettings || {
           date_format: "en-US",

@@ -43,3 +43,11 @@ export interface Paid {
   paid_amount: number;
   payment_method_id: string;
 }
+
+export interface InvoicesFetch
+  extends Omit<Invoice, "due_date" | "created_on"> {
+  due_date: string;
+  created_on: string;
+  customer_name: string;
+  over_due: boolean;
+}

@@ -54,7 +54,7 @@ function usePaginatedTable<T extends Identifiable>({
 
   // Modified fetchItems to accept sort parameters
   const fetchItems = useCallback(
-    async (sortBy?: string, order: "asc" | "desc" = "asc") => {
+    async (sortBy?: string, order: "asc" | "desc" | "" = "") => {
       setLoading(true);
       try {
         const queryParams = new URLSearchParams(location.search);

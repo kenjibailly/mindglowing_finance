@@ -114,7 +114,6 @@ router.get(
       });
 
       res.json({
-        success: true,
         items: updatedCustomers,
         currentPage: pageNumber,
         totalPages,
