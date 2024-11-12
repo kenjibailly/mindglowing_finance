@@ -32,6 +32,9 @@ const Login = () => {
       if (response.ok) {
         setIsAuthenticated(true);
         localStorage.setItem("user", JSON.stringify(data.user));
+        if (data.message === "Already logged in") {
+          navigate("/dashboard");
+        }
         if (data.user.setup) {
           navigate("/setup");
         } else {

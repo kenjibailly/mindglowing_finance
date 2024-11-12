@@ -3,17 +3,16 @@ services:
   mindglowing_finance_nginx:
     image: nginx:latest
     container_name: mindglowing_finance_nginx
-    # restart: unless-stopped
+    restart: unless-stopped
     ports:
-      # - 8159:80
-      - 8160:443
+      # - 8159:80 # HTTP, don't use this
+      - ${HOST_PORT}:443 # HTTPS
     volumes:
-      # - ./nginx/web/:/usr/share/nginx/html
       - ./nginx/conf/default.conf:/etc/nginx/conf.d/default.conf
       - ./nginx/conf/init.sh:/etc/nginx/conf.d/init.sh
       - ./nginx/ssl:/etc/nginx/certs
     networks:
-      - docker_swag
+      - docker_swag # Proxy network, change to name of your own proxy netwrok
       - mindglowing_finance
     env_file:
       - .env
@@ -27,7 +26,7 @@ services:
     restart: unless-stopped
     working_dir: /app
     # ports:
-    # - "8161:8000"
+    # - "8161:8000" # HTTP for debugging
     volumes:
       - ./frontend/:/app
       - ./backend/uploads/:/app/uploads
@@ -44,9 +43,8 @@ services:
     container_name: mindglowing_finance_backend
     restart: unless-stopped
     working_dir: /app
-    # command: "nodemon --watch '*' --exec npx ts-node ./src/bin/www.ts"
     # ports:
-    #   - "8162:3000"
+    #   - "8162:3000" # HTTP for debugging
     volumes:
       - ./backend/:/app
       - /app/node_modules
@@ -60,8 +58,7 @@ services:
     container_name: mindglowing_finance_mongo_db
     restart: unless-stopped
     ports:
-      - 27017:27017
-      # - 28017:28017
+      - 27017:27017 # Enable this port for MongoDBCompass
     volumes:
       - ./mongodb/config/mongod.conf.orig:/etc/mongod.conf.orig
       - ./mongodb/db/:/data/db
@@ -78,5 +75,5 @@ services:
 
 networks:
   mindglowing_finance:
-  docker_swag:
-    external: true
+  docker_swag: # Proxy network, change to name of your own proxy netwrok
+    external: true # Previously set net work
